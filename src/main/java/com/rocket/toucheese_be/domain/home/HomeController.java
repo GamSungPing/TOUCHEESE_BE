@@ -10,5 +10,6 @@ public class HomeController {
     @ResponseBody
     String home() {
         return "index";
+
     }
 }
