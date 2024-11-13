@@ -1,4 +1,4 @@
-package com.rocket.toucheese_be.domain.Member.service;
+package com.rocket.toucheese_be.domain.member.service;
 
 import org.springframework.stereotype.Service;
 
