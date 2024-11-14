@@ -51,6 +51,6 @@ public class StudioController {
     @GetMapping("/concept/{conceptId}")
     public Response<List<Studio>> getStudioByConcept(@PathVariable("conceptId") Long conceptId) {
         List<Studio> studioList = studioService.getStudioByConcept(conceptId);
-        return Response.of(SuccessCode.GET_STUDIO_LIST_WITH_CONCEPT_SUCCESS, studioList);
+        return Response.of(SuccessCode.GET_STUDIO_LIST_BY_CONCEPT_SUCCESS, studioList);
     }
 }
