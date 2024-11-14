@@ -1,4 +1,4 @@
-package com.rocket.toucheese_be.global.rsData;
+package com.rocket.toucheese_be.global.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
 @Getter
-public class RsData<T> {
+public class Response<T> {
 
     @NonNull
     String msg;
@@ -18,11 +18,11 @@ public class RsData<T> {
     @NonNull
     T data;
 
-    public static <T> RsData<T> of(String msg) {
+    public static <T> Response<T> of(String msg) {
         return of(msg, null);
     }
 
-    public static <T> RsData<T> of(String msg, T data) {
-        return new RsData<>(msg, data);
+    public static <T> Response<T> of(String msg, T data) {
+        return new Response<>(msg, data);
     }
 }
