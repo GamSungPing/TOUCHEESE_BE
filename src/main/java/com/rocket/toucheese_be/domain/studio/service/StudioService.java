@@ -20,4 +20,8 @@ public class StudioService {
         return studioRepository.findStudioById(id)
                                 .orElseThrow(() -> new RuntimeException("그런 스튜디오 없음"));
     }
+
+    public List<Studio> getStudioByConcept(Long conceptId) {
+        return studioRepository.findStudiosByConceptId(conceptId);
+    }
 }

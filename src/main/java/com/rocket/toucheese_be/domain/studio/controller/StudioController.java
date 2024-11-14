@@ -22,12 +22,18 @@ public class StudioController {
     @GetMapping("/")
     public RsData<List<Studio>> getAllStudios() {
         List<Studio> studioList = studioService.getAllStudios();
-        return RsData.of("all studio", studioList);
+        return RsData.of("all studios", studioList);
     }
 
     @GetMapping("/{id}")
     public RsData<Studio> getStudio(@PathVariable("id") Long id) {
         Studio studio = studioService.getStudio(id);
         return RsData.of("id studio", studio);
+    }
+
+    @GetMapping("/concept/{conceptId}")
+    public RsData<List<Studio>> getStudioByConcept(@PathVariable("conceptId") Long conceptId) {
+        List<Studio> studioList = studioService.getStudioByConcept(conceptId);
+        return RsData.of(conceptId+"'s studios", studioList);
     }
 }
