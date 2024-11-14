@@ -3,6 +3,7 @@ package com.rocket.toucheese_be.domain.concept.controller;
 import com.rocket.toucheese_be.domain.concept.entity.Concept;
 import com.rocket.toucheese_be.domain.concept.service.ConceptService;
 import com.rocket.toucheese_be.global.response.Response;
+import com.rocket.toucheese_be.global.response.SuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,12 +23,12 @@ public class ConceptController {
     @GetMapping("/")
     public Response<List<Concept>> getAllConcepts() {
         List<Concept> conceptList = conceptService.getAllConcepts();
-        return Response.of("all concepts", conceptList);
+        return Response.of(SuccessCode.GET_CONCEPT_LIST_SUCCESS, conceptList);
     }
 
     @GetMapping("/{id}")
     public Response<Concept> getConcept(@PathVariable("id") Long id) {
         Concept concept = conceptService.getConcept(id);
-        return Response.of("id concept", concept);
+        return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, concept);
     }
 }

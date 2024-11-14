@@ -13,16 +13,25 @@ import static lombok.AccessLevel.PRIVATE;
 public class Response<T> {
 
     @NonNull
+    int statusCode;
+
+    @NonNull
     String msg;
 
     @NonNull
     T data;
 
-    public static <T> Response<T> of(String msg) {
-        return of(msg, null);
+    // return data 있음
+    public static <T> Response<T> of(ResponseCode responseCode, T data) {
+        return of(responseCode.getHttpStatusCode(), responseCode.getMessage(), data);
     }
 
-    public static <T> Response<T> of(String msg, T data) {
-        return new Response<>(msg, data);
+    // return data 없음
+    public static <T> Response<T> of(ResponseCode responseCode) {
+        return of(responseCode.getHttpStatusCode(), responseCode.getMessage(), null);
+    }
+
+    public static <T> Response<T> of(int statusCode, String msg, T data) {
+        return new Response<>(statusCode, msg, data);
     }
 }

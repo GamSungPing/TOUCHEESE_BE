@@ -1,22 +1,21 @@
 package com.rocket.toucheese_be.global.response;
 
 import lombok.Getter;
-import lombok.ToString;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
-@ToString
-public enum ErrorCode {
+@RequiredArgsConstructor
+public enum ErrorCode implements ResponseCode {
 
-    GET_STUDIO_LIST_EXCEPTION(HttpStatus.OK, "스튜디오 전체 조회 오류 발생"),
-    GET_STUDIO_ONE_EXCEPTION(HttpStatus.OK, "스튜디오 단일 조회 오류 발생");
+    NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "존재하지 않는 리소스입니다."),
+    INVALID_VALUE_EXCEPTION(HttpStatus.BAD_REQUEST,  "올바르지 않은 요청 값입니다."),
+    UNAUTHORIZED_EXCEPTION(HttpStatus.UNAUTHORIZED,  "권한이 없는 요청입니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
 
-    ErrorCode(HttpStatus httpStatus, String message) {
-        this.httpStatus = httpStatus;
-        this.message = message;
+    public int getHttpStatusCode(){
+        return httpStatus.value();
     }
-
 }
