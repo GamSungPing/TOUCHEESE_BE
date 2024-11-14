@@ -1,7 +1,33 @@
 package com.rocket.toucheese_be.domain.studio.controller;
 
-import org.springframework.stereotype.Controller;
+import com.rocket.toucheese_be.domain.studio.entity.Studio;
+import com.rocket.toucheese_be.domain.studio.service.StudioService;
+import com.rocket.toucheese_be.global.rsData.RsData;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import java.util.List;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+@RequestMapping(value = "/api/v1/studio", produces = APPLICATION_JSON_VALUE)
+@RestController
+@RequiredArgsConstructor
 public class StudioController {
+    private final StudioService studioService;
+
+    @GetMapping("/")
+    public RsData<List<Studio>> getAllStudios() {
+        List<Studio> studioList = studioService.getAllStudios();
+        return RsData.of("all studio", studioList);
+    }
+
+    @GetMapping("/{id}")
+    public RsData<Studio> getStudio(@PathVariable("id") Long id) {
+        Studio studio = studioService.getStudio(id);
+        return RsData.of("id studio", studio);
+    }
 }
