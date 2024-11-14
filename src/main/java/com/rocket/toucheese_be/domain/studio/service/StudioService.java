@@ -3,6 +3,8 @@ package com.rocket.toucheese_be.domain.studio.service;
 import com.rocket.toucheese_be.domain.studio.entity.Studio;
 import com.rocket.toucheese_be.domain.studio.repository.StudioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +14,8 @@ import java.util.List;
 public class StudioService {
     private final StudioRepository studioRepository;
 
-    public List<Studio> getAllStudios() {
-        return studioRepository.findAll();
+    public Page<Studio> getAllStudios(Pageable pageable) {
+        return studioRepository.findAll(pageable);
     }
 
     public Studio getStudio(Long id) {
