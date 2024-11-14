@@ -19,10 +19,12 @@ public class StudioConcept {
     private Long id;
 
     @JsonIgnore
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "studio_id")
     private Studio studio;
 
     @JsonIgnore
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "concept_id")
     private Concept concept;
 }

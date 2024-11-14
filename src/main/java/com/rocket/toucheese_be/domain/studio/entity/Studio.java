@@ -21,7 +21,9 @@ public class Studio {
 
     private String name;
 
-    @OneToMany(mappedBy = "studio", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    @JsonIgnore
+    @OneToMany(mappedBy = "studio", cascade = CascadeType.REMOVE)
     private List<StudioConcept> studioConceptList;
+
+    @OneToMany(mappedBy = "rating", cascade = CascadeType.ALL)
+    private List<Rating> ratingList;
 }

@@ -37,4 +37,11 @@ public class StudioController {
         List<Studio> studioList = studioService.getStudioByConcept(conceptId);
         return Response.of(SuccessCode.GET_STUDIO_LIST_WITH_CONCEPT_SUCCESS, studioList);
     }
+
+    // 필터링 + 인기순 정렬
+    @GetMapping("/concept/{conceptId}/high-rating")
+    public Response<List<Studio>> getStudioByConceptWithHighRating(@PathVariable("conceptId") Long conceptId) {
+        List<Studio> studioList = studioService.getStudioByConceptWithHighRating(conceptId);
+        return Response.of(conceptId + "'s high-rating studios", studioList);
+    }
 }

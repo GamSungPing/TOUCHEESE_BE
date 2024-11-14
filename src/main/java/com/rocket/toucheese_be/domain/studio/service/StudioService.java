@@ -24,4 +24,9 @@ public class StudioService {
     public List<Studio> getStudioByConcept(Long conceptId) {
         return studioRepository.findStudiosByConceptId(conceptId);
     }
+
+    // 컨셉별 + 인기순 정렬
+    public List<Studio> getStudioByConceptWithHighRating(Long conceptId) {
+        return studioRepository.findStudiosByConceptIdOrderByAverageRatingDesc(conceptId);
+    }
 }
