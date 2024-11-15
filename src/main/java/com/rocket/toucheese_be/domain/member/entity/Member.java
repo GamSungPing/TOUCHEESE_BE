@@ -1,5 +1,6 @@
 package com.rocket.toucheese_be.domain.member.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rocket.toucheese_be.domain.studio.entity.Rating;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,6 +21,9 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "rating", cascade = CascadeType.ALL)
+    private String name;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Rating> rating;
 }

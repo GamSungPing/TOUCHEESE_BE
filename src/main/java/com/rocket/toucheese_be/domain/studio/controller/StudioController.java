@@ -20,18 +20,21 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class StudioController {
     private final StudioService studioService;
 
+    // 모든 스튜디오 리스트 조회
     @GetMapping("/")
     public Response<List<Studio>> getAllStudios() {
         List<Studio> studioList = studioService.getAllStudios();
         return Response.of(SuccessCode.GET_STUDIO_LIST_SUCCESS, studioList);
     }
 
+    // 특정 스튜디오 조회
     @GetMapping("/{id}")
     public Response<Studio> getStudio(@PathVariable("id") Long id) {
         Studio studio = studioService.getStudio(id);
         return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, studio);
     }
 
+    // 특정 컨셉에 해당하는 스튜디오 리스트 조회
     @GetMapping("/concept/{conceptId}")
     public Response<List<Studio>> getStudioByConcept(@PathVariable("conceptId") Long conceptId) {
         List<Studio> studioList = studioService.getStudioByConcept(conceptId);
@@ -42,6 +45,6 @@ public class StudioController {
     @GetMapping("/concept/{conceptId}/high-rating")
     public Response<List<Studio>> getStudioByConceptWithHighRating(@PathVariable("conceptId") Long conceptId) {
         List<Studio> studioList = studioService.getStudioByConceptWithHighRating(conceptId);
-        return Response.of(conceptId + "'s high-rating studios", studioList);
+        return Response.of(SuccessCode.GET_STUDIO_RATING_SUCCESS, studioList);
     }
 }
