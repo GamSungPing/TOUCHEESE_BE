@@ -26,4 +26,7 @@ public class Member {
     @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Rating> rating;
+
+    @Column(length = 10)
+    private String nickname;
 }
