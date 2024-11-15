@@ -15,17 +15,13 @@ import java.util.List;
 @Transactional
 public class StudioService {
     private final StudioRepository studioRepository;
-
-    // 모든 스튜디오와 평균 평점을 가져오는 메서드
-    public List<Studio> getAllStudios() {
-        List<Studio> studios = studioRepository.findAll();
+    
+    // 모든 스튜디오와 평점 가져오기
+    public Page<Studio> getAllStudios(Pageable pageable) {
+        Page<Studio> studios = studioRepository.findAll(pageable);
         studios.forEach(studio -> studio.setAverageRating(studio.calculateAverageRating()));
         return studios;
-    
-    // 모든 스튜디오 가져오기
-    public Page<Studio> getAllStudios(Pageable pageable) {
-        return studioRepository.findAll(pageable);
-
+    }
 
     // 스튜디오 ID로 스튜디오와 평균 평점을 가져오는 메서드
     public Studio getStudio(Long id) {

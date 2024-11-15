@@ -25,8 +25,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class StudioController {
     private final StudioService studioService;
 
-    // 모든 스튜디오 리스트 조회
-    // Page 적용 시도
+    // 모든 스튜디오 리스트 조회 with 평점 - Page 적용 완료
     private StudioListDto studioToDto(Studio studio) {
         return new StudioListDto(studio);
     }

@@ -1,6 +1,8 @@
 package com.rocket.toucheese_be.domain.studio.repository;
 
 import com.rocket.toucheese_be.domain.studio.entity.Studio;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface StudioRepository extends JpaRepository<Studio, Long> {
     // 모든 스튜디오 리스트
-    List<Studio> findAll();
+    Page<Studio> findAll(Pageable pageable);
 
     // 특정 스튜디오 조회
     Optional<Studio> findStudioById(Long id);
