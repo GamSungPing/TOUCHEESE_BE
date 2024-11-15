@@ -21,7 +21,25 @@ public class Studio {
 
     private String name;
 
-    @OneToMany(mappedBy = "studio", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JsonIgnore
+    @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL)
     private List<StudioConcept> studioConceptList;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL)
+    private List<Rating> ratingList;
+
+    @Setter
+    @Transient // 데이터베이스에 저장하지 않음
+    private Double averageRating;
+
+    public Double calculateAverageRating() {
+        if (ratingList == null || ratingList.isEmpty()) {
+            return 0.0;
+        }
+        double sum = ratingList.stream()
+                .mapToInt(Rating::getRating)
+                .sum();
+        return Math.round((sum / ratingList.size()) * 10) / 10.0; // 소수점 첫째 자리까지 반올림
+    }
 }
