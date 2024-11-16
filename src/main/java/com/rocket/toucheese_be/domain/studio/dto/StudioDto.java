@@ -13,4 +13,5 @@ import static lombok.AccessLevel.PUBLIC;
 public class StudioDto {
     private Long id;
     private String name;
+    private Double averageRating;
 }

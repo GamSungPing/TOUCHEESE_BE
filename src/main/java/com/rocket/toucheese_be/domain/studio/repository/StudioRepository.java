@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,7 +20,7 @@ public interface StudioRepository extends JpaRepository<Studio, Long> {
 
     // 컨셉 ID에 해당하는 스튜디오 리스트
     @Query("SELECT s FROM Studio s INNER JOIN StudioConcept sc ON s.id = sc.studio.id WHERE sc.concept.id = :conceptId")
-    List<Studio> findStudiosByConceptId(@Param("conceptId") Long conceptId);
+    Page<Studio> findStudiosByConceptId(@Param("conceptId") Long conceptId, Pageable pageable);
 
     // 컨셉 + 평점순 정렬
     @Query("SELECT s FROM Studio s " +
@@ -30,5 +29,5 @@ public interface StudioRepository extends JpaRepository<Studio, Long> {
             "WHERE sc.concept.id = :conceptId " +
             "GROUP BY s.id, s.name " +
             "ORDER BY COALESCE(AVG(r.rating), 0) DESC")
-    List<Studio> findStudiosByConceptIdOrderByAverageRatingDesc(@Param("conceptId") Long conceptId);
+    Page<Studio> findStudiosByConceptIdOrderByAverageRatingDesc(@Param("conceptId") Long conceptId, Pageable pageable);
 }

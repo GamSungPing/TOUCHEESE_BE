@@ -8,8 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -32,15 +30,15 @@ public class StudioService {
     }
 
     // 특정 컨셉에 해당하는 스튜디오 리스트 조회
-    public List<Studio> getStudioByConcept(Long conceptId) {
-        List<Studio> studios = studioRepository.findStudiosByConceptId(conceptId);
+    public Page<Studio> getStudioByConcept(Long conceptId, Pageable pageable) {
+        Page<Studio> studios = studioRepository.findStudiosByConceptId(conceptId, pageable);
         studios.forEach(studio -> studio.setAverageRating(studio.calculateAverageRating()));
         return studios;
     }
 
     // 컨셉별로 평균 평점이 높은 순으로 스튜디오 정렬
-    public List<Studio> getStudioByConceptWithHighRating(Long conceptId) {
-        List<Studio> studios = studioRepository.findStudiosByConceptIdOrderByAverageRatingDesc(conceptId);
+    public Page<Studio> getStudioByConceptWithHighRating(Long conceptId, Pageable pageable) {
+        Page<Studio> studios = studioRepository.findStudiosByConceptIdOrderByAverageRatingDesc(conceptId, pageable);
         studios.forEach(studio -> studio.setAverageRating(studio.calculateAverageRating()));
         return studios;
     }

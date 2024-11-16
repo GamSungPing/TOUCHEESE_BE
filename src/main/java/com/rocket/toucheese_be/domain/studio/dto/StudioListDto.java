@@ -16,8 +16,11 @@ public class StudioListDto {
     @NonNull
     private String name;
 
+    private Double averageRating;
+
     public StudioListDto(Studio studio) {
         this.id = studio.getId();
         this.name = studio.getName();
+        this.averageRating = studio.getAverageRating();
     }
 }

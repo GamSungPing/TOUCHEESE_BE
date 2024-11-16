@@ -26,40 +26,56 @@ public class StudioController {
     private final StudioService studioService;
 
     // 모든 스튜디오 리스트 조회 with 평점 - Page 적용 완료
-    private StudioListDto studioToDto(Studio studio) {
-        return new StudioListDto(studio);
-    }
     @GetMapping("/")
     public Response<PageDto<StudioListDto>> getAllStudios(
             @RequestParam(name="page", defaultValue="1") int page
     ) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("id"));
-        Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize() - 1, Sort.by(sorts));
+        Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize(), Sort.by(sorts));
 
         Page<Studio> studioPage = studioService.getAllStudios(pageable);
         Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
         return Response.of(SuccessCode.GET_STUDIO_LIST_SUCCESS, new PageDto<>(studioListDtoPage));
     }
 
-    // 특정 스튜디오 조회
+    // 특정 스튜디오 조회 with 평점 - Page 적용 완료
     @GetMapping("/{id}")
     public Response<Studio> getStudio(@PathVariable("id") Long id) {
         Studio studio = studioService.getStudio(id);
         return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, studio);
     }
 
-    // 특정 컨셉에 해당하는 스튜디오 리스트 조회
+    // 특정 컨셉에 해당하는 스튜디오 리스트 조회 with 평점 - Page 적용 완료
     @GetMapping("/concept/{conceptId}")
-    public Response<List<Studio>> getStudioByConcept(@PathVariable("conceptId") Long conceptId) {
-        List<Studio> studioList = studioService.getStudioByConcept(conceptId);
-        return Response.of(SuccessCode.GET_STUDIO_LIST_BY_CONCEPT_SUCCESS, studioList);
+    public Response<PageDto<StudioListDto>> getStudioByConcept(
+            @PathVariable("conceptId") Long conceptId,
+            @RequestParam(name="page", defaultValue="1") int page
+    ) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("id"));
+        Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize(), Sort.by(sorts));
+
+        Page<Studio> studioPage = studioService.getStudioByConcept(conceptId, pageable);
+        Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
+        return Response.of(SuccessCode.GET_STUDIO_LIST_BY_CONCEPT_SUCCESS, new PageDto<>(studioListDtoPage));
     }
 
-    // 필터링 + 인기순 정렬
+    // 컨셉 필터링 + 인기순 정렬 (평점) - Page 적용 완료
     @GetMapping("/concept/{conceptId}/high-rating")
-    public Response<List<Studio>> getStudioByConceptWithHighRating(@PathVariable("conceptId") Long conceptId) {
-        List<Studio> studioList = studioService.getStudioByConceptWithHighRating(conceptId);
-        return Response.of(SuccessCode.GET_STUDIO_RATING_SUCCESS, studioList);
+    public Response<PageDto<StudioListDto>> getStudioByConceptWithHighRating(
+            @PathVariable("conceptId") Long conceptId,
+            @RequestParam(name="page", defaultValue="1") int page
+    ) {
+        Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize());
+
+        Page<Studio> studioPage = studioService.getStudioByConceptWithHighRating(conceptId, pageable);
+        Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
+        return Response.of(SuccessCode.GET_STUDIO_RATING_SUCCESS, new PageDto<>(studioListDtoPage));
+    }
+
+    // studio -> studioListDto
+    private StudioListDto studioToDto(Studio studio) {
+        return new StudioListDto(studio);
     }
 }
