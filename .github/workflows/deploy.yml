@@ -42,8 +42,8 @@ jobs:
       - name: 도커 이미지 빌드 및 푸시
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -f Dockerfile -t toucheese-api:latest .
-          docker push toucheese-api:latest
+          docker build -f Dockerfile -t juyoon990423/toucheese-api:latest .
+          docker push juyoon990423/toucheese-api:latest
 
       - name: 서버 배포
         uses: appleboy/ssh-action@master
