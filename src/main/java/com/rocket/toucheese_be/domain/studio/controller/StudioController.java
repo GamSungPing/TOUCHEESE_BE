@@ -1,5 +1,6 @@
 package com.rocket.toucheese_be.domain.studio.controller;
 
+import com.rocket.toucheese_be.domain.studio.dto.StudioDto;
 import com.rocket.toucheese_be.domain.studio.dto.StudioListDto;
 import com.rocket.toucheese_be.domain.studio.entity.Studio;
 import com.rocket.toucheese_be.domain.studio.service.StudioService;
@@ -41,9 +42,9 @@ public class StudioController {
 
     // 특정 스튜디오 조회 with 평점 - Page 적용 완료
     @GetMapping("/{id}")
-    public Response<Studio> getStudio(@PathVariable("id") Long id) {
+    public Response<StudioDto> getStudio(@PathVariable("id") Long id) {
         Studio studio = studioService.getStudio(id);
-        return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, studio);
+        return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, new StudioDto(studio));
     }
 
     // 특정 컨셉에 해당하는 스튜디오 리스트 조회 with 평점 - Page 적용 완료
