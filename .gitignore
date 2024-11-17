@@ -37,7 +37,9 @@ out/
 .vscode/
 
 ### custom ###
-src/main/resources/application-secret.yml
+src/main/resources/application-local.yml
+src/main/resources/application-dev.yml
+src/main/resources/application.yml
 db_dev.mv.db
 db_dev.trace.db
 settings.gradle
