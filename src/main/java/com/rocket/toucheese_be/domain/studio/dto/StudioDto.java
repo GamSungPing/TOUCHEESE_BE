@@ -1,12 +1,11 @@
 package com.rocket.toucheese_be.domain.studio.dto;
 
-import com.rocket.toucheese_be.domain.studio.entity.Rating;
-import com.rocket.toucheese_be.domain.studio.entity.Region;
 import com.rocket.toucheese_be.domain.studio.entity.Studio;
 
 public record StudioDto(
         Long id,
         String name,
+        int profilePrice,
         Double averageRating,
         RegionDto region
 ) {
@@ -14,6 +13,7 @@ public record StudioDto(
         return new StudioDto(
                 studio.getId(),
                 studio.getName(),
+                studio.getProfilePrice(),
                 studio.getRating(),
                 studio.getRegion() != null
                         ? RegionDto.builder()
@@ -21,7 +21,6 @@ public record StudioDto(
                         .name(studio.getRegion().getName())
                         .build()
                         :null
-
         );
     }
 }

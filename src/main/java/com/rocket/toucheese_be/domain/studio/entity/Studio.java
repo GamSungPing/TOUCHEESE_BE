@@ -21,6 +21,8 @@ public class Studio {
 
     private String name;
 
+    private int profilePrice;
+
     @JsonIgnore
     @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL)
     private List<StudioConcept> studioConceptList;
