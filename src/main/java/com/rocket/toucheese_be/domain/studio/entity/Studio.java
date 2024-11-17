@@ -31,7 +31,12 @@ public class Studio {
 
     @Setter
     @Transient // 데이터베이스에 저장하지 않음
-    private Double averageRating;
+    private Double rating;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id")
+    private Region region;
 
     public Double calculateAverageRating() {
         if (ratingList == null || ratingList.isEmpty()) {

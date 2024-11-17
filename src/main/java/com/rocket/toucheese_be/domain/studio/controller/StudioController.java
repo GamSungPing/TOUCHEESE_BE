@@ -26,6 +26,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class StudioController {
     private final StudioService studioService;
 
+    // studio -> studioListDto
+    private StudioListDto studioToDto(Studio studio) {
+        return new StudioListDto(studio);
+    }
+
     // 모든 스튜디오 리스트 조회 with 평점 - Page 적용 완료
     @GetMapping("/")
     public Response<PageDto<StudioListDto>> getAllStudios(
@@ -43,8 +48,8 @@ public class StudioController {
     // 특정 스튜디오 조회 with 평점 - Page 적용 완료
     @GetMapping("/{id}")
     public Response<StudioDto> getStudio(@PathVariable("id") Long id) {
-        Studio studio = studioService.getStudio(id);
-        return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, new StudioDto(studio));
+        StudioDto studioDto= studioService.getStudio(id);
+        return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, studioDto);
     }
 
     // 특정 컨셉에 해당하는 스튜디오 리스트 조회 with 평점 - Page 적용 완료
@@ -75,8 +80,13 @@ public class StudioController {
         return Response.of(SuccessCode.GET_STUDIO_RATING_SUCCESS, new PageDto<>(studioListDtoPage));
     }
 
-    // studio -> studioListDto
-    private StudioListDto studioToDto(Studio studio) {
-        return new StudioListDto(studio);
+    // 컨셉 및 지역 필터링 된 스튜디오 리스트 조회
+    @GetMapping("/concept/{conceptId}/region/{regionId}")
+    public Response<List<Studio>> getStudiosByConceptAndRegion(
+            @PathVariable("conceptId") Long conceptId,
+            @PathVariable("regionId") Long regionId
+    ) {
+        List<Studio> studioList = studioService.getStudiosByConceptAndRegion(conceptId, regionId);
+        return Response.of(SuccessCode.GET_STUDIO_LIST_BY_CONCEPT_AND_REGION_SUCCESS, studioList);
     }
 }

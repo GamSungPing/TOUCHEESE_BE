@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -30,4 +31,13 @@ public interface StudioRepository extends JpaRepository<Studio, Long> {
             "GROUP BY s.id, s.name " +
             "ORDER BY COALESCE(AVG(r.rating), 0) DESC")
     Page<Studio> findStudiosByConceptIdOrderByAverageRatingDesc(@Param("conceptId") Long conceptId, Pageable pageable);
+
+    @Query("SELECT s FROM Studio s " +
+            "LEFT JOIN s.studioConceptList sc " +
+            "LEFT JOIN s.region r " +
+            "WHERE sc.concept.id = :conceptId " +
+            "AND r.id = :regionId")
+    List<Studio> findStudiosByConceptIdAndRegionId(
+            @Param("conceptId") Long conceptId,
+            @Param("regionId") Long regionId);
 }
