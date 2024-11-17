@@ -11,7 +11,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 @AllArgsConstructor(access = PROTECTED)
 @NoArgsConstructor(access = PROTECTED)
-@Getter
+@Data
 public class StudioConcept {
 
     @Id

@@ -1,5 +1,6 @@
 package com.rocket.toucheese_be.domain.studio.controller;
 
+import com.rocket.toucheese_be.domain.studio.dto.StudioDto;
 import com.rocket.toucheese_be.domain.studio.dto.StudioListDto;
 import com.rocket.toucheese_be.domain.studio.entity.Studio;
 import com.rocket.toucheese_be.domain.studio.service.StudioService;
@@ -44,22 +45,32 @@ public class StudioController {
 
     // 특정 스튜디오 조회
     @GetMapping("/{id}")
-    public Response<Studio> getStudio(@PathVariable("id") Long id) {
-        Studio studio = studioService.getStudio(id);
-        return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, studio);
+    public Response<StudioDto> getStudio(@PathVariable("id") Long id) {
+        StudioDto studioDto= studioService.getStudio(id);
+        return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, studioDto);
     }
 
     // 특정 컨셉에 해당하는 스튜디오 리스트 조회
     @GetMapping("/concept/{conceptId}")
-    public Response<List<Studio>> getStudioByConcept(@PathVariable("conceptId") Long conceptId) {
-        List<Studio> studioList = studioService.getStudioByConcept(conceptId);
+    public Response<List<StudioDto>> getStudioByConcept(@PathVariable("conceptId") Long conceptId) {
+        List<StudioDto> studioList = studioService.getStudioByConcept(conceptId);
         return Response.of(SuccessCode.GET_STUDIO_LIST_BY_CONCEPT_SUCCESS, studioList);
     }
 
-    // 필터링 + 인기순 정렬
+    // 컨셉 + 인기순 정렬
     @GetMapping("/concept/{conceptId}/high-rating")
     public Response<List<Studio>> getStudioByConceptWithHighRating(@PathVariable("conceptId") Long conceptId) {
         List<Studio> studioList = studioService.getStudioByConceptWithHighRating(conceptId);
         return Response.of(SuccessCode.GET_STUDIO_RATING_SUCCESS, studioList);
+    }
+
+    // 컨셉 및 지역 필터링된 스튜디오 리스트 조회
+    @GetMapping("/concept/{conceptId}/region/{regionId}")
+    public Response<List<Studio>> getStudiosByConceptAndRegion(
+            @PathVariable("conceptId") Long conceptId,
+            @PathVariable("regionId") Long regionId
+    ) {
+        List<Studio> studioList = studioService.getStudiosByConceptAndRegion(conceptId, regionId);
+        return Response.of(SuccessCode.GET_STUDIO_LIST_BY_CONCEPT_AND_REGION_SUCCESS, studioList);
     }
 }

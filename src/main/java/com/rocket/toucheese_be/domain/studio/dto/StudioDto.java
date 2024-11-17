@@ -1,16 +1,27 @@
 package com.rocket.toucheese_be.domain.studio.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.rocket.toucheese_be.domain.studio.entity.Rating;
+import com.rocket.toucheese_be.domain.studio.entity.Region;
+import com.rocket.toucheese_be.domain.studio.entity.Studio;
 
-import static lombok.AccessLevel.PROTECTED;
-import static lombok.AccessLevel.PUBLIC;
+public record StudioDto(
+        Long id,
+        String name,
+        Double averageRating,
+        RegionDto region
+) {
+    public static StudioDto fromEntity(Studio studio) {
+        return new StudioDto(
+                studio.getId(),
+                studio.getName(),
+                studio.getRating(),
+                studio.getRegion() != null
+                        ? RegionDto.builder()
+                        .id(studio.getRegion().getId())
+                        .name(studio.getRegion().getName())
+                        .build()
+                        :null
 
-@NoArgsConstructor(access = PROTECTED)
-@AllArgsConstructor(access = PUBLIC)
-@Getter
-public class StudioDto {
-    private Long id;
-    private String name;
+        );
+    }
 }

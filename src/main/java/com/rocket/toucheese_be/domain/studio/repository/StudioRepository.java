@@ -1,5 +1,6 @@
 package com.rocket.toucheese_be.domain.studio.repository;
 
+import com.rocket.toucheese_be.domain.studio.dto.StudioDto;
 import com.rocket.toucheese_be.domain.studio.entity.Studio;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,7 @@ public interface StudioRepository extends JpaRepository<Studio, Long> {
 
     // 컨셉 ID에 해당하는 스튜디오 리스트
     @Query("SELECT s FROM Studio s INNER JOIN StudioConcept sc ON s.id = sc.studio.id WHERE sc.concept.id = :conceptId")
-    List<Studio> findStudiosByConceptId(@Param("conceptId") Long conceptId);
+    List<StudioDto> findStudiosByConceptId(@Param("conceptId") Long conceptId);
 
     // 컨셉 + 평점순 정렬
     @Query("SELECT s FROM Studio s " +
@@ -31,4 +32,13 @@ public interface StudioRepository extends JpaRepository<Studio, Long> {
             "GROUP BY s.id, s.name " +
             "ORDER BY COALESCE(AVG(r.rating), 0) DESC")
     List<Studio> findStudiosByConceptIdOrderByAverageRatingDesc(@Param("conceptId") Long conceptId);
+
+    @Query("SELECT s FROM Studio s " +
+            "LEFT JOIN s.studioConceptList sc " +
+            "LEFT JOIN s.region r " +
+            "WHERE sc.concept.id = :conceptId " +
+            "AND r.id = :regionId")
+    List<Studio> findStudiosByConceptIdAndRegionId(
+            @Param("conceptId") Long conceptId,
+            @Param("regionId") Long regionId);
 }
