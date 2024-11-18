@@ -9,6 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -22,21 +25,12 @@ public class StudioService {
         return studios;
     }
 
-    // 스튜디오 ID로 스튜디오와 평균 평점을 가져오는 메서드
+    // 스튜디오 단일 조회
     public StudioDto getStudio(Long id) {
         Studio studio = studioRepository.findById(id).orElse(null);
         studio.setRating(studio.calculateAverageRating());
         return StudioDto.fromEntity(studio);
     }
-
-//    @Override
-//    public ChildDTO getChild(Integer childId) {
-//        if (!authService.isParentOfChild(childId)) {
-//            throw new CustomException(ErrorCode.BAD_REQUEST_CHILD);
-//        }
-//        Child child = childRepository.findById(childId);
-//        return ChildDTO.of(child);
-//    }
 
     // 특정 컨셉에 해당하는 스튜디오 리스트 조회
     public Page<Studio> getStudioByConcept(Long conceptId, Pageable pageable) {

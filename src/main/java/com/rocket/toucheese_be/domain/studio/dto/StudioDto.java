@@ -6,7 +6,7 @@ public record StudioDto(
         Long id,
         String name,
         int profilePrice,
-        Double averageRating,
+        Double rating,
         RegionDto region
 ) {
     public static StudioDto fromEntity(Studio studio) {
@@ -14,7 +14,7 @@ public record StudioDto(
                 studio.getId(),
                 studio.getName(),
                 studio.getProfilePrice(),
-                studio.getRating(),
+                studio.calculateAverageRating(),
                 studio.getRegion() != null
                         ? RegionDto.builder()
                         .id(studio.getRegion().getId())

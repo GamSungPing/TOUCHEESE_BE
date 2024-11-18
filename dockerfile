@@ -1,11 +1,11 @@
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:17-jdk
 
 # 타임존 설정
 ENV TZ=Asia/Seoul
-RUN apk add --no-cache tzdata \
-    && cp /usr/share/zoneinfo/$TZ /etc/localtime \
+RUN apt-get update && apt-get install -y tzdata \
+    && ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \
-    && apk del tzdata
+    && apt-get clean
 
 COPY ./build/libs/*SNAPSHOT.jar project.jar
 

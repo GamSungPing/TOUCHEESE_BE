@@ -1,7 +1,7 @@
 services:
   toucheese-api:
     container_name: toucheese-api
-    image: "toucheese-api:latest"
+    image: "juyoon990423/toucheese-api:latest"
     ports:
       - "8080:8080"
     logging:
