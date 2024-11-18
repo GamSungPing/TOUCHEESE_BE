@@ -9,9 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -53,16 +50,36 @@ public class StudioService {
         return studios;
     }
 
-    // 컨셉 별로 프로필 가격이 낮은 순으로 스튜디오 정렬
+    // 컨셉별 + 프로필 가격이 낮은 순으로 스튜디오 정렬
     public Page<Studio> getStudioByConceptWithLowPrice(Long conceptId, Pageable pageable) {
         Page<Studio> studios = studioRepository.findStudiosByConceptIdOrderByProfilePriceAsc(conceptId, pageable);
         studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
         return studios;
     }
 
-    // 컨셉 별로 평균 평점이 높은 순 -> 프로필 가격이 낮은 순으로 스튜디오 정렬
+    // 컨셉별, 지역별, 평점 높은 순으로 스튜디오 정렬
+    public Page<Studio> getStudiosByConceptAndRegionAndRating(Long conceptId, Long regionId, Pageable pageable) {
+        Page<Studio> studios = studioRepository.findStudiosByConceptIdAndRegionIdOrderByAverageRatingDesc(conceptId, regionId, pageable);
+        studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
+        return studios;
+    }
+
+    // 컨셉별, 지역별, 가격 낮은 순으로 스튜디오 정렬
+    public Page<Studio> getStudiosByConceptAndRegionAndLowPrice(Long conceptId, Long regionId, Pageable pageable) {
+        Page<Studio> studios = studioRepository.findStudiosByConceptIdAndRegionIdOrderByProfilePriceAsc(conceptId, regionId, pageable);
+        studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
+        return studios;
+    }
+
+    // 컨셉별, 평점 높은 순 -> 프로필 가격이 낮은 순으로 스튜디오 정렬
     public Page<Studio> getStudioByConceptOrderByHighRatingAndLowPrice(Long conceptId, Pageable pageable) {
         Page<Studio> studios = studioRepository.findStudiosByConceptIdOrderByAverageRatingDescAndProfilePriceAsc(conceptId, pageable);
+        studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
+        return studios;
+    }
+
+    public Page<Studio> getStudioByConceptAndRegionOrderByHighRatingAndLowPrice(Long conceptId, Long regionId, Pageable pageable) {
+        Page<Studio> studios = studioRepository.findStudiosByConceptIdAndRegionIdOrderByAverageRatingDescAndProfilePriceAsc(conceptId, regionId, pageable);
         studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
         return studios;
     }
