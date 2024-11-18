@@ -80,7 +80,7 @@ public class StudioController {
         return Response.of(SuccessCode.GET_STUDIO_RATING_SUCCESS, new PageDto<>(studioListDtoPage));
     }
 
-    // 컨셉 및 지역 필터링 된 스튜디오 리스트 조회 - Page 적용 완료
+    // 컨셉 필터링 + 지역 필터링 - Page 적용 완료
     @GetMapping("/concept/{conceptId}/region/{regionId}")
     public Response<PageDto<StudioListDto>> getStudiosByConceptAndRegion(
             @PathVariable("conceptId") Long conceptId,
@@ -107,6 +107,34 @@ public class StudioController {
         return Response.of(SuccessCode.GET_STUDIO_PRICING_SUCCESS, new PageDto<>(studioListDtoPage));
     }
 
+    // 컨셉 필터링 + 지역 필터링 + 인기 내림차순 정렬 - Page 적용 완료
+    @GetMapping("/concept/{conceptId}/region/{regionId}/high-rating")
+    public Response<PageDto<StudioListDto>> getStudiosByConceptAndRegionAndRating(
+            @PathVariable("conceptId") Long conceptId,
+            @PathVariable("regionId") Long regionId,
+            @RequestParam(name="page", defaultValue="1") int page
+    ) {
+        Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize());
+
+        Page<Studio> studioPage = studioService.getStudiosByConceptAndRegionAndRating(conceptId, regionId, pageable);
+        Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
+        return Response.of(SuccessCode.GET_STUDIO_REGION_RATING_SUCCESS, new PageDto<>(studioListDtoPage));
+    }
+
+    // 컨셉 필터링 + 지역 필터링 + 가격 오름차순 정렬 - Page 적용 완료
+    @GetMapping("/concept/{conceptId}/region/{regionId}/low-pricing")
+    public Response<PageDto<StudioListDto>> getStudiosByConceptAndRegionAndLowPrice(
+            @PathVariable("conceptId") Long conceptId,
+            @PathVariable("regionId") Long regionId,
+            @RequestParam(name="page", defaultValue="1") int page
+    ) {
+        Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize());
+
+        Page<Studio> studioPage = studioService.getStudiosByConceptAndRegionAndLowPrice(conceptId, regionId, pageable);
+        Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
+        return Response.of(SuccessCode.GET_STUDIO_REGION_PRICING_SUCCESS, new PageDto<>(studioListDtoPage));
+    }
+
     // 컨셉 필터링 + 인기 내림차순 정렬 + 가격 오름차순 정렬 - Page 적용 완료
     @GetMapping("/concept/{conceptId}/high-rating/low-pricing")
     public Response<PageDto<StudioListDto>> getStudioByConceptWithHighRatingAndLowPrice(
@@ -120,4 +148,17 @@ public class StudioController {
         return Response.of(SuccessCode.GET_STUDIO_RATING_PRICING_SUCCESS, new PageDto<>(studioListDtoPage));
     }
 
+    // 컨셉 필터링 + 지역 필터링 + 인기 내림차순 정렬 + 가격 오름차순 정렬 - Page 적용 완료
+    @GetMapping("/concept/{conceptId}/region/{regionId}/high-rating/low-pricing")
+    public Response<PageDto<StudioListDto>> getStudioByConceptAndRegionWithHighRatingAndLowPrice(
+            @PathVariable("conceptId") Long conceptId,
+            @PathVariable("regionId") Long regionId,
+            @RequestParam(name="page", defaultValue="1") int page
+    ) {
+        Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize());
+
+        Page<Studio> studioPage = studioService.getStudioByConceptAndRegionOrderByHighRatingAndLowPrice(conceptId, regionId, pageable);
+        Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
+        return Response.of(SuccessCode.GET_STUDIO_REGION_RATING_PRICING_SUCCESS, new PageDto<>(studioListDtoPage));
+    }
 }
