@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,14 +25,8 @@ public class StudioService {
         return studios;
     }
 
-    // 스튜디오 ID로 스튜디오와 평균 평점을 가져오는 메서드
-//    public Studio getStudio(Long id) {
-//        Studio studio = studioRepository.findStudioById(id)
-//                .orElseThrow(() -> new RuntimeException("그런 스튜디오 없음"));
-//        studio.setAverageRating(studio.calculateAverageRating());
-//        return Studio;
-//    }
 
+    // 스튜디오 단일 조회
     public StudioDto getStudio(Long id) {
 
         Studio studio = studioRepository.findById(id).orElse(null);
@@ -40,23 +35,14 @@ public class StudioService {
         return StudioDto.fromEntity(studio);
     }
 
-//    @Override
-//    public ChildDTO getChild(Integer childId) {
-//        if (!authService.isParentOfChild(childId)) {
-//            throw new CustomException(ErrorCode.BAD_REQUEST_CHILD);
-//        }
-//        Child child = childRepository.findById(childId);
-//        return ChildDTO.of(child);
-//    }
-
-
 
 
     // 특정 컨셉에 해당하는 스튜디오 리스트 조회
     public List<StudioDto> getStudioByConcept(Long conceptId) {
-        List<StudioDto> studios = studioRepository.findStudiosByConceptId(conceptId);
-//        studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
-        return studios;
+        List<Studio> studios = studioRepository.findStudiosByConceptId(conceptId); // Studio 엔티티 리스트 조회
+        return studios.stream()
+                .map(studio -> StudioDto.fromEntity(studio)) // StudioDto로 변환
+                .collect(Collectors.toList());
     }
 
     // 컨셉별로 평균 평점이 높은 순으로 스튜디오 정렬

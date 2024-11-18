@@ -26,6 +26,7 @@ public class Rating {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Setter
     private int rating; // 평점 필드 추가
 
     private LocalDateTime createdAt;

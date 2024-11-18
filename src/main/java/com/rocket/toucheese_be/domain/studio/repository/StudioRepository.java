@@ -22,7 +22,7 @@ public interface StudioRepository extends JpaRepository<Studio, Long> {
 
     // 컨셉 ID에 해당하는 스튜디오 리스트
     @Query("SELECT s FROM Studio s INNER JOIN StudioConcept sc ON s.id = sc.studio.id WHERE sc.concept.id = :conceptId")
-    List<StudioDto> findStudiosByConceptId(@Param("conceptId") Long conceptId);
+    List<Studio> findStudiosByConceptId(@Param("conceptId") Long conceptId);
 
     // 컨셉 + 평점순 정렬
     @Query("SELECT s FROM Studio s " +
