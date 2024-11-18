@@ -16,8 +16,15 @@ public class StudioListDto {
     @NonNull
     private String name;
 
+    @NonNull
+    private int profilePrice;
+
+    private Double rating;
+
     public StudioListDto(Studio studio) {
         this.id = studio.getId();
         this.name = studio.getName();
+        this.rating = studio.getRating();
+        this.profilePrice = studio.getProfilePrice();
     }
 }
