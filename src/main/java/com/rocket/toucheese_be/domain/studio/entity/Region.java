@@ -21,6 +21,6 @@ public class Region {
 
     private String name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Studio> studios;
 }

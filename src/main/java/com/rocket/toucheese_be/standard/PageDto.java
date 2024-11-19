@@ -21,13 +21,13 @@ public class PageDto<T> {
     private int pageNumber;
 
     @NonNull
-    private List<T> studios;
+    private List<T> content;
 
     public PageDto(Page<T> page) {
         this.totalElementsCount = page.getTotalElements();
         this.pageElementsCount = page.getNumberOfElements();
         this.pageNumber = page.getNumber() + 1;
-        this.studios = page.getContent();
+        this.content = page.getContent();
         this.totalPagesCount = page.getTotalPages();
     }
 }
