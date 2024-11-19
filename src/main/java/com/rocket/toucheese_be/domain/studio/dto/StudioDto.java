@@ -6,6 +6,7 @@ public record StudioDto(
         Long id,
         String name,
         int profilePrice,
+        String priceCategory,
         Double rating,
         RegionDto region
 ) {
@@ -14,6 +15,7 @@ public record StudioDto(
                 studio.getId(),
                 studio.getName(),
                 studio.getProfilePrice(),
+                studio.getPriceCategory(),
                 studio.calculateAverageRating(),
                 studio.getRegion() != null
                         ? RegionDto.builder()
