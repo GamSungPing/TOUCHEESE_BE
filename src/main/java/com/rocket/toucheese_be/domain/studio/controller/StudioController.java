@@ -32,20 +32,6 @@ public class StudioController {
         return new StudioListDto(studio);
     }
 
-    @Operation(summary = "모든 스튜디오 조회", description = "모든 스튜디오 리스트를 평점과 함께 조회합니다.")
-    @GetMapping("/")
-    public Response<PageDto<StudioListDto>> getAllStudios(
-            @RequestParam(name="page", defaultValue="1") int page
-    ) {
-        List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("id"));
-        Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize(), Sort.by(sorts));
-
-        Page<Studio> studioPage = studioService.getAllStudios(pageable);
-        Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
-        return Response.of(SuccessCode.GET_STUDIO_LIST_SUCCESS, new PageDto<>(studioListDtoPage));
-    }
-
     @Operation(summary = "특정 스튜디오 조회", description = "스튜디오 ID를 통해 특정 스튜디오의 상세 정보를 평점과 함께 조회합니다.")
     @GetMapping("/{id}")
     public Response<StudioDto> getStudio(@PathVariable("id") Long id) {

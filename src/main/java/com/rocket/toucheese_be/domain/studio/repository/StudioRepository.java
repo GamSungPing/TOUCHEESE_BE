@@ -10,8 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StudioRepository extends JpaRepository<Studio, Long> {
-    // 모든 스튜디오 리스트
-    Page<Studio> findAll(Pageable pageable);
 
     // 컨셉 ID에 해당하는 스튜디오 리스트
     @Query("SELECT s FROM Studio s INNER JOIN StudioConcept sc ON s.id = sc.studio.id WHERE sc.concept.id = :conceptId")

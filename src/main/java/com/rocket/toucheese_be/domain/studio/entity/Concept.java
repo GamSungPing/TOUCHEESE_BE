@@ -1,7 +1,6 @@
-package com.rocket.toucheese_be.domain.concept.entity;
+package com.rocket.toucheese_be.domain.studio.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rocket.toucheese_be.domain.studio.entity.StudioConcept;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
