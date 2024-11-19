@@ -14,13 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class StudioService {
     private final StudioRepository studioRepository;
-    
-    // 모든 스튜디오와 평점 가져오기
-    public Page<Studio> getAllStudios(Pageable pageable) {
-        Page<Studio> studios = studioRepository.findAll(pageable);
-        studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
-        return studios;
-    }
 
     // 스튜디오 단일 조회
     public StudioDto getStudio(Long id) {
