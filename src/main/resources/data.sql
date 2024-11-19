@@ -51,7 +51,6 @@ INSERT INTO studio (name, profile_price, region_id) VALUES ('스튜디오원픽(
 INSERT INTO studio (name, profile_price, region_id) VALUES ('서래스튜디오', 250000, 2);
 INSERT INTO studio (name, profile_price, region_id) VALUES ('스튜디오 코스모스', 140000, 2);
 INSERT INTO studio (name, profile_price, region_id) VALUES ('옥토비스튜디오', 190000, 1);
-INSERT INTO studio (name, profile_price, region_id) VALUES ('옥토비스튜디오', 190000, 1);
 INSERT INTO studio (name, profile_price, region_id) VALUES ('피노스튜디오', 470000, 1);
 INSERT INTO studio (name, profile_price, region_id) VALUES ('르브아스튜디오', 200000, 2);
 INSERT INTO studio (name, profile_price, region_id) VALUES ('스튜디오아이엔씨', 110000, 2);
@@ -81,6 +80,15 @@ INSERT INTO studio (name, profile_price, region_id) VALUES ('아이어스스튜�
  */
 INSERT INTO studio (name, profile_price, region_id) VALUES ('아이어스스튜디오', 90000, 1);
 
+
+UPDATE studio
+SET price_category =
+        CASE
+            WHEN profile_price < 100000 THEN 'LOW'
+            WHEN profile_price < 200000 THEN 'MEDIUM'
+            ELSE 'HIGH'
+            END
+WHERE price_category IS NULL;
 
 
 INSERT INTO member (name) VALUES ('member1');
@@ -141,13 +149,12 @@ INSERT INTO studio_concept (concept_id, studio_id) VALUES (3, 31);
 INSERT INTO studio_concept (concept_id, studio_id) VALUES (3, 32);
 INSERT INTO studio_concept (concept_id, studio_id) VALUES (3, 33);
 INSERT INTO studio_concept (concept_id, studio_id) VALUES (3, 34);
-INSERT INTO studio_concept (concept_id, studio_id) VALUES (3, 35);
+INSERT INTO studio_concept (concept_id, studio_id) VALUES (4, 35);
 INSERT INTO studio_concept (concept_id, studio_id) VALUES (4, 36);
-INSERT INTO studio_concept (concept_id, studio_id) VALUES (4, 37);
+INSERT INTO studio_concept (concept_id, studio_id) VALUES (5, 37);
 INSERT INTO studio_concept (concept_id, studio_id) VALUES (5, 38);
 INSERT INTO studio_concept (concept_id, studio_id) VALUES (5, 39);
-INSERT INTO studio_concept (concept_id, studio_id) VALUES (5, 40);
-INSERT INTO studio_concept (concept_id, studio_id) VALUES (6, 41);
+INSERT INTO studio_concept (concept_id, studio_id) VALUES (6, 40);
 
 
 INSERT INTO rating (studio_id, member_id, rating, created_at) VALUES (2, 1, 5, NOW());
@@ -163,7 +170,7 @@ INSERT INTO rating (studio_id, member_id, rating, created_at) VALUES (27, 10, 5,
 INSERT INTO rating (studio_id, member_id, rating, created_at) VALUES (30, 11, 4, NOW());
 INSERT INTO rating (studio_id, member_id, rating, created_at) VALUES (35, 12, 3, NOW());
 INSERT INTO rating (studio_id, member_id, rating, created_at) VALUES (40, 13, 5, NOW());
-INSERT INTO rating (studio_id, member_id, rating, created_at) VALUES (41, 14, 2, NOW());
+INSERT INTO rating (studio_id, member_id, rating, created_at) VALUES (20, 14, 2, NOW());
 INSERT INTO rating (studio_id, member_id, rating, created_at) VALUES (3, 15, 4, NOW());
 INSERT INTO rating (studio_id, member_id, rating, created_at) VALUES (6, 16, 5, NOW());
 INSERT INTO rating (studio_id, member_id, rating, created_at) VALUES (9, 17, 3, NOW());
