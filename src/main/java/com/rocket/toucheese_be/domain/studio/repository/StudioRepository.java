@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface StudioRepository extends JpaRepository<Studio, Long> {
 
@@ -22,18 +24,18 @@ public interface StudioRepository extends JpaRepository<Studio, Long> {
             "WHERE sc.concept.id = :conceptId " +
             "GROUP BY s.id, s.name " +
             "ORDER BY COALESCE(AVG(r.rating), 0) DESC")
-    Page<Studio> findStudiosByConceptIdOrderByAverageRatingDesc(@Param("conceptId") Long conceptId, Pageable pageable);
+    Page<Studio> findStudiosByConceptIdOrderByAverageRatingDesc(@Param("conceptId") Long conceptId,
+                                                                Pageable pageable);
 
     // 컨셉 + 지역 필터링
     @Query("SELECT s FROM Studio s " +
             "LEFT JOIN s.studioConceptList sc " +
-            "LEFT JOIN s.region r " +
+            "LEFT JOIN s.region re " +
             "WHERE sc.concept.id = :conceptId " +
-            "AND r.id = :regionId")
-    Page<Studio> findStudiosByConceptIdAndRegionId(
-            @Param("conceptId") Long conceptId,
-            @Param("regionId") Long regionId,
-            Pageable pageable);
+            "AND re.id IN :regionIds")
+    Page<Studio> findStudiosByConceptIdAndRegionIds(@Param("conceptId") Long conceptId,
+                                                    @Param("regionIds") List<Long> regionIds,
+                                                    Pageable pageable);
 
     // 컨셉 + 지역 + 평점 내림차순
     @Query("SELECT s FROM Studio s " +
@@ -41,11 +43,11 @@ public interface StudioRepository extends JpaRepository<Studio, Long> {
             "LEFT JOIN s.region re " +
             "LEFT JOIN s.ratingList ra " +
             "WHERE sc.concept.id = :conceptId " +
-            "AND re.id = :regionId " +
+            "AND re.id IN :regionIds " +
             "GROUP BY s.id, s.name " +
             "ORDER BY COALESCE(AVG(ra.rating), 0) DESC")
-    Page<Studio> findStudiosByConceptIdAndRegionIdOrderByAverageRatingDesc(@Param("conceptId") Long conceptId,
-                                                                           @Param("regionId") Long regionId,
+    Page<Studio> findStudiosByConceptIdAndRegionIdsOrderByAverageRatingDesc(@Param("conceptId") Long conceptId,
+                                                                           @Param("regionIds") List<Long> regionIds,
                                                                            Pageable pageable);
 
     // 컨셉 + 가격 오름차순 정렬
@@ -54,18 +56,19 @@ public interface StudioRepository extends JpaRepository<Studio, Long> {
             "WHERE sc.concept.id = :conceptId " +
             "GROUP BY s.id, s.name " +
             "ORDER BY s.profilePrice ASC")
-    Page<Studio> findStudiosByConceptIdOrderByProfilePriceAsc(@Param("conceptId") Long conceptId, Pageable pageable);
+    Page<Studio> findStudiosByConceptIdOrderByProfilePriceAsc(@Param("conceptId") Long conceptId,
+                                                              Pageable pageable);
 
     // 컨셉 + 지역 + 가격 오름차순 정렬
     @Query("SELECT s FROM Studio s " +
             "LEFT JOIN s.studioConceptList sc " +
-            "LEFT JOIN s.region r " +
+            "LEFT JOIN s.region re " +
             "WHERE sc.concept.id = :conceptId " +
-            "AND r.id = :regionId " +
+            "AND re.id IN :regionIds " +
             "GROUP BY s.id, s.name " +
             "ORDER BY s.profilePrice ASC")
-    Page<Studio> findStudiosByConceptIdAndRegionIdOrderByProfilePriceAsc(@Param("conceptId")Long conceptId,
-                                                                         @Param("regionId") Long regionId,
+    Page<Studio> findStudiosByConceptIdAndRegionIdsOrderByProfilePriceAsc(@Param("conceptId")Long conceptId,
+                                                                         @Param("regionIds") List<Long> regionIds,
                                                                          Pageable pageable);
 
     // 컨셉 + 평점 내림차순 + 가격 오름차순 정렬
@@ -75,7 +78,8 @@ public interface StudioRepository extends JpaRepository<Studio, Long> {
             "WHERE sc.concept.id = :conceptId " +
             "GROUP BY s.id, s.name " +
             "ORDER BY COALESCE(AVG(r.rating), 0) DESC, s.profilePrice ASC")
-    Page<Studio> findStudiosByConceptIdOrderByAverageRatingDescAndProfilePriceAsc(@Param("conceptId") Long conceptId, Pageable pageable);
+    Page<Studio> findStudiosByConceptIdOrderByAverageRatingDescAndProfilePriceAsc(@Param("conceptId") Long conceptId,
+                                                                                  Pageable pageable);
 
 
     // 컨셉 + 지역 + 평점 내림차순 + 가격 오름차순 정렬
@@ -84,10 +88,10 @@ public interface StudioRepository extends JpaRepository<Studio, Long> {
             "LEFT JOIN s.region re " +
             "LEFT JOIN s.ratingList ra " +
             "WHERE sc.concept.id = :conceptId " +
-            "AND re.id = :regionId " +
+            "AND re.id IN :regionIds " +
             "GROUP BY s.id, s.name " +
             "ORDER BY COALESCE(AVG(ra.rating), 0) DESC, s.profilePrice ASC")
-    Page<Studio> findStudiosByConceptIdAndRegionIdOrderByAverageRatingDescAndProfilePriceAsc(@Param("conceptId")Long conceptId,
-                                                                                             @Param("regionId") Long regionId,
+    Page<Studio> findStudiosByConceptIdAndRegionIdsOrderByAverageRatingDescAndProfilePriceAsc(@Param("conceptId")Long conceptId,
+                                                                                             @Param("regionIds") List<Long> regionIds,
                                                                                              Pageable pageable);
 }
