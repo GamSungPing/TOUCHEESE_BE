@@ -24,6 +24,9 @@ public class Studio {
     private int profilePrice;
 
     @JsonIgnore
+    private String priceCategory; //
+
+    @JsonIgnore
     @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL)
     private List<StudioConcept> studioConceptList;
 
@@ -48,5 +51,21 @@ public class Studio {
                 .mapToInt(Rating::getRating)
                 .sum();
         return Math.round((sum / ratingList.size()) * 10) / 10.0; // 소수점 첫째 자리까지 반올림
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void calculatePriceCategory() {
+        this.priceCategory = calculatePriceCategoryBasedOnProfilePrice(profilePrice);
+    }
+
+    private String calculatePriceCategoryBasedOnProfilePrice(int price) {
+        if(price <= PriceCategory.LOW.getMaxPrice()) {
+            return PriceCategory.LOW.getPriceName();
+        } else if(price <= PriceCategory.MEDIUM.getMaxPrice()) {
+            return PriceCategory.MEDIUM.getPriceName();
+        } else {
+            return PriceCategory.HIGH.getPriceName();
+        }
     }
 }
