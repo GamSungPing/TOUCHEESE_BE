@@ -32,20 +32,6 @@ public class StudioController {
         return new StudioListDto(studio);
     }
 
-    @Operation(summary = "모든 스튜디오 조회", description = "모든 스튜디오 리스트를 평점과 함께 조회합니다.")
-    @GetMapping("/")
-    public Response<PageDto<StudioListDto>> getAllStudios(
-            @RequestParam(name="page", defaultValue="1") int page
-    ) {
-        List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("id"));
-        Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize(), Sort.by(sorts));
-
-        Page<Studio> studioPage = studioService.getAllStudios(pageable);
-        Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
-        return Response.of(SuccessCode.GET_STUDIO_LIST_SUCCESS, new PageDto<>(studioListDtoPage));
-    }
-
     @Operation(summary = "특정 스튜디오 조회", description = "스튜디오 ID를 통해 특정 스튜디오의 상세 정보를 평점과 함께 조회합니다.")
     @GetMapping("/{id}")
     public Response<StudioDto> getStudio(@PathVariable("id") Long id) {
@@ -82,20 +68,19 @@ public class StudioController {
     }
 
     @Operation(summary = "특정 컨셉 및 지역의 스튜디오 조회", description = "컨셉 ID와 지역 ID에 해당하는 스튜디오 리스트를 조회합니다.")
-    @GetMapping("/concept/{conceptId}/region/{regionId}")
+    @GetMapping("/concept/{conceptId}/regions")
     public Response<PageDto<StudioListDto>> getStudiosByConceptAndRegion(
             @PathVariable("conceptId") Long conceptId,
-            @PathVariable("regionId") Long regionId,
+            @RequestParam(name = "regionIds") List<Long> regionIds,
             @RequestParam(name="page", defaultValue="1") int page
     ) {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize());
 
-        Page<Studio> studioPage = studioService.getStudiosByConceptAndRegion(conceptId, regionId, pageable);
+        Page<Studio> studioPage = studioService.getStudiosByConceptAndRegion(conceptId, regionIds, pageable);
         Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
         return Response.of(SuccessCode.GET_STUDIO_LIST_BY_CONCEPT_AND_REGION_SUCCESS, new PageDto<>(studioListDtoPage));
     }
 
-    // 이하 메서드들도 동일한 방식으로 @Operation을 추가
     @Operation(summary = "특정 컨셉의 스튜디오 조회 (가격순)", description = "컨셉 ID에 해당하는 스튜디오를 가격 순으로 정렬하여 조회합니다.")
     @GetMapping("/concept/{conceptId}/low-pricing")
     public Response<PageDto<StudioListDto>> getStudioByConceptWithLowPrice(
@@ -110,29 +95,29 @@ public class StudioController {
     }
 
     @Operation(summary = "컨셉과 지역을 기준으로 인기 내림차순으로 정렬된 스튜디오 리스트 조회", description = "컨셉과 지역을 필터링하여 인기 내림차순으로 정렬된 스튜디오 리스트를 조회합니다.")
-    @GetMapping("/concept/{conceptId}/region/{regionId}/high-rating")
+    @GetMapping("/concept/{conceptId}/high-rating/regions")
     public Response<PageDto<StudioListDto>> getStudiosByConceptAndRegionAndRating(
             @PathVariable("conceptId") Long conceptId,
-            @PathVariable("regionId") Long regionId,
+            @RequestParam(name="regionIds") List<Long> regionIds,
             @RequestParam(name="page", defaultValue="1") int page
     ) {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize());
 
-        Page<Studio> studioPage = studioService.getStudiosByConceptAndRegionAndRating(conceptId, regionId, pageable);
+        Page<Studio> studioPage = studioService.getStudiosByConceptAndRegionAndRating(conceptId, regionIds, pageable); //
         Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
         return Response.of(SuccessCode.GET_STUDIO_REGION_RATING_SUCCESS, new PageDto<>(studioListDtoPage));
     }
 
     @Operation(summary = "컨셉과 지역을 기준으로 가격 오름차순으로 정렬된 스튜디오 리스트 조회", description = "컨셉과 지역을 필터링하여 가격 오름차순으로 정렬된 스튜디오 리스트를 조회합니다.")
-    @GetMapping("/concept/{conceptId}/region/{regionId}/low-pricing")
+    @GetMapping("/concept/{conceptId}/low-pricing/regions")
     public Response<PageDto<StudioListDto>> getStudiosByConceptAndRegionAndLowPrice(
             @PathVariable("conceptId") Long conceptId,
-            @PathVariable("regionId") Long regionId,
+            @RequestParam(name="regionIds") List<Long> regionIds,
             @RequestParam(name="page", defaultValue="1") int page
     ) {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize());
 
-        Page<Studio> studioPage = studioService.getStudiosByConceptAndRegionAndLowPrice(conceptId, regionId, pageable);
+        Page<Studio> studioPage = studioService.getStudiosByConceptAndRegionAndLowPrice(conceptId, regionIds, pageable);
         Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
         return Response.of(SuccessCode.GET_STUDIO_REGION_PRICING_SUCCESS, new PageDto<>(studioListDtoPage));
     }
@@ -151,15 +136,15 @@ public class StudioController {
     }
 
     @Operation(summary = "컨셉과 지역을 기준으로 인기 내림차순 및 가격 오름차순으로 정렬된 스튜디오 리스트 조회", description = "컨셉과 지역을 필터링하여 인기 내림차순 및 가격 오름차순으로 정렬된 스튜디오 리스트를 조회합니다.")
-    @GetMapping("/concept/{conceptId}/region/{regionId}/high-rating/low-pricing")
+    @GetMapping("/concept/{conceptId}/high-rating/low-pricing/regions")
     public Response<PageDto<StudioListDto>> getStudioByConceptAndRegionWithHighRatingAndLowPrice(
             @PathVariable("conceptId") Long conceptId,
-            @PathVariable("regionId") Long regionId,
+            @RequestParam(name="regionIds") List<Long> regionIds,
             @RequestParam(name="page", defaultValue="1") int page
     ) {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize());
 
-        Page<Studio> studioPage = studioService.getStudioByConceptAndRegionOrderByHighRatingAndLowPrice(conceptId, regionId, pageable);
+        Page<Studio> studioPage = studioService.getStudioByConceptAndRegionOrderByHighRatingAndLowPrice(conceptId, regionIds, pageable);
         Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
         return Response.of(SuccessCode.GET_STUDIO_REGION_RATING_PRICING_SUCCESS, new PageDto<>(studioListDtoPage));
     }

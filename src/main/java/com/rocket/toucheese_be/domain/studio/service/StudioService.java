@@ -9,18 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class StudioService {
     private final StudioRepository studioRepository;
-    
-    // 모든 스튜디오와 평점 가져오기
-    public Page<Studio> getAllStudios(Pageable pageable) {
-        Page<Studio> studios = studioRepository.findAll(pageable);
-        studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
-        return studios;
-    }
 
     // 스튜디오 단일 조회
     public StudioDto getStudio(Long id) {
@@ -44,8 +39,8 @@ public class StudioService {
     }
 
     // 컨셉별, 지역별 필터링 된 스튜디오 리스트 조회
-    public Page<Studio> getStudiosByConceptAndRegion(Long conceptId, Long regionId, Pageable pageable) {
-        Page<Studio> studios = studioRepository.findStudiosByConceptIdAndRegionId(conceptId, regionId, pageable);
+    public Page<Studio> getStudiosByConceptAndRegion(Long conceptId, List<Long> regionIds, Pageable pageable) {
+        Page<Studio> studios = studioRepository.findStudiosByConceptIdAndRegionIds(conceptId, regionIds, pageable);
         studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
         return studios;
     }
@@ -58,15 +53,15 @@ public class StudioService {
     }
 
     // 컨셉별, 지역별, 평점 높은 순으로 스튜디오 정렬
-    public Page<Studio> getStudiosByConceptAndRegionAndRating(Long conceptId, Long regionId, Pageable pageable) {
-        Page<Studio> studios = studioRepository.findStudiosByConceptIdAndRegionIdOrderByAverageRatingDesc(conceptId, regionId, pageable);
+    public Page<Studio> getStudiosByConceptAndRegionAndRating(Long conceptId, List<Long> regionIds, Pageable pageable) {
+        Page<Studio> studios = studioRepository.findStudiosByConceptIdAndRegionIdsOrderByAverageRatingDesc(conceptId, regionIds, pageable); //
         studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
         return studios;
     }
 
     // 컨셉별, 지역별, 가격 낮은 순으로 스튜디오 정렬
-    public Page<Studio> getStudiosByConceptAndRegionAndLowPrice(Long conceptId, Long regionId, Pageable pageable) {
-        Page<Studio> studios = studioRepository.findStudiosByConceptIdAndRegionIdOrderByProfilePriceAsc(conceptId, regionId, pageable);
+    public Page<Studio> getStudiosByConceptAndRegionAndLowPrice(Long conceptId, List<Long> regionIds, Pageable pageable) {
+        Page<Studio> studios = studioRepository.findStudiosByConceptIdAndRegionIdsOrderByProfilePriceAsc(conceptId, regionIds, pageable);
         studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
         return studios;
     }
@@ -78,8 +73,8 @@ public class StudioService {
         return studios;
     }
 
-    public Page<Studio> getStudioByConceptAndRegionOrderByHighRatingAndLowPrice(Long conceptId, Long regionId, Pageable pageable) {
-        Page<Studio> studios = studioRepository.findStudiosByConceptIdAndRegionIdOrderByAverageRatingDescAndProfilePriceAsc(conceptId, regionId, pageable);
+    public Page<Studio> getStudioByConceptAndRegionOrderByHighRatingAndLowPrice(Long conceptId, List<Long> regionIds, Pageable pageable) {
+        Page<Studio> studios = studioRepository.findStudiosByConceptIdAndRegionIdsOrderByAverageRatingDescAndProfilePriceAsc(conceptId, regionIds, pageable);
         studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
         return studios;
     }
