@@ -24,4 +24,5 @@ public class Concept {
 
     @OneToMany(mappedBy = "concept", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<StudioConcept> studioConceptList;
+
 }

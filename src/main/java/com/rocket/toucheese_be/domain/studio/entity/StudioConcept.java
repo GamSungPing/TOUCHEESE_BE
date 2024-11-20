@@ -17,13 +17,13 @@ public class StudioConcept {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "studio_id")
     private Studio studio;
 
-    @JsonIgnore
+
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "concept_id")
     private Concept concept;
+
 }

@@ -71,4 +71,5 @@ public class Studio {
             return PriceCategory.HIGH.getPriceName();
         }
     }
+
 }
