@@ -1,6 +1,5 @@
 package com.rocket.toucheese_be.domain.studio.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,22 +23,18 @@ public class Studio {
 
     private int profilePrice;
 
-    @JsonIgnore
     private String priceCategory;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "studio")
     private List<StudioConcept> studioConceptList;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "studio")
     private List<Rating> ratingList;
 
     @Setter
     @Transient // 데이터베이스에 저장하지 않음
     private Double rating;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
     private Region region;
