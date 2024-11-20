@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
@@ -24,7 +25,7 @@ public class Studio {
     private int profilePrice;
 
     @JsonIgnore
-    private String priceCategory; //
+    private String priceCategory;
 
     @JsonIgnore
     @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL)
@@ -42,6 +43,13 @@ public class Studio {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
     private Region region;
+
+    @OneToMany(mappedBy = "studio", fetch = FetchType.EAGER)
+    private List<Portfolio> portfolios = new ArrayList<>();
+
+    @OneToOne(mappedBy = "studio")
+    private Profile profileImage;
+
 
     public Double calculateAverageRating() {
         if (ratingList == null || ratingList.isEmpty()) {

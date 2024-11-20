@@ -1,6 +1,5 @@
 package com.rocket.toucheese_be.domain.studio.service;
 
-import com.rocket.toucheese_be.domain.studio.dto.StudioDto;
 import com.rocket.toucheese_be.domain.studio.entity.Studio;
 import com.rocket.toucheese_be.domain.studio.repository.StudioRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +17,11 @@ public class StudioService {
     private final StudioRepository studioRepository;
 
     // 스튜디오 단일 조회
-    public StudioDto getStudio(Long id) {
+    public Studio getStudio(Long id) {
         Studio studio = studioRepository.findById(id).orElse(null);
         if(studio == null) return null;
         studio.setRating(studio.calculateAverageRating());
-        return StudioDto.fromEntity(studio);
+        return studio;
     }
 
     // 특정 컨셉에 해당하는 스튜디오 리스트 조회
