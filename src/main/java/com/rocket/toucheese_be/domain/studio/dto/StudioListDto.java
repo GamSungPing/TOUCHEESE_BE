@@ -1,30 +1,28 @@
 package com.rocket.toucheese_be.domain.studio.dto;
 
+import com.rocket.toucheese_be.domain.studio.entity.Portfolio;
 import com.rocket.toucheese_be.domain.studio.entity.Studio;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.lang.NonNull;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-public class StudioListDto {
+import java.util.List;
 
-    @NonNull
-    private Long id;
-
-    @NonNull
-    private String name;
-
-    @NonNull
-    private int profilePrice;
-
-    private Double rating;
-
+public record StudioListDto(
+        Long id,
+        String name,
+        int profilePrice,
+        Double rating,
+        List<String> portfolioUrls,
+        String profileURL
+) {
     public StudioListDto(Studio studio) {
-        this.id = studio.getId();
-        this.name = studio.getName();
-        this.rating = studio.getRating();
-        this.profilePrice = studio.getProfilePrice();
+        this(
+                studio.getId(),
+                studio.getName(),
+                studio.getProfilePrice(),
+                studio.getRating(),
+                studio.getPortfolios().stream()
+                        .map(Portfolio::getPortfolioURL)
+                        .toList(), // Java 16+의 `toList()` 사용
+                studio.getProfileImage().getProfileURL()
+        );
     }
 }

@@ -188,3 +188,123 @@ INSERT INTO rating (studio_id, member_id, rating, created_at) VALUES (2, 7, 5, N
 INSERT INTO rating (studio_id, member_id, rating, created_at) VALUES (27, 8, 3, NOW());
 INSERT INTO rating (studio_id, member_id, rating, created_at) VALUES (31, 9, 4, NOW());
 INSERT INTO rating (studio_id, member_id, rating, created_at) VALUES (33, 10, 5, NOW());
+
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (1, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (1, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (2, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (2, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (3, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (3, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (4, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (4, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (5, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (5, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (6, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (6, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (6, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (7, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (7, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (7, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (8, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (8, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (9, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (9, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (10, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (10, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (11, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (11, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (12, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (12, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (13, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (13, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (14, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (14, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (15, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (15, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (16, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (16, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (17, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (17, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (18, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (18, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (19, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (19, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (20, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (20, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (21, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (21, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (22, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (22, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (23, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (24, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (24, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (24, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (25, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (25, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (26, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (26, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (27, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (28, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (28, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (29, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (30, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (30, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (30, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (31, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (31, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (32, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (32, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (32, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (32, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (33, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (33, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (34, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (35, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (35, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (35, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (35, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (36, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (37, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (37, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (38, "https://i.imgur.com/Uw5nNHQ.png");
+INSERT INTO portfolio (studio_id, portfolioURL) VALUES (38, "https://i.imgur.com/Uw5nNHQ.png");
+
+INSERT INTO profile (studio_id, profileURL) VALUES
+                                                     (1, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (2, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (3, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (4, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (5, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (6, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (7, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (8, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (9, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (10, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (11, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (12, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (13, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (14, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (15, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (16, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (17, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (18, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (19, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (20, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (21, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (22, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (23, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (24, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (25, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (26, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (27, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (28, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (29, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (30, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (31, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (32, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (33, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (34, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (35, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (36, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (37, "https://i.imgur.com/Uw5nNHQ.png"),
+                                                     (38, "https://i.imgur.com/Uw5nNHQ.png");

@@ -1,6 +1,5 @@
 package com.rocket.toucheese_be.domain.studio.controller;
 
-import com.rocket.toucheese_be.domain.studio.dto.StudioDto;
 import com.rocket.toucheese_be.domain.studio.dto.StudioListDto;
 import com.rocket.toucheese_be.domain.studio.entity.Studio;
 import com.rocket.toucheese_be.domain.studio.service.StudioService;
@@ -34,9 +33,11 @@ public class StudioController {
 
     @Operation(summary = "특정 스튜디오 조회", description = "스튜디오 ID를 통해 특정 스튜디오의 상세 정보를 평점과 함께 조회합니다.")
     @GetMapping("/{id}")
-    public Response<StudioDto> getStudio(@PathVariable("id") Long id) {
-        StudioDto studioDto = studioService.getStudio(id);
-        return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, studioDto);
+    public Response<StudioListDto> getStudio(@PathVariable("id") Long id) {
+        Studio studio = studioService.getStudio(id);
+        StudioListDto studioListDto = new StudioListDto(studio);
+//        if(studioListDto == null) return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, new StudioListDto(null, null, null, null));
+        return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, studioListDto);
     }
 
     @Operation(summary = "특정 컨셉의 스튜디오 조회", description = "컨셉 ID에 해당하는 스튜디오 리스트를 평점과 함께 조회합니다.")
@@ -50,6 +51,7 @@ public class StudioController {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize(), Sort.by(sorts));
 
         Page<Studio> studioPage = studioService.getStudioByConcept(conceptId, pageable);
+        // if(studioPage == null) return Response.of(ErrorCode.NOT_FOUND_EXCEPTION);
         Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
         return Response.of(SuccessCode.GET_STUDIO_LIST_BY_CONCEPT_SUCCESS, new PageDto<>(studioListDtoPage));
     }
