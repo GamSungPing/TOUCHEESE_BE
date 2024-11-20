@@ -36,6 +36,7 @@ public class StudioController {
     @GetMapping("/{id}")
     public Response<StudioDto> getStudio(@PathVariable("id") Long id) {
         StudioDto studioDto = studioService.getStudio(id);
+        if(studioDto == null) return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, new StudioDto(null, null,-1,null, null,null));
         return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, studioDto);
     }
 
@@ -50,6 +51,7 @@ public class StudioController {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize(), Sort.by(sorts));
 
         Page<Studio> studioPage = studioService.getStudioByConcept(conceptId, pageable);
+        // if(studioPage == null) return Response.of(ErrorCode.NOT_FOUND_EXCEPTION);
         Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
         return Response.of(SuccessCode.GET_STUDIO_LIST_BY_CONCEPT_SUCCESS, new PageDto<>(studioListDtoPage));
     }
