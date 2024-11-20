@@ -20,6 +20,7 @@ public class StudioService {
     // 스튜디오 단일 조회
     public StudioDto getStudio(Long id) {
         Studio studio = studioRepository.findById(id).orElse(null);
+        if(studio == null) return null;
         studio.setRating(studio.calculateAverageRating());
         return StudioDto.fromEntity(studio);
     }
@@ -45,7 +46,7 @@ public class StudioService {
         return studios;
     }
 
-    // 컨셉별 + 프로필 가격이 낮은 순으로 스튜디오 정렬
+    // 컨셉별 + 가격+낮은 순으로 스튜디오 정렬
     public Page<Studio> getStudioByConceptWithLowPrice(Long conceptId, String priceCategory, Pageable pageable) {
         Page<Studio> studios = studioRepository.findStudiosByConceptIdOrderByProfilePriceAsc(conceptId, priceCategory, pageable);
         studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
@@ -59,20 +60,21 @@ public class StudioService {
         return studios;
     }
 
-    // 컨셉별, 지역별, 가격 낮은 순으로 스튜디오 정렬
+    // 컨셉별, 지역별, 가격+낮은 순으로 스튜디오 정렬
     public Page<Studio> getStudiosByConceptAndRegionAndLowPrice(Long conceptId, List<Long> regionIds, String priceCategory, Pageable pageable) {
         Page<Studio> studios = studioRepository.findStudiosByConceptIdAndRegionIdsOrderByProfilePriceAsc(conceptId, regionIds, priceCategory, pageable);
         studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
         return studios;
     }
 
-    // 컨셉별, 평점 높은 순 -> 프로필 가격이 낮은 순으로 스튜디오 정렬
+    // 컨셉별, 평점 높은 순, 가격+낮은 순으로 스튜디오 정렬
     public Page<Studio> getStudioByConceptOrderByHighRatingAndLowPrice(Long conceptId, String priceCategory, Pageable pageable) {
         Page<Studio> studios = studioRepository.findStudiosByConceptIdOrderByAverageRatingDescAndProfilePriceAsc(conceptId, priceCategory, pageable);
         studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
         return studios;
     }
 
+    // 컨셉별, 지역별, 평점 높은 순, 가격+낮은 순으로 스튜디오 정렬
     public Page<Studio> getStudioByConceptAndRegionOrderByHighRatingAndLowPrice(Long conceptId, List<Long> regionIds, String priceCategory, Pageable pageable) {
         Page<Studio> studios = studioRepository.findStudiosByConceptIdAndRegionIdsOrderByAverageRatingDescAndProfilePriceAsc(conceptId, regionIds, priceCategory, pageable);
         studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));

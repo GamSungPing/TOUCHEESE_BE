@@ -18,7 +18,6 @@ public class Response<T> {
     @NonNull
     String msg;
 
-    @NonNull
     T data;
 
     // return data 있음
