@@ -1,6 +1,5 @@
 package com.rocket.toucheese_be.domain.studio.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +23,6 @@ public class Concept {
     private String name;
 
     @OneToMany(mappedBy = "concept", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    @JsonIgnore
     private List<StudioConcept> studioConceptList;
+
 }
