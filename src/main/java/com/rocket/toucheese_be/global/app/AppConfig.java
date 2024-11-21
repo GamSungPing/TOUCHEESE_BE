@@ -4,5 +4,5 @@ import lombok.Getter;
 
 public class AppConfig {
     @Getter
-    public static int basePageSize = 10;
+    public static int basePageSize = 100;
 }
