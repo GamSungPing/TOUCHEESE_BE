@@ -18,8 +18,6 @@ public class Portfolio {
 
     private String portfolioURL;
 
-    private String profileURL;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studio_id")
     private Studio studio;
