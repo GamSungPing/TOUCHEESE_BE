@@ -25,10 +25,10 @@ public class Studio {
 
     private String priceCategory;
 
-    @OneToMany(mappedBy = "studio")
+    @OneToMany(mappedBy = "studio", fetch = FetchType.LAZY)
     private List<StudioConcept> studioConceptList;
 
-    @OneToMany(mappedBy = "studio")
+    @OneToMany(mappedBy = "studio", fetch = FetchType.LAZY)
     private List<Rating> ratingList;
 
     @Setter
@@ -42,7 +42,7 @@ public class Studio {
     @OneToMany(mappedBy = "studio", fetch = FetchType.EAGER)
     private List<Portfolio> portfolios = new ArrayList<>();
 
-    @OneToOne(mappedBy = "studio")
+    @OneToOne(mappedBy = "studio", fetch = FetchType.LAZY)
     private Profile profileImage;
 
 
