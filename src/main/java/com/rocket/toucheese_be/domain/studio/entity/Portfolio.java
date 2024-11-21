@@ -16,7 +16,7 @@ public class Portfolio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String portfolioURL; // 이미지 URL을 저장 (S3 등에서 접근 가능한 경로)
+    private String portfolioURL;
 
     private String profileURL;
 

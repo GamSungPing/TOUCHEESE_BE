@@ -25,4 +25,10 @@ public record StudioListDto(
                 studio.getProfileImage().getProfileURL()
         );
     }
+
+    public StudioListDto() {
+        this(
+                null, null, -1, null, null, null
+        );
+    }
 }
