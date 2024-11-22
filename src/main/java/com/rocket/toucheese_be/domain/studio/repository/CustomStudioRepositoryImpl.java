@@ -18,10 +18,11 @@ import java.util.List;
 public class CustomStudioRepositoryImpl implements CustomStudioRepository {
     private final EntityManager entityManager;
 
-    public Page<Studio> findStudiosByFilters(Long conceptId, List<Long> regionIds, String priceCategory, Pageable pageable) {
+    public Page<Studio> findStudiosByFilters(Long conceptId, List<Long> regionIds, String priceCategory, boolean sortRating, Pageable pageable) {
         QStudio studio = QStudio.studio;
         QStudioConcept concept = QStudioConcept.studioConcept;
         QRegion region = QRegion.region;
+        QRating rating = QRating.rating1;
 
         // 조건 빌더 생성
         BooleanBuilder builder = new BooleanBuilder();
@@ -47,10 +48,19 @@ public class CustomStudioRepositoryImpl implements CustomStudioRepository {
                 .from(studio)
                 .leftJoin(studio.studioConceptList, concept)
                 .leftJoin(studio.region, region)
+                .leftJoin(studio.ratingList, rating)
                 .where(builder)
-                .groupBy(studio.id, studio.name)
-                .orderBy(studio.profilePrice.asc(), studio.id.asc())
-                .offset(pageable.getOffset())
+                .groupBy(studio.id, studio.name);
+
+        // 조건부 정렬
+        if (sortRating) {
+            query.orderBy(rating.rating.avg().desc(), studio.profilePrice.asc());
+        } else {
+            query.orderBy(studio.profilePrice.asc());
+        }
+
+        // 페이징 처리
+        query.offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
         // 결과 페칭

@@ -64,7 +64,7 @@ public class StudioController {
     ) {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize());
 
-        Page<Studio> studioPage = studioService.getStudioByConceptWithHighRating(conceptId, pageable);
+        Page<Studio> studioPage = studioService.getStudiosByFilters(conceptId, null, null, true, pageable);
         Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
         return Response.of(SuccessCode.GET_STUDIO_RATING_SUCCESS, new PageDto<>(studioListDtoPage));
     }
@@ -78,7 +78,7 @@ public class StudioController {
     ) {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize());
 
-        Page<Studio> studioPage = studioService.getStudiosByFilters(conceptId, regionIds, null, pageable);
+        Page<Studio> studioPage = studioService.getStudiosByFilters(conceptId, regionIds, null, false, pageable);
         Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
         return Response.of(SuccessCode.GET_STUDIO_LIST_BY_CONCEPT_AND_REGION_SUCCESS, new PageDto<>(studioListDtoPage));
     }
@@ -92,7 +92,7 @@ public class StudioController {
     ) {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize());
 
-        Page<Studio> studioPage = studioService.getStudiosByFilters(conceptId, null, priceCategory, pageable);
+        Page<Studio> studioPage = studioService.getStudiosByFilters(conceptId, null, priceCategory, false, pageable);
         Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
         return Response.of(SuccessCode.GET_STUDIO_PRICING_SUCCESS, new PageDto<>(studioListDtoPage));
     }
@@ -106,7 +106,7 @@ public class StudioController {
     ) {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize());
 
-        Page<Studio> studioPage = studioService.getStudiosByConceptAndRegionAndRating(conceptId, regionIds, pageable);
+        Page<Studio> studioPage = studioService.getStudiosByFilters(conceptId, regionIds, null, true, pageable);
         Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
         return Response.of(SuccessCode.GET_STUDIO_REGION_RATING_SUCCESS, new PageDto<>(studioListDtoPage));
     }
@@ -121,7 +121,7 @@ public class StudioController {
     ) {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize());
 
-        Page<Studio> studioPage = studioService.getStudiosByFilters(conceptId, regionIds, priceCategory, pageable);
+        Page<Studio> studioPage = studioService.getStudiosByFilters(conceptId, regionIds, priceCategory, false, pageable);
         Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
         return Response.of(SuccessCode.GET_STUDIO_REGION_PRICING_SUCCESS, new PageDto<>(studioListDtoPage));
     }
@@ -135,7 +135,7 @@ public class StudioController {
     ) {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize());
 
-        Page<Studio> studioPage = studioService.getStudioByConceptOrderByHighRatingAndLowPrice(conceptId, priceCategory, pageable);
+        Page<Studio> studioPage = studioService.getStudiosByFilters(conceptId, null, priceCategory, true, pageable);
         Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
         return Response.of(SuccessCode.GET_STUDIO_RATING_PRICING_SUCCESS, new PageDto<>(studioListDtoPage));
     }
@@ -150,7 +150,7 @@ public class StudioController {
     ) {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getBasePageSize());
 
-        Page<Studio> studioPage = studioService.getStudioByConceptAndRegionOrderByHighRatingAndLowPrice(conceptId, regionIds, priceCategory, pageable);
+        Page<Studio> studioPage = studioService.getStudiosByFilters(conceptId, regionIds, priceCategory, true, pageable);
         Page<StudioListDto> studioListDtoPage = studioPage.map(this::studioToDto);
         return Response.of(SuccessCode.GET_STUDIO_REGION_RATING_PRICING_SUCCESS, new PageDto<>(studioListDtoPage));
     }
