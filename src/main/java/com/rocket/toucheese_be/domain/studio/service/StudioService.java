@@ -1,7 +1,6 @@
 package com.rocket.toucheese_be.domain.studio.service;
 
 import com.rocket.toucheese_be.domain.studio.entity.Studio;
-import com.rocket.toucheese_be.domain.studio.repository.CustomStudioRepositoryImpl;
 import com.rocket.toucheese_be.domain.studio.repository.StudioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,7 +15,6 @@ import java.util.List;
 @Transactional
 public class StudioService {
     private final StudioRepository studioRepository;
-    private final CustomStudioRepositoryImpl customStudioRepository;
 
     // 스튜디오 단일 조회
     public Studio getStudio(Long id) {
@@ -35,7 +33,7 @@ public class StudioService {
 
     // 컨셉+지역+가격+평점 조합 필터링 및 정렬 (QueryDSL 적용 동적 쿼리 생성)
     public Page<Studio> getStudiosByFilters(Long conceptId, List<Long> regionIds, String priceCategory, boolean sortRating, Pageable pageable) {
-        Page<Studio> studios = customStudioRepository.findStudiosByFilters(conceptId, regionIds, priceCategory, sortRating, pageable);
+        Page<Studio> studios = studioRepository.findStudiosByFilters(conceptId, regionIds, priceCategory, sortRating, pageable);
         studios.forEach(studio -> studio.setRating(studio.calculateAverageRating()));
         return studios;
     }
