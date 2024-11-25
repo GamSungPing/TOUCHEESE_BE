@@ -14,6 +14,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Portfolio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "portfolio_id")
     private Long id;
 
     private String portfolioURL;

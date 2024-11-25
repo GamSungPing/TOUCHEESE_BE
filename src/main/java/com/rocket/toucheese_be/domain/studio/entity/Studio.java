@@ -17,6 +17,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Studio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "studio_id")
     private Long id;
 
     private String name;
@@ -28,8 +29,8 @@ public class Studio {
     @OneToMany(mappedBy = "studio", fetch = FetchType.LAZY)
     private List<StudioConcept> studioConceptList;
 
-    @OneToMany(mappedBy = "studio", fetch = FetchType.LAZY)
-    private List<Rating> ratingList;
+    @OneToMany(mappedBy = "studio", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Rating> ratingList = new ArrayList<>();
 
     @Setter
     @Transient // 데이터베이스에 저장하지 않음
@@ -39,10 +40,10 @@ public class Studio {
     @JoinColumn(name = "region_id")
     private Region region;
 
-    @OneToMany(mappedBy = "studio", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "studio", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Portfolio> portfolios = new ArrayList<>();
 
-    @OneToOne(mappedBy = "studio", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "studio", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Profile profileImage;
 
 
