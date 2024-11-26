@@ -26,10 +26,11 @@ public class Studio {
 
     private String priceCategory;
 
-    @OneToMany(mappedBy = "studio", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "studio")
     private List<StudioConcept> studioConceptList;
 
-    @OneToMany(mappedBy = "studio", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rating> ratingList = new ArrayList<>();
 
     @Setter
@@ -40,6 +41,7 @@ public class Studio {
     @JoinColumn(name = "region_id")
     private Region region;
 
+    @Builder.Default
     @OneToMany(mappedBy = "studio", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Portfolio> portfolios = new ArrayList<>();
 

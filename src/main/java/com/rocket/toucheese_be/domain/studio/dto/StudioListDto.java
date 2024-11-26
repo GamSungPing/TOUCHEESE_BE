@@ -1,7 +1,9 @@
 package com.rocket.toucheese_be.domain.studio.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import com.rocket.toucheese_be.domain.studio.entity.Portfolio;
 import com.rocket.toucheese_be.domain.studio.entity.Studio;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 
