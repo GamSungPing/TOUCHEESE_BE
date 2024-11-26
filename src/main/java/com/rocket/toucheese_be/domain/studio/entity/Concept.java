@@ -26,4 +26,7 @@ public class Concept {
     @OneToMany(mappedBy = "concept", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<StudioConcept> studioConceptList;
 
+    public String getMainUrl(Long id) {
+        return ConceptMainUrl.findById(id).getMainUrl();
+    }
 }
