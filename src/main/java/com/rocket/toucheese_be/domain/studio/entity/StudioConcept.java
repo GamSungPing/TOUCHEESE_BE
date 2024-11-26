@@ -1,6 +1,5 @@
 package com.rocket.toucheese_be.domain.studio.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,6 +14,7 @@ public class StudioConcept {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "studio_concept_id")
     private Long id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

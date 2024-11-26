@@ -17,10 +17,11 @@ public class Region {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "region_id")
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "region", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Studio> studios;
 }
