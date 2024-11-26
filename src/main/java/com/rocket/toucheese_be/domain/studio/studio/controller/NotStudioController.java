@@ -23,16 +23,16 @@ public class NotStudioController {
 
     private final NotStudioService service;
 
-    @Operation(summary = "전체 컨셉 조회", description = "전체 컨셉의 목록을 조회합니다.")
-    @GetMapping("concepts")
+    @Operation(summary = "컨셉 목록 조회", description = "컨셉 목록을 조회합니다.")
+    @GetMapping("/concepts")
     public Response<List<ConceptListDto>> getAllConcept() {
         List<Concept> conceptList = service.getAllConcept();
         List<ConceptListDto> conceptDtoList = ConceptListDto.fromConceptList(conceptList);
         return Response.of(SuccessCode.GET_CONCEPT_LIST_SUCCESS, conceptDtoList);
     }
 
-    @Operation(summary = "특정 컨셉 조회", description = "컨셉 ID를 통해 특정 컨셉의 정보를 조회합니다.")
-    @GetMapping("concept/{id}")
+    @Operation(summary = "특정 컨셉 조회", description = "컨셉 Id를 통해 해당 컨셉을 조회합니다.")
+    @GetMapping("/concept/{id}")
     public Response<ConceptListDto> getConcept(@PathVariable("id") Long id) {
         Concept concept = service.getConceptById(id);
         ConceptListDto conceptDtoList = new ConceptListDto(concept);
