@@ -1,6 +1,6 @@
-package com.rocket.toucheese_be.domain.studio.repository;
+package com.rocket.toucheese_be.domain.studio.studio.repository;
 
-import com.rocket.toucheese_be.domain.studio.entity.Studio;
+import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

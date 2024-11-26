@@ -1,4 +1,4 @@
-package com.rocket.toucheese_be.domain.studio.entity;
+package com.rocket.toucheese_be.domain.studio.studio.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

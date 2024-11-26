@@ -1,4 +1,4 @@
-package com.rocket.toucheese_be.domain.studio.dto;
+package com.rocket.toucheese_be.domain.studio.studio.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;

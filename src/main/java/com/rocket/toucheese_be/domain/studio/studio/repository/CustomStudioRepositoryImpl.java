@@ -1,8 +1,9 @@
-package com.rocket.toucheese_be.domain.studio.repository;
+package com.rocket.toucheese_be.domain.studio.studio.repository;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
-import com.rocket.toucheese_be.domain.studio.entity.*;
+import com.rocket.toucheese_be.domain.studio.studio.entity.*;
+import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -43,7 +44,7 @@ public class CustomStudioRepositoryImpl implements CustomStudioRepository {
             builder.and(studio.priceCategory.eq(priceCategory));
         }
 
-//         Quey 생성
+        // Query 생성
         JPAQuery<Studio> query = new JPAQuery<>(entityManager);
         query.select(studio)
                 .from(studio)

@@ -1,7 +1,7 @@
-package com.rocket.toucheese_be.domain.studio.service;
+package com.rocket.toucheese_be.domain.studio.studio.service;
 
-import com.rocket.toucheese_be.domain.studio.entity.Studio;
-import com.rocket.toucheese_be.domain.studio.repository.StudioRepository;
+import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
+import com.rocket.toucheese_be.domain.studio.studio.repository.StudioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,4 +1,4 @@
-package com.rocket.toucheese_be.domain.studio.entity;
+package com.rocket.toucheese_be.domain.studio.studio.entity;
 
 import com.rocket.toucheese_be.domain.member.entity.Member;
 import jakarta.persistence.*;

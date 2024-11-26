@@ -1,6 +1,6 @@
-package com.rocket.toucheese_be.domain.studio.dto;
+package com.rocket.toucheese_be.domain.studio.studio.dto;
 
-import com.rocket.toucheese_be.domain.studio.entity.Concept;
+import com.rocket.toucheese_be.domain.studio.studio.entity.Concept;
 
 import java.util.Collections;
 import java.util.List;
