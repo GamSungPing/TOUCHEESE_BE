@@ -18,11 +18,12 @@ import static lombok.AccessLevel.PROTECTED;
 public class Concept {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "concept_id")
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "concept", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "concept", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<StudioConcept> studioConceptList;
 
 }

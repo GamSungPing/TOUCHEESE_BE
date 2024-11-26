@@ -4,6 +4,13 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.6'
 }
 
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+
 group = 'com.rocket'
 version = '0.0.1-SNAPSHOT'
 
@@ -19,9 +26,10 @@ repositories {
 
 dependencies {
     // Lombok
-    annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
-
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
     // devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
@@ -43,10 +51,13 @@ dependencies {
 
     // JPA + QueryDSL + jakarta(JSP)
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-//    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
-//    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-//    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    //Querydsl 추가
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
 
     // test
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -55,4 +66,7 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+clean {
+    delete file('src/main/generated')
 }
