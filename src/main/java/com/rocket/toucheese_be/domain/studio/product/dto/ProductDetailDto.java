@@ -1,19 +1,25 @@
 package com.rocket.toucheese_be.domain.studio.product.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rocket.toucheese_be.domain.studio.product.entity.Product;
 import lombok.Builder;
 
+import java.util.List;
+
 @Builder
-public record ProductDto (
-        Long id,
+public record ProductDetailDto(
+        @JsonIgnore Long id,
         String name,
         String description,
         String imageString,
         int reviewCnt,
         int price,
-        boolean isGroup
+        boolean isGroup,
+        int basePeopleCnt,
+        int addPeoplePrice,
+        List<String> productOptions
 ) {
-    public ProductDto(Product product) {
+    public ProductDetailDto(Product product) {
         this(
                 product.getId(),
                 product.getProductName(),
@@ -21,7 +27,10 @@ public record ProductDto (
                 product.getProductImage(),
                 product.getReviewCnt(),
                 product.getProductPrice(),
-                product.isGroupFlag()
+                product.isGroupFlag(),
+                product.getBasePeopleCnt(),
+                product.getAddPeoplePrice(),
+                List.of(product.getProductOptions().split("&"))
         );
     }
 }
