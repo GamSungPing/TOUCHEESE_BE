@@ -1,6 +1,8 @@
 package com.rocket.toucheese_be.domain.studio.studio.entity;
 
 import com.rocket.toucheese_be.domain.reservation.entity.Reservation;
+import com.rocket.toucheese_be.domain.studio.review.entity.Reply;
+import com.rocket.toucheese_be.domain.studio.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,7 +39,7 @@ public class Studio {
 
     @Builder.Default
     @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Rating> ratingList = new ArrayList<>();
+    private List<Review> reviewList = new ArrayList<>();
 
     @Setter
     @Transient // 데이터베이스에 저장하지 않음
@@ -64,13 +66,13 @@ public class Studio {
     private List<Reservation> reservations = new ArrayList<>();
 
     public Double calculateAverageRating() {
-        if (ratingList == null || ratingList.isEmpty()) {
+        if (reviewList == null || reviewList.isEmpty()) {
             return 0.0;
         }
-        double sum = ratingList.stream()
-                .mapToInt(Rating::getRating)
+        double sum = reviewList.stream()
+                .mapToInt(Review::getRating)
                 .sum();
-        return Math.round((sum / ratingList.size()) * 10) / 10.0; // 소수점 첫째 자리까지 반올림
+        return Math.round((sum / reviewList.size()) * 10) / 10.0; // 소수점 첫째 자리까지 반올림
     }
 
     @PrePersist

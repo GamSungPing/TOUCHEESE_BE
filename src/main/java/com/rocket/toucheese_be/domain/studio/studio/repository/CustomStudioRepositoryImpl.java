@@ -2,6 +2,7 @@ package com.rocket.toucheese_be.domain.studio.studio.repository;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
+import com.rocket.toucheese_be.domain.studio.review.entity.QReview;
 import com.rocket.toucheese_be.domain.studio.studio.entity.*;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import jakarta.persistence.EntityManager;
@@ -24,7 +25,7 @@ public class CustomStudioRepositoryImpl implements CustomStudioRepository {
         QStudio studio = QStudio.studio;
         QStudioConcept concept = QStudioConcept.studioConcept;
         QRegion region = QRegion.region;
-        QRating rating = QRating.rating1;
+        QReview review = QReview.review;
 
         // 조건 빌더 생성
         BooleanBuilder builder = new BooleanBuilder();
@@ -50,13 +51,13 @@ public class CustomStudioRepositoryImpl implements CustomStudioRepository {
                 .from(studio)
                 .join(studio.studioConceptList, concept)
                 .leftJoin(studio.region, region)
-                .leftJoin(studio.ratingList, rating)
+                .leftJoin(studio.reviewList, review)
                 .where(builder)
                 .groupBy(studio.id, studio.name);
 
         // 조건부 정렬
         if (sortRating) {
-            query.orderBy(rating.rating.avg().desc(), studio.profilePrice.asc());
+            query.orderBy(review.rating.avg().desc(), studio.profilePrice.asc());
         } else {
             query.orderBy(studio.profilePrice.asc());
         }

@@ -1,12 +1,10 @@
 package com.rocket.toucheese_be.domain.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rocket.toucheese_be.domain.reservation.entity.Reservation;
-import com.rocket.toucheese_be.domain.studio.studio.entity.Rating;
+import com.rocket.toucheese_be.domain.studio.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
@@ -28,11 +26,10 @@ public class Member {
 
     @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Rating> rating;
+    private List<Review> review;
 
     @Column(length = 10)
     private String nickname;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Reservation> reservations = new ArrayList<>();
+    private String profileImageUrl;
 }
