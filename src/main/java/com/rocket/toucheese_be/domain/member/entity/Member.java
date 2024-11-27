@@ -1,7 +1,7 @@
 package com.rocket.toucheese_be.domain.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rocket.toucheese_be.domain.studio.entity.Rating;
+import com.rocket.toucheese_be.domain.studio.studio.entity.Rating;
 import jakarta.persistence.*;
 import lombok.*;
 
