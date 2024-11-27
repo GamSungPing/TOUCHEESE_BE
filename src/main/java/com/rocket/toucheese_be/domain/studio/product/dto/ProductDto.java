@@ -13,13 +13,13 @@ public record ProductDto (
         int price,
         boolean isGroup
 ) {
-    public ProductDto(Product product) {
+    public ProductDto(Product product, int reviewCnt) {
         this(
                 product.getId(),
                 product.getProductName(),
                 product.getDescription(),
                 product.getProductImage(),
-                product.getReviewCnt(),
+                reviewCnt,
                 product.getProductPrice(),
                 product.isGroupFlag()
         );

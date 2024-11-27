@@ -19,13 +19,3 @@ public record ReplyDto (
         );
     }
 }
-
-/*
-*
-struct Reply {
-    let id: String
-    let studioName: String
-    let dateString: String
-    let content: String
-}
-* */

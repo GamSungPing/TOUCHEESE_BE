@@ -34,32 +34,17 @@ public class Product {
 
     private int productPrice;
 
-    @Setter
-    private int reviewCnt;
-
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviewList = new ArrayList<>();
 
     private boolean groupFlag;
 
-    private int basePeopleCnt;
+    private int basePeopleCnt = 1;
 
-    private int addPeoplePrice;
+    private int addPeoplePrice = 0;
 
     private String productOptions;
     // productOptions -> String 같은 기본 객체는 List 필드 저장 불가
     // "1:name:price&2:name:price&3:name:price" 이런 식으로 저장, dto 보낼 땐 & 기준 split 하여 list 전송
     // 앱 단에서 `:` 기준 split 하여 사용 예정
-
-    // 리뷰 추가 시 reviewCnt 증가
-    public void reviewCntUp(Review review) {
-        this.reviewList.add(review);
-        this.reviewCnt = this.reviewList.size();
-    }
-
-    // 리뷰 삭제 시 reviewCnt 감소
-    public void reviewCntDown(Review review) {
-        this.reviewList.remove(review);
-        this.reviewCnt = this.reviewList.size();
-    }
 }

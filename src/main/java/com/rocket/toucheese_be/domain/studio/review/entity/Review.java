@@ -1,6 +1,8 @@
 package com.rocket.toucheese_be.domain.studio.review.entity;
 
+
 import com.rocket.toucheese_be.domain.member.entity.Member;
+import com.rocket.toucheese_be.domain.studio.product.entity.Product;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,10 +18,11 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor(access = PROTECTED)
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-@ToString(callSuper = false)
+@ToString
 public class Review {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "review_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "rating_id")
     private Long id;
 
     private String content;
@@ -32,9 +35,9 @@ public class Review {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "product_id", nullable = false)
-//    private Product product;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
     @Setter
     private int rating; // 평점 필드 추가
@@ -47,10 +50,8 @@ public class Review {
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<Photo> photos = new ArrayList<>();
 
-
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
     }
-
 }
