@@ -19,11 +19,3 @@ public record ReviewDto (
         );
     }
 }
-
-/*
-*
-struct Review {
-    let id: String
-    let imageString: String
-}
-* */
