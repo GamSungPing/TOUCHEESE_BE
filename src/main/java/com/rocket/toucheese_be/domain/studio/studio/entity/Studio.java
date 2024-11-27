@@ -1,9 +1,13 @@
 package com.rocket.toucheese_be.domain.studio.studio.entity;
 
+import com.rocket.toucheese_be.domain.reservation.entity.Reservation;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
@@ -21,6 +25,8 @@ public class Studio {
     private Long id;
 
     private String name;
+
+    private String photographer;
 
     private int profilePrice;
 
@@ -41,6 +47,12 @@ public class Studio {
     @JoinColumn(name = "region_id")
     private Region region;
 
+    @Column
+    private LocalTime openingTime = LocalTime.of(10, 0); // 영업 시작 시간
+
+    @Column
+    private LocalTime closingTime = LocalTime.of(20, 0); // 영업 종료 시간
+
     @Builder.Default
     @OneToMany(mappedBy = "studio", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Portfolio> portfolios = new ArrayList<>();
@@ -48,6 +60,8 @@ public class Studio {
     @OneToOne(mappedBy = "studio", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Profile profileImage;
 
+    @OneToMany(mappedBy = "studio", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Reservation> reservations = new ArrayList<>();
 
     public Double calculateAverageRating() {
         if (ratingList == null || ratingList.isEmpty()) {
@@ -74,5 +88,39 @@ public class Studio {
             return PriceCategory.HIGH.getPriceName();
         }
     }
+
+    // 예약 가능한 시간 조회 메서드
+    public List<LocalTime> getAvailableTimeSlots(LocalDate date, List<Reservation> reservations) {
+        List<LocalTime> availableSlots = new ArrayList<>();
+
+        if (reservations == null) {
+            return availableSlots; // 예약 목록이 없으면 빈 리스트 반환
+        }
+
+        // 예약 목록을 예약 시간 기준으로 정렬
+        reservations.sort(Comparator.comparing(Reservation::getStartTime));
+
+        LocalTime currentTime = this.openingTime;
+
+        while (currentTime.isBefore(this.closingTime)) {
+            LocalTime nextSlot = currentTime.plusHours(1); // 1시간 단위로 확인
+
+            // 예약이 있는지 확인
+            LocalTime finalCurrentTime = currentTime;
+            boolean isSlotBooked = reservations.stream()
+                    .anyMatch(reservation ->
+                            reservation.getReservationDate().equals(date) &&
+                                    !(reservation.getEndTime().isBefore(finalCurrentTime) || reservation.getStartTime().isAfter(nextSlot)));
+
+            if (!isSlotBooked) {
+                availableSlots.add(currentTime);
+            }
+            currentTime = nextSlot;
+        }
+
+        return availableSlots;
+    }
+
+
 
 }
