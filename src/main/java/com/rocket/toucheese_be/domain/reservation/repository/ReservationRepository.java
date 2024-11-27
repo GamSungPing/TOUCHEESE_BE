@@ -2,7 +2,7 @@ package com.rocket.toucheese_be.domain.reservation.repository;
 
 import com.rocket.toucheese_be.domain.reservation.entity.Reservation;
 import com.rocket.toucheese_be.domain.reservation.entity.ReservationStatus;
-import com.rocket.toucheese_be.domain.studio.entity.Studio;
+import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

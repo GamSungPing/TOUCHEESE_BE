@@ -1,7 +1,7 @@
 package com.rocket.toucheese_be.domain.reservation.entity;
 
 import com.rocket.toucheese_be.domain.member.entity.Member;
-import com.rocket.toucheese_be.domain.studio.entity.Studio;
+import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import jakarta.persistence.*;
 import lombok.*;
 
