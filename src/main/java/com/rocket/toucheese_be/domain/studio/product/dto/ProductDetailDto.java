@@ -10,9 +10,6 @@ import java.util.List;
 public record ProductDetailDto(
         @JsonIgnore Long id,
         String name,
-        String description,
-        String imageString,
-        int reviewCnt,
         int price,
         boolean isGroup,
         int basePeopleCnt,
@@ -23,9 +20,6 @@ public record ProductDetailDto(
         this(
                 product.getId(),
                 product.getProductName(),
-                product.getDescription(),
-                product.getProductImage(),
-                product.getReviewCnt(),
                 product.getProductPrice(),
                 product.isGroupFlag(),
                 product.getBasePeopleCnt(),
