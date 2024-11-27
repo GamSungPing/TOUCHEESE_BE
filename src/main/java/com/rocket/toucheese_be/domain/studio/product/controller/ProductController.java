@@ -33,7 +33,7 @@ public class ProductController {
     public Response<List<ProductListDto>> getProductList(@PathVariable("studioId") Long studioId) {
         List<Product> productList = productService.getProductListByStudioId(studioId);
         List<ProductListDto> productListDto = toProductListDto(productList);
-        return Response.of(SuccessCode.GET_STUDIO_LIST_SUCCESS, productListDto);
+        return Response.of(SuccessCode.GET_PRODUCT_LIST_BY_STUDIO_SUCCESS, productListDto);
     }
 
 }

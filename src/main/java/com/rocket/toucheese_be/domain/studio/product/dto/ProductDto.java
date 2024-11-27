@@ -6,10 +6,18 @@ import lombok.Builder;
 
 @Builder
 public record ProductDto (
-        @JsonIgnore Long id
+        @JsonIgnore Long id,
+        boolean isGroup,
+        int baseCnt,
+        int addPrice
 ) {
     public ProductDto(Product product) {
-        this(product.getId());
+        this(
+                product.getId(),
+                product.isGroup(),
+                product.getBaseCnt(),
+                product.getAddPrice()
+        );
     }
 }
 

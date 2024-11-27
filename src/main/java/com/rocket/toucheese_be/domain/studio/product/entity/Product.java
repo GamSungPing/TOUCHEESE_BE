@@ -18,4 +18,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     Long id;
+
+    boolean isGroup;
+    int baseCnt;
+    int addPrice;
 }
