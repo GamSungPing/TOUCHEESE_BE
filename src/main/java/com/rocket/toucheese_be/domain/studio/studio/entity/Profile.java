@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @ToString(callSuper = false)
-public class Profile {
+public class Profile { // TODO: 스튜디오 안에 필드로 넣을 것
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "profile_id")
