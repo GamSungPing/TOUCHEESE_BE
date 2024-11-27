@@ -1,7 +1,6 @@
 package com.rocket.toucheese_be.domain.studio.studio.entity;
 
 import com.rocket.toucheese_be.domain.reservation.entity.Reservation;
-import com.rocket.toucheese_be.domain.studio.review.entity.Reply;
 import com.rocket.toucheese_be.domain.studio.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.*;
@@ -48,6 +47,10 @@ public class Studio {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
     private Region region;
+
+    private String address;
+
+    private String notice;
 
     @Column
     private LocalTime openingTime = LocalTime.of(10, 0); // 영업 시작 시간

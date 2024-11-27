@@ -1,35 +1,36 @@
 package com.rocket.toucheese_be.domain.studio.studio.dto;
 
-//public record StudioDetailDto(
-//        Long studioId,
-//        String name,
-//        Double rating,
-//        List<ProductDto> products
-//) {
-//    public StudioDetailDto(Studio studio, List<Product> products) {
-//        this(
-//                studio.getId(),
-//                studio.getName(),
-//                studio.getRating(),
-//                products.stream()
-//                        .map(ProductDto::new)
-//                        .toList()
-//        );
-//    }
-//
-//}
+import com.rocket.toucheese_be.domain.studio.product.dto.ProductDto;
+import com.rocket.toucheese_be.domain.studio.review.dto.ReviewDto;
+import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 
-/*
-*
-struct StudioDetail {
-    let detailImageStrings: [String]
+import java.util.List;
 
-    let reviewCount: Int
-    let businessHours: String
-    let address: String
+public record StudioDetailDto(
+        Long studioId,
+        String name,
+        String detailImageStrings,
+        Double rating,
+        int reviewCount,
+        String businessHours,
+        String address,
+        String notice,
+        List<ProductDto> products,
+        List<ReviewDto> reviews
+) {
+    public StudioDetailDto(Studio studio, List<ProductDto> products, List<ReviewDto> reviews) {
+        this(
+                studio.getId(),
+                studio.getName(),
+                studio.getProfileImage().getProfileURL(),
+                studio.getRating(),
+                (int) studio.getReviewList().size(),
+                studio.getOpeningTime() + "~" + studio.getClosingTime(),
+                studio.getAddress(),
+                studio.getNotice(),
+                products,
+                reviews // TODO: 수정 고려 - studio.getReviewList 활용 DTO 전환을 여기서 or 생성할 때
+        );
+    }
 
-    let notice: String?
-    let products: [Product]
-    var reviews: [Review]?
 }
-* */
