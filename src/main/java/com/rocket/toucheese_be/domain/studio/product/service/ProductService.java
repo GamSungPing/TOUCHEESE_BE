@@ -1,5 +1,6 @@
 package com.rocket.toucheese_be.domain.studio.product.service;
 
+import com.rocket.toucheese_be.domain.studio.product.dto.ProductDetailDto;
 import com.rocket.toucheese_be.domain.studio.product.dto.ProductDto;
 import com.rocket.toucheese_be.domain.studio.product.entity.Product;
 import com.rocket.toucheese_be.domain.studio.product.repository.ProductRepository;
@@ -26,11 +27,9 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public ProductDto getProductDetail(Long id) {
+    public ProductDetailDto getProductDetail(Long id) {
         Product product = productRepository.findById(id).orElse(null);
-        if(product == null) return new ProductDto();
-
-        int reviewCount = productRepository.countReviewsByProductId(id);
-        return new ProductDto(product, reviewCount);
+        if(product == null) return new ProductDetailDto();
+        return new ProductDetailDto(product);
     }
 }

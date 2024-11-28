@@ -1,5 +1,6 @@
 package com.rocket.toucheese_be.domain.studio.product.controller;
 
+import com.rocket.toucheese_be.domain.studio.product.dto.ProductDetailDto;
 import com.rocket.toucheese_be.domain.studio.product.dto.ProductDto;
 import com.rocket.toucheese_be.domain.studio.product.service.ProductService;
 import com.rocket.toucheese_be.global.response.Response;
@@ -30,8 +31,8 @@ public class ProductController {
 
     @Operation(summary = "특정 상품 목록 조회", description = "프로덕트 ID를 통해 특정 프로덕트의 옵션을 조회합니다.")
     @GetMapping("/{id}")
-    public Response<ProductDto> getProductDetail(@PathVariable("id") Long id) {
-        ProductDto productDto = productService.getProductDetail(id);
-        return Response.of(SuccessCode.GET_PRODUCT_DETAIL_SUCCESS, productDto);
+    public Response<ProductDetailDto> getProductDetail(@PathVariable("id") Long id) {
+        ProductDetailDto productDetailDto = productService.getProductDetail(id);
+        return Response.of(SuccessCode.GET_PRODUCT_DETAIL_SUCCESS, productDetailDto);
     }
 }
