@@ -1,6 +1,7 @@
 package com.rocket.toucheese_be.domain.studio.studio.entity;
 
 import com.rocket.toucheese_be.domain.reservation.entity.Reservation;
+import com.rocket.toucheese_be.domain.studio.product.entity.Product;
 import com.rocket.toucheese_be.domain.studio.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,7 +19,7 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor(access = PROTECTED)
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-@ToString(callSuper = false)
+@ToString
 public class Studio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +40,9 @@ public class Studio {
     @Builder.Default
     @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviewList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> productList = new ArrayList<>();
 
     @Setter
     @Transient // 데이터베이스에 저장하지 않음
