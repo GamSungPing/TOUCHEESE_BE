@@ -3,6 +3,7 @@ package com.rocket.toucheese_be.domain.studio.studio.dto;
 import com.rocket.toucheese_be.domain.studio.product.dto.ProductDto;
 import com.rocket.toucheese_be.domain.studio.review.dto.ReviewDto;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -16,9 +17,9 @@ public record StudioDetailDto(
         String address,
         String notice,
         List<ProductDto> products,
-        List<ReviewDto> reviews
+        Page<ReviewDto> reviews
 ) {
-    public StudioDetailDto(Studio studio, List<ProductDto> products, List<ReviewDto> reviews) {
+    public StudioDetailDto(Studio studio, List<ProductDto> products, Page<ReviewDto> reviews) {
         this(
                 studio.getId(),
                 studio.getName(),
@@ -29,7 +30,7 @@ public record StudioDetailDto(
                 studio.getAddress(),
                 studio.getNotice(),
                 products,
-                reviews // TODO: 수정 고려 - studio.getReviewList 활용 DTO 전환을 여기서 or 생성할 때
+                reviews // TODO: 주윤님 코드랑 연결
         );
     }
 
