@@ -21,8 +21,16 @@ public class ProductService {
 
         return productList.stream()
                 .map(product -> {
-                    int reviewCount = productRepository.countReviewsByProductId(product.getId()); // 리뷰 개수 조회
+                    int reviewCount = productRepository.countReviewsByProductId(product.getId());
                     return new ProductDto(product, reviewCount);})
                 .collect(Collectors.toList());
+    }
+
+    public ProductDto getProductDetail(Long id) {
+        Product product = productRepository.findById(id).orElse(null);
+        if(product == null) return new ProductDto();
+
+        int reviewCount = productRepository.countReviewsByProductId(id);
+        return new ProductDto(product, reviewCount);
     }
 }

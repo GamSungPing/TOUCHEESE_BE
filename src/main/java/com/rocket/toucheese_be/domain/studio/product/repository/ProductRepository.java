@@ -7,10 +7,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findProductsByStudioId(@Param("studioId") Long studioId);
+
+    Optional<Product> findById(@Param("id") Long id);
 
     @Query("SELECT COUNT(r) FROM Review r WHERE r.product.id = :productId")
     int countReviewsByProductId(@Param("productId") Long productId);
