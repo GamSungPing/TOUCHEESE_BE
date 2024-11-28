@@ -12,7 +12,7 @@ public record StudioDetailDto(
         String detailImageStrings,
         Double rating,
         int reviewCount,
-        String businessHours,
+        String businessHours, // TODO: 앱 단이랑 합의 필요
         String address,
         String notice,
         List<ProductDto> products,
@@ -24,7 +24,7 @@ public record StudioDetailDto(
                 studio.getName(),
                 studio.getProfileImage().getProfileURL(),
                 studio.getRating(),
-                (int) studio.getReviewList().size(),
+                studio.getReviewList().size(),
                 studio.getOpeningTime() + "~" + studio.getClosingTime(),
                 studio.getAddress(),
                 studio.getNotice(),
