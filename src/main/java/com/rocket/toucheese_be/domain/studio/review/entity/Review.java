@@ -22,7 +22,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rating_id")
+    @Column(name = "review_id")
     private Long id;
 
     private String content;

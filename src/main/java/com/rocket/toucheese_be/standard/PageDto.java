@@ -1,5 +1,6 @@
 package com.rocket.toucheese_be.standard;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
 import org.springframework.lang.NonNull;
@@ -8,9 +9,11 @@ import java.util.List;
 
 @Getter
 public class PageDto<T> {
+    @JsonIgnore
     @NonNull
     private long totalElementsCount;
 
+    @JsonIgnore
     @NonNull
     private long pageElementsCount;
 

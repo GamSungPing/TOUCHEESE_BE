@@ -2,6 +2,8 @@ package com.rocket.toucheese_be.domain.studio.studio.controller;
 
 import com.rocket.toucheese_be.domain.studio.product.dto.ProductDto;
 import com.rocket.toucheese_be.domain.studio.product.service.ProductService;
+import com.rocket.toucheese_be.domain.studio.review.dto.ReviewDto;
+import com.rocket.toucheese_be.domain.studio.review.service.ReviewService;
 import com.rocket.toucheese_be.domain.studio.studio.dto.StudioDetailDto;
 import com.rocket.toucheese_be.domain.studio.studio.dto.StudioListDto;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
@@ -29,6 +31,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class StudioController {
     private final StudioService studioService;
     private final ProductService productService;
+    private final ReviewService reviewService;
 
     // studio -> studioListDto
     private StudioListDto studioToDto(Studio studio) {
@@ -47,10 +50,15 @@ public class StudioController {
 
     @Operation(summary = "특정 스튜디오 상세 조회", description = "스튜디오 ID를 통해 특정 스튜디오의 상세 정보를 평점과 함께 조회합니다.")
     @GetMapping("/detail/{id}")
-    public Response<StudioDetailDto> getStudioDetail(@PathVariable("id") Long id) {
+    public Response<StudioDetailDto> getStudioDetail(@PathVariable("id") Long id,
+                                                     @RequestParam(defaultValue = "1") int page
+    ) {
+        Pageable pageable = PageRequest.of(page - 1, AppConfig.getReviewPageSize(), Sort.by("id").ascending());
+
         Studio studio = studioService.getStudio(id);
         List<ProductDto> productListDto = productService.getProductListByStudioId(id);
-        StudioDetailDto studioDetailDto = new StudioDetailDto(studio, productListDto, null); // TODO: ReviewDto 리스트 추가
+        Page<ReviewDto> reviewPhotoDtoPage = reviewService.getReviewsWithFirstPhotoByStudioId(id, pageable);
+        StudioDetailDto studioDetailDto = new StudioDetailDto(studio, productListDto, new PageDto<>(reviewPhotoDtoPage));
         return Response.of(SuccessCode.GET_STUDIO_DETAiL_SUCCESS, studioDetailDto);
     }
 
