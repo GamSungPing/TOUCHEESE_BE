@@ -38,4 +38,5 @@ public class NotStudioController {
         ConceptListDto conceptDtoList = new ConceptListDto(concept);
         return Response.of(SuccessCode.GET_CONCEPT_ONE_SUCCESS, conceptDtoList);
     }
+
 }
