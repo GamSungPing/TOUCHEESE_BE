@@ -5,6 +5,7 @@ import com.rocket.toucheese_be.domain.studio.review.dto.ReviewDto;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import com.rocket.toucheese_be.standard.PageDto;
 
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,8 +15,8 @@ public record StudioDetailDto(
         String detailImageStrings,
         Double rating,
         int reviewCount,
-        String openTime,
-        String closeTime,
+        LocalTime openTime,
+        LocalTime closeTime,
         int[] holidays,
         String address,
         String notice,
@@ -29,8 +30,8 @@ public record StudioDetailDto(
                 studio.getProfileImage().getProfileURL(),
                 studio.getRating(),
                 studio.getReviewList().size(),
-                studio.getOpeningTime().toString(),
-                studio.getClosingTime().toString(),
+                studio.getOpeningTime(),
+                studio.getClosingTime(),
                 getThisHolidays(studio),
                 studio.getAddress(),
                 studio.getNotice().replace("\\n", "\n"),
