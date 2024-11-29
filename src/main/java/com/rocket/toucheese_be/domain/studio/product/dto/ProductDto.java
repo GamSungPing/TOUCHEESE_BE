@@ -24,4 +24,16 @@ public record ProductDto (
                 product.isGroupFlag()
         );
     }
+
+    public ProductDto() {
+        this(
+                null,
+                null,
+                null,
+                null,
+                -1,
+                -1,
+                false
+        );
+    }
 }

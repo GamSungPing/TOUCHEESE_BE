@@ -10,6 +10,7 @@ public enum SuccessCode implements ResponseCode {
 
     GET_STUDIO_LIST_SUCCESS(HttpStatus.OK, "스튜디오 전체 조회 성공"),
     GET_STUDIO_ONE_SUCCESS(HttpStatus.OK, "스튜디오 단일 조회 성공"),
+    GET_STUDIO_DETAiL_SUCCESS(HttpStatus.OK, "스튜디오 상세 조회 성공"),
     GET_STUDIO_LIST_BY_CONCEPT_SUCCESS(HttpStatus.OK, "컨셉 별 스튜디오 목록 조회 성공"),
     GET_STUDIO_RATING_SUCCESS(HttpStatus.OK, "컨셉, 인기순 정렬 조회 성공"),
     GET_STUDIO_LIST_BY_CONCEPT_AND_REGION_SUCCESS(HttpStatus.OK, "컨셉, 지역별 스튜디오 전체 조회 성공"),
@@ -23,6 +24,7 @@ public enum SuccessCode implements ResponseCode {
     GET_CONCEPT_ONE_SUCCESS(HttpStatus.OK, "컨셉 단일 조회 성공"),
 
     GET_PRODUCT_LIST_BY_STUDIO_SUCCESS(HttpStatus.OK, "특정 스튜디오 프로덕트 전체 조회 성공"),
+    GET_PRODUCT_DETAIL_SUCCESS(HttpStatus.OK, "특정 프로덕트 상세 조회 성공"),
 
     // 예약
     GET_STUDIO_RESERVATION_ONE_SUCCESS(HttpStatus.OK, "해당 스튜디오의 예약 내용 조회 성공"),

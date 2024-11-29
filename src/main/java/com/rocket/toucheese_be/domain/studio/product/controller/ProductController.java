@@ -1,5 +1,6 @@
 package com.rocket.toucheese_be.domain.studio.product.controller;
 
+import com.rocket.toucheese_be.domain.studio.product.dto.ProductDetailDto;
 import com.rocket.toucheese_be.domain.studio.product.dto.ProductDto;
 import com.rocket.toucheese_be.domain.studio.product.service.ProductService;
 import com.rocket.toucheese_be.global.response.Response;
@@ -21,7 +22,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class ProductController {
     private final ProductService productService;
 
-    // TODO: 스튜디오 상세 조회시 ProductDto가 리스트로 함께 가도록 수정할 것
     @Operation(summary = "특정 스튜디오의 상품 목록 조회", description = "스튜디오 ID를 통해 특정 스튜디오의 상품 목록을 조회합니다.")
     @GetMapping("/studio/{studioId}")
     public Response<List<ProductDto>> getProductList(@PathVariable("studioId") Long studioId) {
@@ -29,6 +29,10 @@ public class ProductController {
         return Response.of(SuccessCode.GET_PRODUCT_LIST_BY_STUDIO_SUCCESS, productListDto);
     }
 
-    // TODO: 프로덕트 상세 DTO 보내는 메서드 필요
-
+    @Operation(summary = "특정 상품 목록 조회", description = "프로덕트 ID를 통해 특정 프로덕트의 옵션을 조회합니다.")
+    @GetMapping("/{id}")
+    public Response<ProductDetailDto> getProductDetail(@PathVariable("id") Long id) {
+        ProductDetailDto productDetailDto = productService.getProductDetail(id);
+        return Response.of(SuccessCode.GET_PRODUCT_DETAIL_SUCCESS, productDetailDto);
+    }
 }

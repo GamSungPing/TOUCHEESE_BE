@@ -1,5 +1,6 @@
 package com.rocket.toucheese_be.domain.studio.product.service;
 
+import com.rocket.toucheese_be.domain.studio.product.dto.ProductDetailDto;
 import com.rocket.toucheese_be.domain.studio.product.dto.ProductDto;
 import com.rocket.toucheese_be.domain.studio.product.entity.Product;
 import com.rocket.toucheese_be.domain.studio.product.repository.ProductRepository;
@@ -21,8 +22,14 @@ public class ProductService {
 
         return productList.stream()
                 .map(product -> {
-                    int reviewCount = productRepository.countReviewsByProductId(product.getId()); // 리뷰 개수 조회
+                    int reviewCount = productRepository.countReviewsByProductId(product.getId());
                     return new ProductDto(product, reviewCount);})
                 .collect(Collectors.toList());
+    }
+
+    public ProductDetailDto getProductDetail(Long id) {
+        Product product = productRepository.findById(id).orElse(null);
+        if(product == null) return new ProductDetailDto();
+        return new ProductDetailDto(product);
     }
 }

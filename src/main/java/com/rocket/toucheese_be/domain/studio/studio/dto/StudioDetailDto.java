@@ -1,35 +1,37 @@
 package com.rocket.toucheese_be.domain.studio.studio.dto;
 
-//public record StudioDetailDto(
-//        Long studioId,
-//        String name,
-//        Double rating,
-//        List<ProductDto> products
-//) {
-//    public StudioDetailDto(Studio studio, List<Product> products) {
-//        this(
-//                studio.getId(),
-//                studio.getName(),
-//                studio.getRating(),
-//                products.stream()
-//                        .map(ProductDto::new)
-//                        .toList()
-//        );
-//    }
-//
-//}
+import com.rocket.toucheese_be.domain.studio.product.dto.ProductDto;
+import com.rocket.toucheese_be.domain.studio.review.dto.ReviewDto;
+import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
+import org.springframework.data.domain.Page;
 
-/*
-*
-struct StudioDetail {
-    let detailImageStrings: [String]
+import java.util.List;
 
-    let reviewCount: Int
-    let businessHours: String
-    let address: String
+public record StudioDetailDto(
+        Long studioId,
+        String name,
+        String detailImageStrings,
+        Double rating,
+        int reviewCount,
+        String businessHours, // TODO: 앱 단이랑 합의 필요
+        String address,
+        String notice,
+        List<ProductDto> products,
+        Page<ReviewDto> reviews
+) {
+    public StudioDetailDto(Studio studio, List<ProductDto> products, Page<ReviewDto> reviews) {
+        this(
+                studio.getId(),
+                studio.getName(),
+                studio.getProfileImage().getProfileURL(),
+                studio.getRating(),
+                studio.getReviewList().size(),
+                studio.getOpeningTime() + "~" + studio.getClosingTime(),
+                studio.getAddress(),
+                studio.getNotice(),
+                products,
+                reviews // TODO: 주윤님 코드랑 연결
+        );
+    }
 
-    let notice: String?
-    let products: [Product]
-    var reviews: [Review]?
 }
-* */
