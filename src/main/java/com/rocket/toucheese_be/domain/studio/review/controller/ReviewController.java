@@ -31,8 +31,8 @@ public class ReviewController {
     )
     @GetMapping("/studio/{studioId}")
     public Response<PageDto<ReviewDto>> getReviewListByStudioId(
-            @PathVariable Long studioId,
-            @RequestParam(defaultValue = "1") int page
+            @PathVariable("studioId") Long studioId,
+            @RequestParam(name = "page", defaultValue = "1") int page
     ) {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getReviewPageSize(), Sort.by("id").ascending());
         Page<ReviewDto> reviewPage = reviewService.getReviewsWithFirstPhotoByStudioId(studioId, pageable);
@@ -46,8 +46,8 @@ public class ReviewController {
     )
     @GetMapping("/studio/{studioId}/detail/{reviewId}")
     public Response<ReviewDetailDto> getReviewDetailByStudioIdAndReviewId(
-            @PathVariable Long studioId,
-            @PathVariable Long reviewId
+            @PathVariable("studioId") Long studioId,
+            @PathVariable("reviewId") Long reviewId
     ) {
         ReviewDetailDto reviewDetailDto = reviewService.getReviewDetailByStudioAndReview(studioId, reviewId);
         return Response.of(SuccessCode.GET_REVIEW_DETAIL, reviewDetailDto);
@@ -59,9 +59,9 @@ public class ReviewController {
     )
     @GetMapping("/studio/{studioId}/product/{productId}")
     public Response<PageDto<ReviewDto>> getReviewListByStudioIdAndProductId(
-            @PathVariable Long studioId,
-            @PathVariable Long productId,
-            @RequestParam(defaultValue = "1") int page
+            @PathVariable("studioId") Long studioId,
+            @PathVariable("productId") Long productId,
+            @RequestParam(name = "page", defaultValue = "1") int page
     ) {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getReviewPageSize(), Sort.by("id").ascending());
         Page<ReviewDto> reviewPage = reviewService.getReviewsByStudioIdAndProductId(studioId, pageable, productId);
