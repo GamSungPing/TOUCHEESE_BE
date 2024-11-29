@@ -1,6 +1,6 @@
 package com.rocket.toucheese_be.domain.studio.review.dto;
 
-import com.rocket.toucheese_be.domain.studio.review.entity.Photo;
+import com.rocket.toucheese_be.domain.studio.review.entity.ReviewPhoto;
 import com.rocket.toucheese_be.domain.studio.review.entity.Review;
 
 import java.time.LocalDateTime;
@@ -10,7 +10,7 @@ public record ReviewDetailDto (
         String userProfileImageString,
         String userName,
         LocalDateTime dateString, // 리부가 작성된 날짜
-        List<String> imageString, // 리뷰 이미지
+        List<String> imageStrings, // 리뷰 이미지
         String content,
         Double rating,
         ReplyDto reply
@@ -21,9 +21,9 @@ public record ReviewDetailDto (
                 review.getMember().getProfileImageUrl(),
                 review.getMember().getName(),
                 review.getCreatedAt(),
-                review.getPhotos() == null ? List.of() :
-                        review.getPhotos().stream()
-                                .map(Photo::getPhotoUrl)
+                review.getReviewPhotos() == null ? List.of() :
+                        review.getReviewPhotos().stream()
+                                .map(ReviewPhoto::getPhotoUrl)
                                 .toList(),
                 review.getContent(),
                 review.getStudio().getRating(),

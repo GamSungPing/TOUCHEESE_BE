@@ -1,21 +1,14 @@
 package com.rocket.toucheese_be.domain.studio.review.dto;
 
-import com.rocket.toucheese_be.domain.studio.review.entity.Photo;
 import com.rocket.toucheese_be.domain.studio.review.entity.Review;
+import com.rocket.toucheese_be.domain.studio.review.entity.ReviewPhoto;
 
-import java.util.List;
 
-public record ReviewDto (
-        Long id,
-        List<String> imageString
+public record ReviewDto(
+        Long reviewId,    // 리뷰 ID
+        String imageUrl   // 리뷰 이미지 URL
 ) {
-    public static ReviewDto from(Review review) {
-        return new ReviewDto(
-                review.getId(),
-                review.getPhotos() == null ? List.of() :
-                        review.getPhotos().stream()
-                                .map(Photo::getPhotoUrl)
-                                .toList()
-        );
+    public static ReviewDto fromReviewPhoto(Review review, ReviewPhoto photo) {
+        return new ReviewDto(review.getId(), photo.getPhotoUrl());
     }
 }

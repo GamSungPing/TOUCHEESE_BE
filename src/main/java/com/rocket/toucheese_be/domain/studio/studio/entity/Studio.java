@@ -43,7 +43,7 @@ public class Studio {
 
     @Setter
     @Transient // 데이터베이스에 저장하지 않음
-    private Double rating;
+    private double rating;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
@@ -70,9 +70,10 @@ public class Studio {
             return 0.0;
         }
         double sum = reviewList.stream()
-                .mapToInt(Review::getRating)
+                .mapToDouble(Review::getRating)
                 .sum();
-        return Math.round((sum / reviewList.size()) * 10) / 10.0; // 소수점 첫째 자리까지 반올림
+        double average = sum / reviewList.size();
+        return Math.round(average * 10) / 10.0; // 소수점 첫째 자리에서 반올림
     }
 
     @PrePersist
