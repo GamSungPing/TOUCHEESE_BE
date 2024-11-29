@@ -5,6 +5,7 @@ import com.rocket.toucheese_be.domain.studio.review.dto.ReviewDto;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import com.rocket.toucheese_be.standard.PageDto;
 
+import java.util.Arrays;
 import java.util.List;
 
 public record StudioDetailDto(
@@ -13,7 +14,9 @@ public record StudioDetailDto(
         String detailImageStrings,
         Double rating,
         int reviewCount,
-        String businessHours,
+        String openTime,
+        String closeTime,
+        int[] holidays,
         String address,
         String notice,
         List<ProductDto> products,
@@ -26,7 +29,9 @@ public record StudioDetailDto(
                 studio.getProfileImage().getProfileURL(),
                 studio.getRating(),
                 studio.getReviewList().size(),
-                studio.getOpeningTime() + "-" + studio.getClosingTime() + getThisHolidays(studio),
+                studio.getOpeningTime().toString(),
+                studio.getClosingTime().toString(),
+                getThisHolidays(studio),
                 studio.getAddress(),
                 studio.getNotice().replace("\\n", "\n"),
                 products,
@@ -34,10 +39,13 @@ public record StudioDetailDto(
         );
     }
 
-    private static String getThisHolidays(Studio studio) {
+    private static int[] getThisHolidays(Studio studio) {
         String holidays = studio.getHolidays();
-        if(holidays == null) return "";
-        return " / 매주 "+String.join(", ", holidays.split("&"))+" 휴무";
+        if(holidays == null) return new int[]{};
+
+        String holiday = studio.getHolidays();
+        String[] holidayStr = holiday.split("&");
+        return Arrays.stream(holidayStr).mapToInt(Integer::parseInt).toArray();
     }
 
 }
