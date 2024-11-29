@@ -1,9 +1,9 @@
 package com.rocket.toucheese_be.domain.studio.studio.dto;
 
 import com.rocket.toucheese_be.domain.studio.product.dto.ProductDto;
-import com.rocket.toucheese_be.domain.studio.review.dto.ReviewPhotoDto;
+import com.rocket.toucheese_be.domain.studio.review.dto.ReviewDto;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
-import org.springframework.data.domain.Page;
+import com.rocket.toucheese_be.standard.PageDto;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ public record StudioDetailDto(
         String address,
         String notice,
         List<ProductDto> products,
-        Page<ReviewPhotoDto> reviews
+        PageDto<ReviewDto> reviews
 ) {
-    public StudioDetailDto(Studio studio, List<ProductDto> products, Page<ReviewPhotoDto> reviews) {
+    public StudioDetailDto(Studio studio, List<ProductDto> products, PageDto<ReviewDto> reviews) {
         this(
                 studio.getId(),
                 studio.getName(),

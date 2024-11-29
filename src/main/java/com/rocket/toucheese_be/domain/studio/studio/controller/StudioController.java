@@ -2,7 +2,7 @@ package com.rocket.toucheese_be.domain.studio.studio.controller;
 
 import com.rocket.toucheese_be.domain.studio.product.dto.ProductDto;
 import com.rocket.toucheese_be.domain.studio.product.service.ProductService;
-import com.rocket.toucheese_be.domain.studio.review.dto.ReviewPhotoDto;
+import com.rocket.toucheese_be.domain.studio.review.dto.ReviewDto;
 import com.rocket.toucheese_be.domain.studio.review.service.ReviewService;
 import com.rocket.toucheese_be.domain.studio.studio.dto.StudioDetailDto;
 import com.rocket.toucheese_be.domain.studio.studio.dto.StudioListDto;
@@ -52,16 +52,14 @@ public class StudioController {
     @GetMapping("/detail/{id}")
     public Response<StudioDetailDto> getStudioDetail(
             @PathVariable("id") Long id,
-            @RequestParam(name="page", defaultValue="1") int page
+        @RequestParam(name="page", defaultValue="1") int page
     ) {
-        List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.asc("id"));
-        Pageable pageable = PageRequest.of(page - 1, AppConfig.getReviewPageSize(), Sort.by(sorts));
+        Pageable pageable = PageRequest.of(page - 1, AppConfig.getReviewPageSize(), Sort.by("id").ascending());
 
         Studio studio = studioService.getStudio(id);
         List<ProductDto> productListDto = productService.getProductListByStudioId(id);
-        Page<ReviewPhotoDto> reviewPhotoDtoPage = reviewService.getReviewImagesByStudioId(id, pageable);
-        StudioDetailDto studioDetailDto = new StudioDetailDto(studio, productListDto, reviewPhotoDtoPage);
+        Page<ReviewDto> reviewPhotoDtoPage = reviewService.getReviewsWithFirstPhotoByStudioId(id, pageable);
+        StudioDetailDto studioDetailDto = new StudioDetailDto(studio, productListDto, new PageDto<>(reviewPhotoDtoPage));
         return Response.of(SuccessCode.GET_STUDIO_DETAiL_SUCCESS, studioDetailDto);
     }
 
