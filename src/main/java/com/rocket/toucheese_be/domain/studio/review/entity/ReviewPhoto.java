@@ -11,10 +11,11 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @ToString(callSuper = false)
-public class Photo {
+@Table(name = "reviewphotos")
+public class ReviewPhoto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "photo_id")
+    @Column(name = "review_photos_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -24,7 +24,6 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final StudioRepository studioRepository;
-    private final MemberRepository memberRepository;
 
 
     // 스튜디오 예약 단일 조회

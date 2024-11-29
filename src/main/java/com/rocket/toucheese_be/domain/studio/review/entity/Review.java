@@ -40,7 +40,7 @@ public class Review {
     private Product product;
 
     @Setter
-    private int rating; // 평점 필드 추가
+    private double rating; // 평점 필드 추가
 
     @OneToOne(mappedBy = "review", fetch = FetchType.LAZY)
     private Reply reply;
@@ -48,7 +48,7 @@ public class Review {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
-    private List<Photo> photos = new ArrayList<>();
+    private List<ReviewPhoto> reviewPhotos = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {
