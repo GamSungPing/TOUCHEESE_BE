@@ -56,6 +56,8 @@ public class Studio {
 
     private String notice;
 
+    private String holidays;
+
     @Column
     private LocalTime openingTime = LocalTime.of(10, 0); // 영업 시작 시간
 

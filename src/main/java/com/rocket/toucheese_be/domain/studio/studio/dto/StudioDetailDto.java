@@ -13,7 +13,7 @@ public record StudioDetailDto(
         String detailImageStrings,
         Double rating,
         int reviewCount,
-        String businessHours, // TODO: 앱 단이랑 합의 필요
+        String businessHours,
         String address,
         String notice,
         List<ProductDto> products,
@@ -26,12 +26,17 @@ public record StudioDetailDto(
                 studio.getProfileImage().getProfileURL(),
                 studio.getRating(),
                 studio.getReviewList().size(),
-                studio.getOpeningTime() + "~" + studio.getClosingTime(),
+                studio.getOpeningTime() + "-" + studio.getClosingTime()+" / 매주 "+getThisHolidays(studio)+" 휴무",
                 studio.getAddress(),
                 studio.getNotice(),
                 products,
                 reviews
         );
+    }
+
+    private static String getThisHolidays(Studio studio) {
+        String[] holidays = studio.getHolidays().split("&");
+        return String.join(", ", holidays);
     }
 
 }
