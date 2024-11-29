@@ -50,8 +50,9 @@ public class StudioController {
 
     @Operation(summary = "특정 스튜디오 상세 조회", description = "스튜디오 ID를 통해 특정 스튜디오의 상세 정보를 평점과 함께 조회합니다.")
     @GetMapping("/detail/{id}")
-    public Response<StudioDetailDto> getStudioDetail(@PathVariable("id") Long id,
-                                                     @RequestParam(defaultValue = "1") int page
+    public Response<StudioDetailDto> getStudioDetail(
+            @PathVariable("id") Long id,
+        @RequestParam(name="page", defaultValue="1") int page
     ) {
         Pageable pageable = PageRequest.of(page - 1, AppConfig.getReviewPageSize(), Sort.by("id").ascending());
 
