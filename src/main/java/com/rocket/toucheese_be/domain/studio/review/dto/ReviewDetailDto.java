@@ -25,7 +25,7 @@ public record ReviewDetailDto(
                                 .map(ReviewPhoto::getPhotoUrl)
                                 .toList(),
                 review.getContent(),
-                review.getStudio().getRating(),
+                review.getRating(),
                 review.getReply() == null ? null : ReplyDto.from(review.getReply()) // Reply가 null인지 확인
         );
     }
