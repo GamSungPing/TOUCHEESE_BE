@@ -28,7 +28,7 @@ public record StudioDetailDto(
                 studio.getReviewList().size(),
                 studio.getOpeningTime() + "-" + studio.getClosingTime() + getThisHolidays(studio),
                 studio.getAddress(),
-                studio.getNotice(),
+                studio.getNotice().replace("\\n", "\n"),
                 products,
                 reviews
         );
