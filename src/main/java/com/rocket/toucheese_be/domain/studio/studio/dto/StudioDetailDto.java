@@ -26,7 +26,7 @@ public record StudioDetailDto(
                 studio.getProfileImage().getProfileURL(),
                 studio.getRating(),
                 studio.getReviewList().size(),
-                studio.getOpeningTime() + "-" + studio.getClosingTime()+" / 매주 "+getThisHolidays(studio)+" 휴무",
+                studio.getOpeningTime() + "-" + studio.getClosingTime() + getThisHolidays(studio),
                 studio.getAddress(),
                 studio.getNotice(),
                 products,
@@ -35,8 +35,9 @@ public record StudioDetailDto(
     }
 
     private static String getThisHolidays(Studio studio) {
-        String[] holidays = studio.getHolidays().split("&");
-        return String.join(", ", holidays);
+        String holidays = studio.getHolidays();
+        if(holidays == null) return "";
+        return " / 매주 "+String.join(", ", holidays.split("&"))+" 휴무";
     }
 
 }
