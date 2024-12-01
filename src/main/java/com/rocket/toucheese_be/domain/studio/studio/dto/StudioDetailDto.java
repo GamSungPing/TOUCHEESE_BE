@@ -2,6 +2,7 @@ package com.rocket.toucheese_be.domain.studio.studio.dto;
 
 import com.rocket.toucheese_be.domain.studio.product.dto.ProductDto;
 import com.rocket.toucheese_be.domain.studio.review.dto.ReviewDto;
+import com.rocket.toucheese_be.domain.studio.studio.entity.Portfolio;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import com.rocket.toucheese_be.standard.PageDto;
 
@@ -12,7 +13,7 @@ import java.util.List;
 public record StudioDetailDto(
         Long studioId,
         String name,
-        String detailImageStrings,
+        String[] detailImageStrings,
         Double rating,
         int reviewCount,
         LocalTime openTime,
@@ -27,7 +28,7 @@ public record StudioDetailDto(
         this(
                 studio.getId(),
                 studio.getName(),
-                studio.getProfileImage().getProfileURL(),
+                getDetailImgs(studio.getPortfolios()),
                 studio.getRating(),
                 studio.getReviewList().size(),
                 studio.getOpeningTime(),
@@ -38,6 +39,14 @@ public record StudioDetailDto(
                 products,
                 reviews
         );
+    }
+
+    // TODO: 따로 Studio 테이블에 필드로 저장해야 하는지 고려
+    private static String[] getDetailImgs(List<Portfolio> portfolioList) {
+        return portfolioList.stream()
+                .map(Portfolio::getPortfolioURL)
+                .limit(5)
+                .toArray(String[]::new);
     }
 
     private static int[] getThisHolidays(Studio studio) {
