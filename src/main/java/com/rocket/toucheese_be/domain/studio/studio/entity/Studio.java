@@ -54,7 +54,8 @@ public class Studio {
 
     private String address;
 
-    private String notice;
+    @Column(length = 550)
+    private String notice; // TODO : column 길이 길게 지정 필요 or TEXT
 
     private String holidays;
 
