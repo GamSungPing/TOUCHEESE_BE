@@ -42,9 +42,8 @@ public class StudioController {
     @GetMapping("/{id}")
     public Response<StudioListDto> getStudio(@PathVariable("id") Long id) {
         Studio studio = studioService.getStudio(id);
-        if(studio == null) return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, new StudioListDto());
-
         StudioListDto studioListDto = new StudioListDto(studio);
+
         return Response.of(SuccessCode.GET_STUDIO_ONE_SUCCESS, studioListDto);
     }
 
