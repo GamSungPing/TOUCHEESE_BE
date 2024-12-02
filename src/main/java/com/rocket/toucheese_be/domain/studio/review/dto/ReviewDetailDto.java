@@ -30,15 +30,4 @@ public record ReviewDetailDto(
         );
     }
 
-    public ReviewDetailDto() {
-        this(
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-    }
 }
