@@ -26,9 +26,4 @@ public record StudioListDto(
         );
     }
 
-    public StudioListDto() {
-        this(
-                null, null, -1, null, null, null
-        );
-    }
 }
