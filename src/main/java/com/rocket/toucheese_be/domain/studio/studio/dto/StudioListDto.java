@@ -21,7 +21,7 @@ public record StudioListDto(
                 studio.getRating(),
                 studio.getPortfolios().stream()
                         .map(Portfolio::getPortfolioURL)
-                        .toList(), // Java 16+의 `toList()` 사용
+                        .toList(),
                 studio.getProfileImage().getProfileURL()
         );
     }
