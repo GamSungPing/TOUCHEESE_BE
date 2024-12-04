@@ -8,6 +8,8 @@ import com.rocket.toucheese_be.domain.reservation.entity.ReservationStatus;
 import com.rocket.toucheese_be.domain.reservation.repository.ReservationRepository;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import com.rocket.toucheese_be.domain.studio.studio.repository.StudioRepository;
+import com.rocket.toucheese_be.global.response.CustomException;
+import com.rocket.toucheese_be.global.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +31,7 @@ public class ReservationService {
     // 스튜디오 예약 단일 조회
     public ReservationDto getReservationById(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new IllegalArgumentException("예약이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESERVATION));
 
         return ReservationDto.from(reservation);
     }
@@ -37,7 +39,7 @@ public class ReservationService {
     // 예약 가능 시간 조회
     public AvailableTimeListDto getAvailableTimeSlots(Long studioId, LocalDate date) {
         Studio studio = studioRepository.findById(studioId)
-                .orElseThrow(() -> new IllegalArgumentException("스튜디오를 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_STUDIO));
 
         // 특정 날짜의 모든 예약 조회
         List<Reservation> reservations = reservationRepository.findByStudioAndReservationDate(studio, date);
@@ -63,6 +65,10 @@ public class ReservationService {
         // 멤버 ID와 CONFIRMED 상태로 예약 조회
         List<Reservation> reservations = reservationRepository.findByMemberIdAndStatus(memberId, ReservationStatus.예약확정);
 
+        if (reservations.isEmpty()) {
+            throw new CustomException(ErrorCode.NOT_FOUND_RESERVATION);
+        }
+
         // 예약 목록을 DTO로 변환하여 반환
         return reservations.stream()
                 .map(ReservationDto::from)
@@ -73,11 +79,11 @@ public class ReservationService {
     public void cancelReservation(Long reservationId, Long memberId) {
         // 해당 예약 조회
         Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new IllegalArgumentException("예약이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESERVATION));
 
         // 예약이 해당 멤버의 예약인지 확인
         if (!reservation.getMember().getId().equals(memberId)) {
-            throw new IllegalArgumentException("해당 멤버의 예약이 아닙니다.");
+            throw new CustomException(ErrorCode.NOT_FOUND_MEMBER_RESERVATION);
         }
 
         // 예약 상태를 취소로 변경

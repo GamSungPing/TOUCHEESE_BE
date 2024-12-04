@@ -24,8 +24,12 @@ public enum ErrorCode implements ResponseCode {
 
     // 상품
     NOT_FOUND_STUDIO_PRODUCT(HttpStatus.NOT_FOUND, "스튜디오에 해당하는 상품이 존재하지 않습니다."),
-    NOT_FOUND_STUDIO_PRODUCT_DETAIL(HttpStatus.NOT_FOUND, "해당 상품이 존재하지 않습니다.");
+    NOT_FOUND_STUDIO_PRODUCT_DETAIL(HttpStatus.NOT_FOUND, "해당 상품이 존재하지 않습니다."),
 
+
+    // 예약
+    NOT_FOUND_RESERVATION(HttpStatus.NOT_FOUND, "예약이 존재하지 않습니다."),
+    NOT_FOUND_MEMBER_RESERVATION(HttpStatus.NOT_FOUND, "해당 멤버의 예약이 아닙니다.");
     private final HttpStatus httpStatus;
     private final String message;
 
