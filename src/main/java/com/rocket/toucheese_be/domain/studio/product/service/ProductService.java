@@ -27,6 +27,7 @@ public class ProductService {
             throw new CustomException(ErrorCode.NOT_FOUND_STUDIO_PRODUCT);
         }
 
+        // 각 프로덕트 별 리뷰 개수 가져오기
         return productList.stream()
                 .map(product -> {
                     int reviewCount = productRepository.countReviewsByProductId(product.getId());
