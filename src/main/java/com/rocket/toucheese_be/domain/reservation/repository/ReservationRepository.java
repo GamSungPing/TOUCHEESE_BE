@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
@@ -20,5 +21,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     // 회원 ID 조회 + 상태
     List<Reservation> findByMemberIdAndStatus(Long memberId, ReservationStatus status);
 
+    // 스튜디오, 예약 날짜, 시작 시간과 종료 시간 범위에 중복된 예약이 있는지 체크
+    boolean existsByStudioAndReservationDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
+            Studio studio,
+            LocalDate reservationDate,
+            LocalTime startTime,
+            LocalTime endTime
+    );
 }
 

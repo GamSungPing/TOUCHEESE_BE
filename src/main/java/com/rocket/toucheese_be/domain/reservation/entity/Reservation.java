@@ -48,7 +48,7 @@ public class Reservation {
         this.status = ReservationStatus.예약취소;
     }
 
-    // 예약 메서드(나중에)
+    // 예약 메서드
     public static Reservation createReservation(Member member, Studio studio, LocalDate date, LocalTime startTime, LocalTime endTime) {
         return Reservation.builder()
                 .member(member)

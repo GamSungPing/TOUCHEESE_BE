@@ -2,10 +2,12 @@ package com.rocket.toucheese_be.domain.reservation.controller;
 
 import com.rocket.toucheese_be.domain.reservation.dto.AvailableTimeListDto;
 import com.rocket.toucheese_be.domain.reservation.dto.ReservationDto;
+import com.rocket.toucheese_be.domain.reservation.dto.ReservationReqDto;
 import com.rocket.toucheese_be.domain.reservation.service.ReservationService;
 import com.rocket.toucheese_be.global.response.Response;
 import com.rocket.toucheese_be.global.response.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -62,6 +64,18 @@ public class ReservationController {
     }
 
     /**
+     * 스튜디오 예약 생성
+     */
+    @Operation(
+            summary = "새로운 예약 생성",
+            description = "회원 ID와 스튜디오 ID, 예약 정보를 입력하여 새로운 예약을 생성합니다.")
+    @PostMapping(consumes = APPLICATION_JSON_VALUE)
+    public Response<ReservationDto> createReservation(@RequestBody @Valid ReservationReqDto reservationReqDto) {
+        ReservationDto reservation = reservationService.createReservation(reservationReqDto);
+        return Response.of(SuccessCode.CREATE_RESERVATION_SUCCESS, reservation);
+    }
+
+    /**
      * 예약 취소
      */
     @Operation(
@@ -73,4 +87,6 @@ public class ReservationController {
         reservationService.cancelReservation(reservationId, memberId);
         return Response.of(SuccessCode.CANCEL_RESERVATION_SUCCESS);
     }
+
+
 }
