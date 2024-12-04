@@ -45,6 +45,6 @@ public class Product {
 
     private String productOptions;
     // productOptions -> String 같은 기본 객체는 List 필드 저장 불가
-    // "1:name:price&2:name:price&3:name:price" 이런 식으로 저장, dto 보낼 땐 & 기준 split 하여 list 전송
+    // "name:price&name:price&name:price" 이런 식으로 저장, dto 보낼 땐 & 기준 split 하여 list 전송
     // 앱 단에서 `:` 기준 split 하여 사용 예정
 }
