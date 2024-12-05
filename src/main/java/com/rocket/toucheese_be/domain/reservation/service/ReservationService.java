@@ -29,6 +29,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final StudioRepository studioRepository;
     private final MemberRepository memberRepository;
+    private final Object lock = new Object(); // 동기화를 위한 락 객체
 
 
     // 스튜디오 예약 단일 조회
@@ -56,42 +57,38 @@ public class ReservationService {
 
     @Transactional
     public ReservationDto createReservation(ReservationReqDto reservationReqDto) {
-        // 회원 조회
-        Member member = memberRepository.findById(reservationReqDto.memberId())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
+        synchronized (lock) {
+            // 회원 조회
+            Member member = memberRepository.findById(reservationReqDto.memberId())
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
 
-        // 스튜디오 조회
-        Studio studio = studioRepository.findById(reservationReqDto.studioId())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_STUDIO));
+            // 스튜디오 조회
+            Studio studio = studioRepository.findById(reservationReqDto.studioId())
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_STUDIO));
 
-        // 이미 예약이 있는지 확인 (중복 예약 방지)
-        boolean isOverlapping = reservationRepository.existsByStudioAndReservationDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
-                studio,
-                reservationReqDto.reservationDate(),
-                reservationReqDto.startTime(),
-                reservationReqDto.endTime()
-        );
+            // 이미 예약이 있는지 확인 (중복 예약 방지)
+            boolean isOverlapping = reservationRepository.existsByStudioAndReservationDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
+                    studio,
+                    reservationReqDto.reservationDate(),
+                    reservationReqDto.startTime(),
+                    reservationReqDto.startTime().plusMinutes(59).plusSeconds(59) // endTime 계산
+            );
 
-        // 중복 예약이 존재하면 예외 처리
-        if (isOverlapping) {
-            throw new CustomException(ErrorCode.DUPLICATE_RESERVATION); // 예: '이미 예약된 시간입니다' 같은 메시지
+            if (isOverlapping) {
+                throw new CustomException(ErrorCode.DUPLICATE_RESERVATION); // 예외 처리
+            }
+
+            // 예약 생성
+            Reservation reservation = Reservation.create(member, studio, reservationReqDto);
+
+            // 예약 저장
+            Reservation savedReservation = reservationRepository.save(reservation);
+
+            // DTO로 변환 후 반환
+            return ReservationDto.from(savedReservation);
         }
-
-        // 예약 생성
-        Reservation reservation = Reservation.createReservation(
-                member,
-                studio,
-                reservationReqDto.reservationDate(),
-                reservationReqDto.startTime(),
-                reservationReqDto.endTime()
-        );
-
-        // 예약 저장
-        Reservation savedReservation = reservationRepository.save(reservation);
-
-        // DTO로 변환 후 반환
-        return ReservationDto.from(savedReservation);
     }
+
 
 
 

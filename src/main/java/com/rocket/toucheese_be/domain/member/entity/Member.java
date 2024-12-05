@@ -24,6 +24,8 @@ public class Member {
 
     private String name;
 
+    private String email;
+
     @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Review> review;

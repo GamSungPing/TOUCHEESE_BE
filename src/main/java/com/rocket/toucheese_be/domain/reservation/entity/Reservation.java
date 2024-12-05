@@ -1,6 +1,7 @@
 package com.rocket.toucheese_be.domain.reservation.entity;
 
 import com.rocket.toucheese_be.domain.member.entity.Member;
+import com.rocket.toucheese_be.domain.reservation.dto.ReservationReqDto;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,6 +39,10 @@ public class Reservation {
     @Column(nullable = false)
     private LocalTime endTime;
 
+    private Integer totalPrice;
+
+    private String productOption;
+
     // 예약 상태 (예: 예약확정, 예약취소 등)
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -49,14 +54,16 @@ public class Reservation {
     }
 
     // 예약 메서드
-    public static Reservation createReservation(Member member, Studio studio, LocalDate date, LocalTime startTime, LocalTime endTime) {
+    public static Reservation create(Member member, Studio studio, ReservationReqDto dto) {
         return Reservation.builder()
                 .member(member)
                 .studio(studio)
-                .reservationDate(date)
-                .startTime(startTime)
-                .endTime(endTime)
-                .status(ReservationStatus.예약확정)
+                .reservationDate(dto.reservationDate())
+                .startTime(dto.startTime())
+                .endTime(dto.startTime().plusMinutes(59).plusSeconds(59))
+                .totalPrice(dto.totalPrice())
+                .productOption(dto.productOption())
+                .status(ReservationStatus.예약대기)
                 .build();
     }
 }
