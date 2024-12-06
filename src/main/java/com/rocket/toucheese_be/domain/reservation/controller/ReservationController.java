@@ -2,6 +2,7 @@ package com.rocket.toucheese_be.domain.reservation.controller;
 
 import com.rocket.toucheese_be.domain.reservation.dto.AvailableTimeListDto;
 import com.rocket.toucheese_be.domain.reservation.dto.ReservationDto;
+import com.rocket.toucheese_be.domain.reservation.dto.ReservationListDto;
 import com.rocket.toucheese_be.domain.reservation.dto.ReservationReqDto;
 import com.rocket.toucheese_be.domain.reservation.service.ReservationService;
 import com.rocket.toucheese_be.global.response.Response;
@@ -58,9 +59,18 @@ public class ReservationController {
             summary = "특정 멤버 예약 목록 조회",
             description = "특정 멤버가 예약한 모든 예약 목록을 조회합니다.")
     @GetMapping("/member/{memberId}")
-    public Response<List<ReservationDto>> getReservationsByMember(@PathVariable Long memberId) {
-        List<ReservationDto> reservations = reservationService.getReservationsByMember(memberId);
+    public Response<List<ReservationListDto>> getReservationsByMember(@PathVariable Long memberId) {
+        List<ReservationListDto> reservations = reservationService.getReservationsByMember(memberId);
         return Response.of(SuccessCode.GET_MEMBER_RESERVATIONS_SUCCESS, reservations);
+    }
+
+    @Operation(
+            summary = "특정 멤버 완료된 예약 목록 조회",
+            description = "특정 멤버가 완료한 모든 예약 목록을 촬영 날짜 최신순으로 조회합니다.")
+    @GetMapping("/member/{memberId}/completed")
+    public Response<List<ReservationListDto>> getCompletedReservationsByMember(@PathVariable Long memberId) {
+        List<ReservationListDto> reservations = reservationService.getCompletedReservationsByMember(memberId);
+        return Response.of(SuccessCode.GET_MEMBER_COMPLETED_RESERVATIONS_SUCCESS, reservations);
     }
 
     /**

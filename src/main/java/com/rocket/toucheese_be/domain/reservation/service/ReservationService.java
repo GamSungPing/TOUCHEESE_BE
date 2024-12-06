@@ -4,6 +4,7 @@ import com.rocket.toucheese_be.domain.member.entity.Member;
 import com.rocket.toucheese_be.domain.member.repository.MemberRepository;
 import com.rocket.toucheese_be.domain.reservation.dto.AvailableTimeListDto;
 import com.rocket.toucheese_be.domain.reservation.dto.ReservationDto;
+import com.rocket.toucheese_be.domain.reservation.dto.ReservationListDto;
 import com.rocket.toucheese_be.domain.reservation.dto.ReservationReqDto;
 import com.rocket.toucheese_be.domain.reservation.entity.Reservation;
 import com.rocket.toucheese_be.domain.reservation.entity.ReservationStatus;
@@ -13,6 +14,7 @@ import com.rocket.toucheese_be.domain.studio.studio.repository.StudioRepository;
 import com.rocket.toucheese_be.global.response.CustomException;
 import com.rocket.toucheese_be.global.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -93,18 +95,12 @@ public class ReservationService {
 
 
     // 특정 멤버가 예약한 모든 예약 조회
-//    public List<ReservationDto> getReservationsByMember(Long memberId) {
-//        // 멤버를 찾고 해당 멤버가 예약한 모든 예약을 조회
-//        List<Reservation> reservations = reservationRepository.findByMemberId(memberId);
-//
-//        // 예약 목록을 DTO로 변환하여 반환
-//        return reservations.stream()
-//                .map(ReservationDto::from)
-//                .collect(Collectors.toList());
-//    }
-    public List<ReservationDto> getReservationsByMember(Long memberId) {
-        // 멤버 ID와 CONFIRMED 상태로 예약 조회
-        List<Reservation> reservations = reservationRepository.findByMemberIdAndStatus(memberId, ReservationStatus.예약확정);
+    public List<ReservationListDto> getReservationsByMember(Long memberId) {
+        // 확인 및 대기 상태를 조건으로 추가
+        List<ReservationStatus> statuses = List.of(ReservationStatus.confirm, ReservationStatus.waiting);
+
+        // 멤버 ID와 상태 조건으로 예약 목록 조회
+        List<Reservation> reservations = reservationRepository.findByMemberIdAndStatusInOrderByReservationDateAsc(memberId, statuses);
 
         if (reservations.isEmpty()) {
             throw new CustomException(ErrorCode.NOT_FOUND_RESERVATION);
@@ -112,10 +108,26 @@ public class ReservationService {
 
         // 예약 목록을 DTO로 변환하여 반환
         return reservations.stream()
-                .map(ReservationDto::from)
+                .map(ReservationListDto::from)
                 .collect(Collectors.toList());
     }
 
+    // 완료된 예약 목록 조회
+    public List<ReservationListDto> getCompletedReservationsByMember(Long memberId) {
+        // 완료된 상태를 필터링
+        List<Reservation> reservations = reservationRepository.findByMemberIdAndStatusOrderByReservationDateDesc(memberId, ReservationStatus.complete);
+
+        if (reservations.isEmpty()) {
+            throw new CustomException(ErrorCode.NOT_FOUND_RESERVATION);
+        }
+
+        // DTO로 변환
+        return reservations.stream()
+                .map(ReservationListDto::from)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
     // 예약 취소
     public void cancelReservation(Long reservationId, Long memberId) {
         // 해당 예약 조회
@@ -130,6 +142,18 @@ public class ReservationService {
         // 예약 상태를 취소로 변경
         reservation.cancel();
 
+    }
+
+    // 매일 자정에 실행하여 오늘날짜 이후로 지난 예약들은 상태 complete 변경
+    @Scheduled(cron = "0 0 0 * * *") // 매일 자정에 실행
+    public void updateCompletedReservations() {
+        LocalDate today = LocalDate.now();
+
+        // 오늘 이전 예약 상태를 가져와 업데이트
+        List<Reservation> reservations = reservationRepository.findByReservationDateBeforeAndStatus(today, ReservationStatus.confirm);
+
+        reservations.forEach(Reservation::complete); // 상태 변경
+        reservationRepository.saveAll(reservations); // 변경된 상태 저장
     }
 
 }
