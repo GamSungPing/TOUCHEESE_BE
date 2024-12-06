@@ -28,8 +28,6 @@ public class Studio {
 
     private String name;
 
-    private String photographer;
-
     private int profilePrice;
 
     private String priceCategory;
