@@ -29,4 +29,5 @@ public record ReviewDetailDto(
                 review.getReply() == null ? null : ReplyDto.from(review.getReply()) // Reply가 null인지 확인
         );
     }
+
 }

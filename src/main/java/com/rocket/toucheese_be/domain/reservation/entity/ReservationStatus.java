@@ -1,6 +1,8 @@
 package com.rocket.toucheese_be.domain.reservation.entity;
 
 public enum ReservationStatus {
-    예약확정,  // 예약 확정
-    예약취소   // 예약 취소
+    confirm,  // 예약 확정
+    cancel,   // 예약 취소
+    waiting, // 예약 대기
+    complete // 완료
 }

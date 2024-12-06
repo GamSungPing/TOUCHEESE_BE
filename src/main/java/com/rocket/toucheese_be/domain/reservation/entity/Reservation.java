@@ -1,6 +1,7 @@
 package com.rocket.toucheese_be.domain.reservation.entity;
 
 import com.rocket.toucheese_be.domain.member.entity.Member;
+import com.rocket.toucheese_be.domain.reservation.dto.ReservationReqDto;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,25 +39,48 @@ public class Reservation {
     @Column(nullable = false)
     private LocalTime endTime;
 
-    // 예약 상태 (예: 예약확정, 예약취소 등)
+    private Integer totalPrice;
+
+    private String productOption;
+
+    private String phoneNumber;
+
+    private String email;
+
+    // 예약 상태 (예: 예약확정, 예약대기, 예약취소)
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ReservationStatus status;
 
-    // 예약 상태 변경 (취소)
+    // 예약 상태 변경 (예약취소)
     public void cancel() {
-        this.status = ReservationStatus.예약취소;
+        this.status = ReservationStatus.cancel;
     }
 
-    // 예약 메서드(나중에)
-    public static Reservation createReservation(Member member, Studio studio, LocalDate date, LocalTime startTime, LocalTime endTime) {
+    // 예약 상태 변경 (예약확정)
+    public void confirm() {
+        this.status = ReservationStatus.confirm;
+    }
+
+    // 예약 상태 변경 (완료)
+    public void complete() {
+        this.status = ReservationStatus.complete;
+    }
+
+
+    // 예약 메서드
+    public static Reservation create(Member member, Studio studio, ReservationReqDto dto) {
         return Reservation.builder()
                 .member(member)
                 .studio(studio)
-                .reservationDate(date)
-                .startTime(startTime)
-                .endTime(endTime)
-                .status(ReservationStatus.예약확정)
+                .reservationDate(dto.reservationDate())
+                .startTime(dto.startTime())
+                .email(dto.email())
+                .phoneNumber(dto.phoneNumber())
+                .endTime(dto.startTime().plusMinutes(59).plusSeconds(59))
+                .totalPrice(dto.totalPrice())
+                .productOption(dto.productOption())
+                .status(ReservationStatus.waiting)
                 .build();
     }
 }

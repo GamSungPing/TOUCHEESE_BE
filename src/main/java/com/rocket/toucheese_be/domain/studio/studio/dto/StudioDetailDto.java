@@ -41,7 +41,6 @@ public record StudioDetailDto(
         );
     }
 
-    // TODO: 따로 Studio 테이블에 필드로 저장해야 하는지 고려
     private static String[] getDetailImgs(List<Portfolio> portfolioList) {
         return portfolioList.stream()
                 .map(Portfolio::getPortfolioURL)

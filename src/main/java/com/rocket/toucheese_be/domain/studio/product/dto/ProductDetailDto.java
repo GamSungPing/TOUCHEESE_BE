@@ -27,16 +27,4 @@ public record ProductDetailDto(
                 List.of(product.getProductOptions().split("&"))
         );
     }
-
-    public ProductDetailDto() {
-        this(
-                null,
-                null,
-                -1,
-                false,
-                -1,
-                -1,
-                null
-        );
-    }
 }

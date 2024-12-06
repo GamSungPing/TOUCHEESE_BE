@@ -28,8 +28,6 @@ public class Studio {
 
     private String name;
 
-    private String photographer;
-
     private int profilePrice;
 
     private String priceCategory;
@@ -107,32 +105,50 @@ public class Studio {
         List<LocalTime> availableSlots = new ArrayList<>();
 
         if (reservations == null) {
-            return availableSlots; // 예약 목록이 없으면 빈 리스트 반환
+            reservations = new ArrayList<>();
         }
 
-        // 예약 목록을 예약 시간 기준으로 정렬
+        // 예약 목록을 정렬
         reservations.sort(Comparator.comparing(Reservation::getStartTime));
 
         LocalTime currentTime = this.openingTime;
 
-        while (currentTime.isBefore(this.closingTime)) {
-            LocalTime nextSlot = currentTime.plusHours(1); // 1시간 단위로 확인
+        // 루프 종료 조건을 명확히 설정
+        while (!currentTime.isAfter(this.closingTime)) {
+            LocalTime nextSlot = currentTime.plusHours(1);
 
-            // 예약이 있는지 확인
-            LocalTime finalCurrentTime = currentTime;
-            boolean isSlotBooked = reservations.stream()
-                    .anyMatch(reservation ->
-                            reservation.getReservationDate().equals(date) &&
-                                    !(reservation.getEndTime().isBefore(finalCurrentTime) || reservation.getStartTime().isAfter(nextSlot)));
+            // 예약 여부 확인
+            boolean isSlotBooked = false;
+            for (Reservation reservation : reservations) {
+                if (reservation.getReservationDate().equals(date)) {
+                    if (!(reservation.getEndTime().isBefore(currentTime) || reservation.getStartTime().isAfter(nextSlot))) {
+                        isSlotBooked = true;
+                        break;
+                    }
+                }
+            }
 
             if (!isSlotBooked) {
                 availableSlots.add(currentTime);
             }
+
+            // 다음 시간 슬롯으로 이동
             currentTime = nextSlot;
+
+            // 자정을 넘지 않도록 처리
+            if (currentTime.equals(LocalTime.MIDNIGHT)) {
+                break;
+            }
+        }
+
+        // closingTime이 정확히 24:00:00으로 간주되도록 처리
+        if (this.closingTime.equals(LocalTime.MAX)) {
+            availableSlots.add(LocalTime.MIDNIGHT);
         }
 
         return availableSlots;
     }
+
 
 
 
