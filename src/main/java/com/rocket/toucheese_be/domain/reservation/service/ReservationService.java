@@ -72,8 +72,8 @@ public class ReservationService {
             boolean isOverlapping = reservationRepository.existsByStudioAndReservationDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
                     studio,
                     reservationReqDto.reservationDate(),
-                    reservationReqDto.startTime(),
-                    reservationReqDto.startTime().plusMinutes(59).plusSeconds(59) // endTime 계산
+                    reservationReqDto.reservationTime(),
+                    reservationReqDto.reservationTime().plusMinutes(59).plusSeconds(59) // endTime 계산
             );
 
             if (isOverlapping) {
