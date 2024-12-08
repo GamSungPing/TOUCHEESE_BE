@@ -5,6 +5,7 @@ import com.rocket.toucheese_be.domain.member.entity.Device;
 import com.rocket.toucheese_be.domain.member.service.DeviceService;
 import com.rocket.toucheese_be.global.response.Response;
 import com.rocket.toucheese_be.global.response.SuccessCode;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,9 @@ public class DeviceController {
     private final DeviceService deviceService;
 
     // 푸시 알림에 대해 사용자가 승낙할 때 호출되어야 함 (디바이스 토큰 등록)
+    @Operation(
+            summary = "디바이스 토큰 등록",
+            description = "푸시 알림에 대해 사용자가 승낙할 때 DeviceRegisterDto와 함께 호출되어야 합니다")
     @PostMapping("/register")
     public Response<Device> registerDevice(@RequestBody DeviceRegisterDto deviceRegisterDto) {
         Device device = new Device();
