@@ -18,6 +18,7 @@ public class DeviceController {
 
     private final DeviceService deviceService;
 
+    // 푸시 알림에 대해 사용자가 승낙할 때 호출되어야 함 (디바이스 토큰 등록)
     @PostMapping("/register")
     public Response<Device> registerDevice(@RequestBody DeviceRegisterDto deviceRegisterDto) {
         Device device = new Device();
