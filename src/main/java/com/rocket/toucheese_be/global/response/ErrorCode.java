@@ -31,8 +31,10 @@ public enum ErrorCode implements ResponseCode {
     NOT_FOUND_RESERVATION(HttpStatus.NOT_FOUND, "예약이 존재하지 않습니다."),
     NOT_FOUND_MEMBER_RESERVATION(HttpStatus.NOT_FOUND, "해당 멤버의 예약이 아닙니다."),
     DUPLICATE_RESERVATION(HttpStatus.NOT_FOUND, "해당 시간은 예약이 불가합니다."),
+
     // 회원
-    NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "해당 회원이 존재하지 않습니다.");
+    NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "해당 회원이 존재하지 않습니다."),
+    NOT_FOUND_DEVICE(HttpStatus.NOT_FOUND, "해당 회원의 디바이스가 존재하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

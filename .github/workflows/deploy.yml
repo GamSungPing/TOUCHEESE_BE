@@ -25,7 +25,7 @@ jobs:
         shell: bash
 
       - name: Firebase Service Key 생성
-        run: echo "${{ secrets.FIREBASE_KEY }}" > ./src/main/resources/firebase_service_key.json
+        run: echo "${{ secrets.FIREBASE_KEY }}" > ./src/main/resources/firebase/firebase_service_key.json
         shell: bash
 
       - name: gradlew 실행 권한 부여
