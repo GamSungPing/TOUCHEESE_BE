@@ -18,7 +18,7 @@ public class DeviceService {
     }
 
     // member id를 통해 device 가져오기
-    public Device getDevice(Long memberId) {
+    public Device getDeviceByMemberId(Long memberId) {
         return deviceRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_DEVICE));
     }
