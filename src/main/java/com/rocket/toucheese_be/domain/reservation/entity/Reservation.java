@@ -2,7 +2,6 @@ package com.rocket.toucheese_be.domain.reservation.entity;
 
 import com.rocket.toucheese_be.domain.member.entity.Member;
 import com.rocket.toucheese_be.domain.reservation.dto.ReservationReqDto;
-import com.rocket.toucheese_be.domain.studio.product.entity.Product;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import jakarta.persistence.*;
 import lombok.*;
@@ -64,8 +63,6 @@ public class Reservation {
     public void confirm() {
         this.status = ReservationStatus.confirm;
     }
-
-
 
     // 예약 상태 변경 (완료)
     public void complete() {

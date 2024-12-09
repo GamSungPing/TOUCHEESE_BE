@@ -4,9 +4,3 @@ public record DeviceRegisterDto (
         Long memberId,
         String deviceToken
 ){}
-
-
-
-
-
-
