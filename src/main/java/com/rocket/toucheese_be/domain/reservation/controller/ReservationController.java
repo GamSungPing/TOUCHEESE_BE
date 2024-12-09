@@ -57,10 +57,13 @@ public class ReservationController {
      */
     @Operation(
             summary = "특정 멤버 예약 목록 조회",
-            description = "특정 멤버가 예약한 모든 예약 목록을 조회합니다.")
+            description = "특정 멤버가 예약한 모든 예약 목록을 조회합니다."
+    )
     @GetMapping("/member/{memberId}")
     public Response<List<ReservationListDto>> getReservationsByMember(@PathVariable Long memberId) {
         List<ReservationListDto> reservations = reservationService.getReservationsByMember(memberId);
+
+        // 데이터가 없더라도 성공 응답 반환
         return Response.of(SuccessCode.GET_MEMBER_RESERVATIONS_SUCCESS, reservations);
     }
 
