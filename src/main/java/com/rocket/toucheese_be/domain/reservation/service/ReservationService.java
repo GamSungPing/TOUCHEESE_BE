@@ -119,6 +119,28 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
+    // 특정 상태의 예약 목록 조회
+    public List<ReservationListDto> getReservationsByStatus(ReservationStatus status) {
+        List<Reservation> reservations = reservationRepository.findByStatus(status);
+        return reservations.stream()
+                .map(ReservationListDto::from)
+                .collect(Collectors.toList());
+    }
+
+    // 예약 상태를 confirm으로 변경
+    public void confirmReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESERVATION));
+        reservation.confirm(); // 상태 변경 메서드 호출
+    }
+
+    // 예약 상태를 cancel로 변경
+    public void cancelReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESERVATION));
+        reservation.cancel(); // 상태 변경 메서드 호출
+    }
+
     // 완료된 예약 목록 조회
     public List<ReservationListDto> getCompletedReservationsByMember(Long memberId) {
         // 완료된 상태를 필터링

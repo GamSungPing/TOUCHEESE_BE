@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Reservations</title>
+</head>
+<body>
+<h1>Reservation Management</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Studio</th>
+        <th>Reservation Date</th>
+        <th>Start Time</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="reservation : ${reservations}">
+        <td th:text="${reservation.id}"></td>
+        <td th:text="${reservation.studioName}"></td>
+        <td th:text="${reservation.reservationDate}"></td>
+        <td th:text="${reservation.reservationTime}"></td>
+        <td th:text="${reservation.reservationStatus}"></td>
+        <td>
+            <form th:action="@{/admin/reservations/{id}/confirm(id=${reservation.id})}" method="post">
+                <button type="submit">Confirm</button>
+            </form>
+            <form th:action="@{/admin/reservations/{id}/cancel(id=${reservation.id})}" method="post">
+                <button type="submit">Cancel</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
