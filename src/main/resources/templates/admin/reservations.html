@@ -2,34 +2,114 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Reservations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예약 관리</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+        }
+
+        th {
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #e9e9e9;
+        }
+
+        tbody tr:hover {
+            background-color: #d7ecff;
+        }
+
+        button {
+            padding: 8px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"] {
+            color: #fff;
+        }
+
+        button[type="submit"]:hover {
+            opacity: 0.9;
+        }
+
+        button[type="submit"]:nth-child(1) {
+            background-color: #28a745; /* 초록색: 예약확정 */
+        }
+
+        button[type="submit"]:nth-child(2) {
+            background-color: #dc3545; /* 빨간색: 예약거절 */
+        }
+    </style>
 </head>
 <body>
-<h1>Reservation Management</h1>
-<table border="1">
+<h1>예약 관리</h1>
+<table>
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Studio</th>
-        <th>Reservation Date</th>
-        <th>Start Time</th>
-        <th>Status</th>
-        <th>Actions</th>
+        <th>스튜디오</th>
+        <th>촬영 날짜</th>
+        <th>촬영 시작 시간</th>
+        <th>상태</th>
+        <th>예약자 번호</th>
+        <th>예약자 이메일</th>
+        <th>수락 및 거절</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="reservation : ${reservations}">
-        <td th:text="${reservation.id}"></td>
         <td th:text="${reservation.studioName}"></td>
         <td th:text="${reservation.reservationDate}"></td>
         <td th:text="${reservation.reservationTime}"></td>
         <td th:text="${reservation.reservationStatus}"></td>
+        <td th:text="${reservation.phoneNumber}"></td>
+        <td th:text="${reservation.email}"></td>
         <td>
             <form th:action="@{/admin/reservations/{id}/confirm(id=${reservation.id})}" method="post">
-                <button type="submit">Confirm</button>
+                <button type="submit">예약확정</button>
             </form>
             <form th:action="@{/admin/reservations/{id}/cancel(id=${reservation.id})}" method="post">
-                <button type="submit">Cancel</button>
+                <button type="submit">예약거절</button>
             </form>
         </td>
     </tr>

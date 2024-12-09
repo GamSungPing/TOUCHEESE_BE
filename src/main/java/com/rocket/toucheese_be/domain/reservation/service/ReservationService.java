@@ -5,10 +5,7 @@ import com.rocket.toucheese_be.domain.member.entity.Device;
 import com.rocket.toucheese_be.domain.member.entity.Member;
 import com.rocket.toucheese_be.domain.member.repository.MemberRepository;
 import com.rocket.toucheese_be.domain.member.service.DeviceService;
-import com.rocket.toucheese_be.domain.reservation.dto.AvailableTimeListDto;
-import com.rocket.toucheese_be.domain.reservation.dto.ReservationDto;
-import com.rocket.toucheese_be.domain.reservation.dto.ReservationListDto;
-import com.rocket.toucheese_be.domain.reservation.dto.ReservationReqDto;
+import com.rocket.toucheese_be.domain.reservation.dto.*;
 import com.rocket.toucheese_be.domain.reservation.entity.Reservation;
 import com.rocket.toucheese_be.domain.reservation.entity.ReservationStatus;
 import com.rocket.toucheese_be.domain.reservation.repository.ReservationRepository;
@@ -114,13 +111,14 @@ public class ReservationService {
     }
 
     // 특정 상태의 예약 목록 조회
-    public List<ReservationListDto> getReservationsByStatus(ReservationStatus status) {
+    public List<ReservationAdminList> getReservationsByStatus(ReservationStatus status) {
         List<Reservation> reservations = reservationRepository.findByStatus(status);
         return reservations.stream()
-                .map(ReservationListDto::from)
+                .map(ReservationAdminList::from)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     // 예약 상태를 confirm으로 변경
     public void confirmReservation(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
@@ -128,6 +126,7 @@ public class ReservationService {
         reservation.confirm(); // 상태 변경 메서드 호출
     }
 
+    @Transactional
     // 예약 상태를 cancel로 변경
     public void cancelReservation(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)

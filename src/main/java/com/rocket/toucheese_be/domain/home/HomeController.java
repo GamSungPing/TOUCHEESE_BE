@@ -1,6 +1,6 @@
 package com.rocket.toucheese_be.domain.home;
 
-import com.rocket.toucheese_be.domain.reservation.dto.ReservationListDto;
+import com.rocket.toucheese_be.domain.reservation.dto.ReservationAdminList;
 import com.rocket.toucheese_be.domain.reservation.entity.ReservationStatus;
 import com.rocket.toucheese_be.domain.reservation.service.ReservationService;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +20,9 @@ public class HomeController {
     // 예약 대기 상태 목록 조회
     @GetMapping("/reservations")
     public String getWaitingReservations(Model model) {
-        List<ReservationListDto> waitingReservations = reservationService.getReservationsByStatus(ReservationStatus.waiting);
+        List<ReservationAdminList> waitingReservations = reservationService.getReservationsByStatus(ReservationStatus.waiting);
         model.addAttribute("reservations", waitingReservations);
-        return "admin/reservations"; // Thymeleaf 템플릿 파일 경로
+        return "admin/reservations";
     }
 
     // 예약 승인
