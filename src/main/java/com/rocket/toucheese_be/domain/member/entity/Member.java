@@ -33,4 +33,9 @@ public class Member {
     private String nickname;
 
     private String profileImageUrl;
+
+    // device와 1대1 맵핑, 멤버와 연결 끊기면 (갱신) device 삭제, 멤버 삭제시 device 삭제 (생명 주기)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "device_id")
+    private Device device;
 }

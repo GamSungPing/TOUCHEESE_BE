@@ -1,7 +1,10 @@
 package com.rocket.toucheese_be.domain.reservation.service;
 
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.rocket.toucheese_be.domain.member.entity.Device;
 import com.rocket.toucheese_be.domain.member.entity.Member;
 import com.rocket.toucheese_be.domain.member.repository.MemberRepository;
+import com.rocket.toucheese_be.domain.member.service.DeviceService;
 import com.rocket.toucheese_be.domain.reservation.dto.AvailableTimeListDto;
 import com.rocket.toucheese_be.domain.reservation.dto.ReservationDto;
 import com.rocket.toucheese_be.domain.reservation.dto.ReservationListDto;
@@ -11,6 +14,8 @@ import com.rocket.toucheese_be.domain.reservation.entity.ReservationStatus;
 import com.rocket.toucheese_be.domain.reservation.repository.ReservationRepository;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import com.rocket.toucheese_be.domain.studio.studio.repository.StudioRepository;
+import com.rocket.toucheese_be.global.fcm.FcmService;
+import com.rocket.toucheese_be.global.fcm.PushMsg;
 import com.rocket.toucheese_be.global.response.CustomException;
 import com.rocket.toucheese_be.global.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +23,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -32,7 +38,8 @@ public class ReservationService {
     private final StudioRepository studioRepository;
     private final MemberRepository memberRepository;
     private final Object lock = new Object(); // 동기화를 위한 락 객체
-
+    private final FcmService fcmService;
+    private final DeviceService deviceService;
 
     // 스튜디오 예약 단일 조회
     public ReservationDto getReservationById(Long reservationId) {
@@ -112,6 +119,28 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
+    // 특정 상태의 예약 목록 조회
+    public List<ReservationListDto> getReservationsByStatus(ReservationStatus status) {
+        List<Reservation> reservations = reservationRepository.findByStatus(status);
+        return reservations.stream()
+                .map(ReservationListDto::from)
+                .collect(Collectors.toList());
+    }
+
+    // 예약 상태를 confirm으로 변경
+    public void confirmReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESERVATION));
+        reservation.confirm(); // 상태 변경 메서드 호출
+    }
+
+    // 예약 상태를 cancel로 변경
+    public void cancelReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESERVATION));
+        reservation.cancel(); // 상태 변경 메서드 호출
+    }
+
     // 완료된 예약 목록 조회
     public List<ReservationListDto> getCompletedReservationsByMember(Long memberId) {
         // 완료된 상태를 필터링
@@ -143,6 +172,32 @@ public class ReservationService {
         reservation.cancel();
 
     }
+
+  
+    /*
+    * 알림 로직
+    * memberId - 푸시 메시지 받아야 하는 멤버 아이디
+    * reservation - studio 이름을 얻기 위한 것이므로 Studio, studioName 등으로 수정 가능
+    * pushMsg - 메시지 종류 PushMsg ENUM 참고 -> 예약 성공: PushMsg.RESERVATION_SUCCEED, 예약 실패: PushMsg.RESERVATION_FAILED
+     */
+    public void sendPushMsg(Long memberId, Reservation reservation, PushMsg pushMsg) {
+
+        // 해당 사용자 디바이스 찾기 - 디바이스 토큰 찾기 용도
+        // 없으면 deviceService 단에서 예외 처리 됨
+        Device device = deviceService.getDeviceByMemberId(memberId);
+
+        // 푸시 알림 전송
+        try {
+            fcmService.sendPushMsg(
+                    device.getDeviceToken(),
+                    pushMsg,
+                    reservation.getStudio().getName()
+            );
+        } catch (IOException | FirebaseMessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+  
 
     // 매일 자정에 실행하여 오늘날짜 이후로 지난 예약들은 상태 complete 변경
     @Scheduled(cron = "0 0 0 * * *") // 매일 자정에 실행

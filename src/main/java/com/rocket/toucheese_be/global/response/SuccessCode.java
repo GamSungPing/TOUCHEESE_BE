@@ -38,8 +38,11 @@ public enum SuccessCode implements ResponseCode {
     // 리뷰
     GET_STUDIO_TOTAL_REVIEW_PHOTO_LIST(HttpStatus.OK, "스튜디오 리뷰 사진 전체 조회 성공"),
     GET_REVIEW_DETAIL(HttpStatus.OK, "스튜디오 리뷰 상세 조회 성공"),
-    GET_PRODUCT_REVIEW_LIST(HttpStatus.OK, "스튜디오 상품 리뷰 목록 조회");
+    GET_PRODUCT_REVIEW_LIST(HttpStatus.OK, "스튜디오 상품 리뷰 목록 조회"),
 
+
+    // FCM 관련
+    GET_DEVICE_TOKEN_SUCCESS(HttpStatus.OK, "디바이스 토큰 저장 성공");
 
     private final HttpStatus httpStatus;
     private final String message;

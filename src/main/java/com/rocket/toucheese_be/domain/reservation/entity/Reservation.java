@@ -41,6 +41,8 @@ public class Reservation {
 
     private Integer totalPrice;
 
+    private String productName;
+
     private String productOption;
 
     private String phoneNumber;
@@ -79,6 +81,7 @@ public class Reservation {
                 .phoneNumber(dto.phoneNumber())
                 .endTime(dto.reservationTime().plusMinutes(59).plusSeconds(59))
                 .totalPrice(dto.totalPrice())
+                .productName(dto.productName())
                 .productOption(dto.productOption())
                 .status(ReservationStatus.waiting)
                 .build();
