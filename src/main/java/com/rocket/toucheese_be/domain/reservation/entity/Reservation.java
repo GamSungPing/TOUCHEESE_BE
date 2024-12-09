@@ -43,15 +43,30 @@ public class Reservation {
 
     private String productOption;
 
-    // 예약 상태 (예: 예약확정, 예약취소 등)
+    private String phoneNumber;
+
+    private String email;
+
+    // 예약 상태 (예: 예약확정, 예약대기, 예약취소)
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ReservationStatus status;
 
-    // 예약 상태 변경 (취소)
+    // 예약 상태 변경 (예약취소)
     public void cancel() {
-        this.status = ReservationStatus.예약취소;
+        this.status = ReservationStatus.cancel;
     }
+
+    // 예약 상태 변경 (예약확정)
+    public void confirm() {
+        this.status = ReservationStatus.confirm;
+    }
+
+    // 예약 상태 변경 (완료)
+    public void complete() {
+        this.status = ReservationStatus.complete;
+    }
+
 
     // 예약 메서드
     public static Reservation create(Member member, Studio studio, ReservationReqDto dto) {
@@ -59,11 +74,13 @@ public class Reservation {
                 .member(member)
                 .studio(studio)
                 .reservationDate(dto.reservationDate())
-                .startTime(dto.startTime())
-                .endTime(dto.startTime().plusMinutes(59).plusSeconds(59))
+                .startTime(dto.reservationTime())
+                .email(dto.email())
+                .phoneNumber(dto.phoneNumber())
+                .endTime(dto.reservationTime().plusMinutes(59).plusSeconds(59))
                 .totalPrice(dto.totalPrice())
                 .productOption(dto.productOption())
-                .status(ReservationStatus.예약대기)
+                .status(ReservationStatus.waiting)
                 .build();
     }
 }
