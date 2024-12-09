@@ -24,6 +24,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     // 촬영 날짜가 오늘이 지나면 상태 변경
     List<Reservation> findByReservationDateBeforeAndStatus(LocalDate date, ReservationStatus status);
 
+    // 특정 상태의 예약 조회
+    List<Reservation> findByStatus(ReservationStatus status);
 
     // 스튜디오, 예약 날짜, 시작 시간과 종료 시간 범위에 중복된 예약이 있는지 체크
     boolean existsByStudioAndReservationDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(

@@ -13,6 +13,7 @@ public record ReservationDto(
         String phoneNumber, // 예약자 핸드폰 번호
         LocalDate reservationDate, // 촬영 예약 날짜
         LocalTime reservationTime, // 촬영 시작 시잔
+        String productName,
         String productOption, // 상품 옵션
         Integer totalPrice, // 총 가격
         String studioAddress // 스튜디오 주소
@@ -27,6 +28,7 @@ public record ReservationDto(
                 reservation.getPhoneNumber(),
                 reservation.getReservationDate(),
                 reservation.getStartTime(),
+                reservation.getProductName(),
                 reservation.getProductOption(),
                 reservation.getTotalPrice(),
                 reservation.getStudio().getAddress()
