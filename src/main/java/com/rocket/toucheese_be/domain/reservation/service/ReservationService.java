@@ -140,10 +140,6 @@ public class ReservationService {
         // 완료된 상태를 필터링
         List<Reservation> reservations = reservationRepository.findByMemberIdAndStatusOrderByReservationDateDesc(memberId, ReservationStatus.complete);
 
-        if (reservations.isEmpty()) {
-            throw new CustomException(ErrorCode.NOT_FOUND_RESERVATION);
-        }
-
         // DTO로 변환
         return reservations.stream()
                 .map(ReservationListDto::from)
