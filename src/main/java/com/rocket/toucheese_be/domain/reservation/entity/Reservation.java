@@ -2,6 +2,7 @@ package com.rocket.toucheese_be.domain.reservation.entity;
 
 import com.rocket.toucheese_be.domain.member.entity.Member;
 import com.rocket.toucheese_be.domain.reservation.dto.ReservationReqDto;
+import com.rocket.toucheese_be.domain.studio.product.entity.Product;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,6 +42,8 @@ public class Reservation {
 
     private Integer totalPrice;
 
+    private String productName;
+
     private String productOption;
 
     private String phoneNumber;
@@ -62,6 +65,8 @@ public class Reservation {
         this.status = ReservationStatus.confirm;
     }
 
+
+
     // 예약 상태 변경 (완료)
     public void complete() {
         this.status = ReservationStatus.complete;
@@ -79,6 +84,7 @@ public class Reservation {
                 .phoneNumber(dto.phoneNumber())
                 .endTime(dto.reservationTime().plusMinutes(59).plusSeconds(59))
                 .totalPrice(dto.totalPrice())
+                .productName(dto.productName())
                 .productOption(dto.productOption())
                 .status(ReservationStatus.waiting)
                 .build();
