@@ -99,8 +99,6 @@ public class ReservationService {
     }
 
 
-
-
     // 특정 멤버가 예약한 모든 예약 조회
     public List<ReservationListDto> getReservationsByMember(Long memberId) {
         // 확인 및 대기 상태를 조건으로 추가
@@ -109,11 +107,7 @@ public class ReservationService {
         // 멤버 ID와 상태 조건으로 예약 목록 조회
         List<Reservation> reservations = reservationRepository.findByMemberIdAndStatusInOrderByReservationDateAsc(memberId, statuses);
 
-        if (reservations.isEmpty()) {
-            throw new CustomException(ErrorCode.NOT_FOUND_RESERVATION);
-        }
-
-        // 예약 목록을 DTO로 변환하여 반환
+        // 조회된 예약이 없더라도 빈 리스트 반환
         return reservations.stream()
                 .map(ReservationListDto::from)
                 .collect(Collectors.toList());
