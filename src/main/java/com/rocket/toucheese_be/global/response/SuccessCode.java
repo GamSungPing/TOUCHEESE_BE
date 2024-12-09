@@ -42,7 +42,8 @@ public enum SuccessCode implements ResponseCode {
 
 
     // FCM 관련
-    GET_DEVICE_TOKEN_SUCCESS(HttpStatus.OK, "디바이스 토큰 저장 성공");
+    GET_DEVICE_TOKEN_SUCCESS(HttpStatus.OK, "디바이스 토큰 저장 성공"),
+    UPDATE_DEVICE_TOKEN_SUCCESS(HttpStatus.OK, "디바이스 토큰 갱신 성공");
 
     private final HttpStatus httpStatus;
     private final String message;
