@@ -9,7 +9,7 @@ import java.time.LocalTime;
 public record ReservationDto(
         Long id,
         String studioImg,
-        Long studentId,
+        Long studioId,
         String studioName, // 스튜디오 이름
         String phoneNumber, // 예약자 핸드폰 번호
         String memberName, // 예약자 성함
