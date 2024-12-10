@@ -3,6 +3,8 @@ package com.rocket.toucheese_be.domain.reservation.repository;
 import com.rocket.toucheese_be.domain.reservation.entity.Reservation;
 import com.rocket.toucheese_be.domain.reservation.entity.ReservationStatus;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,10 +21,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findByMemberIdAndStatusInOrderByReservationDateAsc(Long memberId, List<ReservationStatus> statuses);
 
     // 완료된 예약 조회 및 정렬
-    List<Reservation> findByMemberIdAndStatusOrderByReservationDateDesc(Long memberId, ReservationStatus status);
+    List<Reservation> findByMemberIdAndStatusInOrderByReservationDateDesc(Long memberId, List<ReservationStatus> statuses);
 
     // 촬영 날짜가 오늘이 지나면 상태 변경
     List<Reservation> findByReservationDateBeforeAndStatus(LocalDate date, ReservationStatus status);
+
+    // 특정 상태의 예약 조회
+//    List<Reservation> findByStatus(ReservationStatus status);
+    Page<Reservation> findByStatus(ReservationStatus status, Pageable pageable);
 
 
     // 스튜디오, 예약 날짜, 시작 시간과 종료 시간 범위에 중복된 예약이 있는지 체크
@@ -32,5 +38,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             LocalTime startTime,
             LocalTime endTime
     );
+
+    // 예약 생성 날짜 정렬
+    Page<Reservation> findAllByOrderByCreatedAtDesc(Pageable pageable);
+
 }
 

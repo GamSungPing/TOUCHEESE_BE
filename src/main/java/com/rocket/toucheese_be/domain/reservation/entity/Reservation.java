@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -30,18 +31,19 @@ public class Reservation {
     @JoinColumn(name = "studio_id", nullable = false)
     private Studio studio;
 
-    @Column(nullable = false)
     private LocalDate reservationDate;
 
-    @Column(nullable = false)
     private LocalTime startTime;
 
-    @Column(nullable = false)
     private LocalTime endTime;
 
     private Integer totalPrice;
 
+    private String productName;
+
     private String productOption;
+
+    private LocalDateTime createdAt;
 
     private String phoneNumber;
 
@@ -55,6 +57,13 @@ public class Reservation {
     // 예약 상태 변경 (예약취소)
     public void cancel() {
         this.status = ReservationStatus.cancel;
+
+        // 예약 취소 시 필드 값들을 null로 설정
+        this.reservationDate = null;
+        this.startTime = null;
+        this.endTime = null;
+        this.createdAt = null;
+        this.totalPrice = null;
     }
 
     // 예약 상태 변경 (예약확정)
@@ -79,8 +88,10 @@ public class Reservation {
                 .phoneNumber(dto.phoneNumber())
                 .endTime(dto.reservationTime().plusMinutes(59).plusSeconds(59))
                 .totalPrice(dto.totalPrice())
+                .productName(dto.productName())
                 .productOption(dto.productOption())
                 .status(ReservationStatus.waiting)
+                .createdAt(LocalDateTime.now())
                 .build();
     }
 }
