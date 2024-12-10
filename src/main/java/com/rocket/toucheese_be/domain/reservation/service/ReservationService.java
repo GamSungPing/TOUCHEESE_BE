@@ -5,10 +5,7 @@ import com.rocket.toucheese_be.domain.member.entity.Device;
 import com.rocket.toucheese_be.domain.member.entity.Member;
 import com.rocket.toucheese_be.domain.member.repository.MemberRepository;
 import com.rocket.toucheese_be.domain.member.service.DeviceService;
-import com.rocket.toucheese_be.domain.reservation.dto.AvailableTimeListDto;
-import com.rocket.toucheese_be.domain.reservation.dto.ReservationDto;
-import com.rocket.toucheese_be.domain.reservation.dto.ReservationListDto;
-import com.rocket.toucheese_be.domain.reservation.dto.ReservationReqDto;
+import com.rocket.toucheese_be.domain.reservation.dto.*;
 import com.rocket.toucheese_be.domain.reservation.entity.Reservation;
 import com.rocket.toucheese_be.domain.reservation.entity.ReservationStatus;
 import com.rocket.toucheese_be.domain.reservation.repository.ReservationRepository;
@@ -19,6 +16,8 @@ import com.rocket.toucheese_be.global.fcm.PushMsg;
 import com.rocket.toucheese_be.global.response.CustomException;
 import com.rocket.toucheese_be.global.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -113,14 +113,8 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
-    // 특정 상태의 예약 목록 조회
-    public List<ReservationListDto> getReservationsByStatus(ReservationStatus status) {
-        List<Reservation> reservations = reservationRepository.findByStatus(status);
-        return reservations.stream()
-                .map(ReservationListDto::from)
-                .collect(Collectors.toList());
-    }
 
+    @Transactional
     // 예약 상태를 confirm으로 변경
     public void confirmReservation(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
@@ -128,6 +122,7 @@ public class ReservationService {
         reservation.confirm(); // 상태 변경 메서드 호출
     }
 
+    @Transactional
     // 예약 상태를 cancel로 변경
     public void cancelReservation(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
@@ -135,10 +130,11 @@ public class ReservationService {
         reservation.cancel(); // 상태 변경 메서드 호출
     }
 
-    // 완료된 예약 목록 조회
-    public List<ReservationListDto> getCompletedReservationsByMember(Long memberId) {
-        // 완료된 상태를 필터링
-        List<Reservation> reservations = reservationRepository.findByMemberIdAndStatusOrderByReservationDateDesc(memberId, ReservationStatus.complete);
+    // 완료 및 취소 상태 예약 목록 조회
+    public List<ReservationListDto> getCompletedAndCancelledReservationsByMember(Long memberId) {
+        // 완료 또는 취소 상태를 필터링
+        List<Reservation> reservations = reservationRepository.findByMemberIdAndStatusInOrderByReservationDateDesc(
+                memberId, Arrays.asList(ReservationStatus.complete, ReservationStatus.cancel));
 
         // DTO로 변환
         return reservations.stream()
@@ -201,4 +197,19 @@ public class ReservationService {
         reservationRepository.saveAll(reservations); // 변경된 상태 저장
     }
 
+
+    // 예약 대기 상태 목록 조회 (페이징 처리)
+    public Page<ReservationAdminList> getReservationsByStatus(ReservationStatus status, Pageable pageable) {
+        Page<Reservation> reservations = reservationRepository.findByStatus(status, pageable);
+        return reservations.map(ReservationAdminList::from);
+    }
+
+
+    // 예약 전체 조회 API (페이징 처리)
+    public Page<ReservationAdminList> getAllReservationsSortedByCreatedAt(Pageable pageable) {
+        // 모든 예약을 createdAt 기준으로 내림차순 정렬하여 페이지 단위로 조회
+        Page<Reservation> reservations = reservationRepository.findAllByOrderByCreatedAtDesc(pageable);
+        // DTO로 변환 후 반환
+        return reservations.map(ReservationAdminList::from);
+    }
 }

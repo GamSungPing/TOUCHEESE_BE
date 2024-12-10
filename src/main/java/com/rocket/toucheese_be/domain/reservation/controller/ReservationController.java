@@ -68,12 +68,12 @@ public class ReservationController {
     }
 
     @Operation(
-            summary = "특정 멤버 완료된 예약 목록 조회",
-            description = "특정 멤버가 완료한 모든 예약 목록을 촬영 날짜 최신순으로 조회합니다.")
-    @GetMapping("/member/{memberId}/completed")
-    public Response<List<ReservationListDto>> getCompletedReservationsByMember(@PathVariable Long memberId) {
-        List<ReservationListDto> reservations = reservationService.getCompletedReservationsByMember(memberId);
-        return Response.of(SuccessCode.GET_MEMBER_COMPLETED_RESERVATIONS_SUCCESS, reservations);
+            summary = "특정 멤버 완료된 또는 취소된 예약 목록 조회",
+            description = "특정 멤버가 완료하거나 취소한 모든 예약 목록을 촬영 날짜 최신순으로 조회합니다.")
+    @GetMapping("/member/{memberId}/completed-cancelled")
+    public Response<List<ReservationListDto>> getCompletedAndCancelledReservationsByMember(@PathVariable Long memberId) {
+        List<ReservationListDto> reservations = reservationService.getCompletedAndCancelledReservationsByMember(memberId);
+        return Response.of(SuccessCode.GET_MEMBER_COMPLETED_CANCELLED_RESERVATIONS_SUCCESS, reservations);
     }
 
     /**
