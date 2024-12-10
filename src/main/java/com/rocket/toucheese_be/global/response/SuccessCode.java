@@ -32,7 +32,7 @@ public enum SuccessCode implements ResponseCode {
     GET_MEMBER_RESERVATIONS_SUCCESS(HttpStatus.OK, "해당 멤버가 한 예약 조회 성공"),
     CANCEL_RESERVATION_SUCCESS(HttpStatus.OK, "스튜디오 예약 취소 성공"),
     CREATE_RESERVATION_SUCCESS(HttpStatus.OK, "스튜디오 예약 생성 성공"),
-    GET_MEMBER_COMPLETED_RESERVATIONS_SUCCESS(HttpStatus.OK, "과거 예약 목록 조회 성공"),
+    GET_MEMBER_COMPLETED_CANCELLED_RESERVATIONS_SUCCESS(HttpStatus.OK, "이전 예약 목록 조회 성공"),
 
 
     // 리뷰

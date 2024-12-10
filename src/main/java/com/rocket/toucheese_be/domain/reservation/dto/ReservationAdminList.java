@@ -14,7 +14,8 @@ public record ReservationAdminList (
         LocalTime reservationTime,
         ReservationStatus reservationStatus,
         String phoneNumber, // 예약자 전화번호
-        String email     // 예약자 이메일
+        String email,     // 예약자 이메일
+        String memberName
 ) {
 
     public static ReservationAdminList from(Reservation reservation) {
@@ -26,7 +27,8 @@ public record ReservationAdminList (
                 reservation.getStartTime(),
                 reservation.getStatus(),
                 reservation.getPhoneNumber(),
-                reservation.getEmail()
+                reservation.getEmail(),
+                reservation.getMember().getName()
         );
     }
 }

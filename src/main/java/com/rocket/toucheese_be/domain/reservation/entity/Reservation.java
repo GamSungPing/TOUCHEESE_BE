@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -44,6 +45,8 @@ public class Reservation {
     private String productName;
 
     private String productOption;
+
+    private LocalDateTime createdAt;
 
     private String phoneNumber;
 
@@ -84,6 +87,7 @@ public class Reservation {
                 .productName(dto.productName())
                 .productOption(dto.productOption())
                 .status(ReservationStatus.waiting)
+                .createdAt(LocalDateTime.now())
                 .build();
     }
 }
