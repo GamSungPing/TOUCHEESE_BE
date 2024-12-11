@@ -27,7 +27,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findByReservationDateBeforeAndStatus(LocalDate date, ReservationStatus status);
 
     // 특정 상태의 예약 조회
-//    List<Reservation> findByStatus(ReservationStatus status);
     Page<Reservation> findByStatus(ReservationStatus status, Pageable pageable);
 
 

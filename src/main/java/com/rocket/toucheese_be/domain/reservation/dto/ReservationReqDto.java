@@ -1,5 +1,6 @@
 package com.rocket.toucheese_be.domain.reservation.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -14,6 +15,6 @@ public record ReservationReqDto(
         @NotNull(message = "프로덕트 옵셔은 필수입니다.") String productOption,
         @NotNull(message = "총 가격입니다.") int totalPrice,
         @NotNull(message = "핸드폰 번호 입력은 필수입니다.")String phoneNumber,
-        @NotNull(message = "이메일 입력은 필수입니다.")String email
+        @NotNull(message = "이메일 입력은 필수입니다.") @Email String email
 ) {
 }
