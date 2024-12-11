@@ -23,11 +23,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     // 완료된 예약 조회 및 정렬
     List<Reservation> findByMemberIdAndStatusInOrderByReservationDateDesc(Long memberId, List<ReservationStatus> statuses);
 
-    // 촬영 날짜가 오늘이 지나면 상태 변경
-    List<Reservation> findByReservationDateBeforeAndStatus(LocalDate date, ReservationStatus status);
-
     // 특정 상태의 예약 조회
-//    List<Reservation> findByStatus(ReservationStatus status);
     Page<Reservation> findByStatus(ReservationStatus status, Pageable pageable);
 
 

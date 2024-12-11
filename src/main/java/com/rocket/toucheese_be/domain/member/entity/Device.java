@@ -16,8 +16,8 @@ public class Device {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Member 클래스의 device 필드가 외래 키 소유 / 관리
-    @OneToOne(mappedBy = "device")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
     private Member member;
 
     private String deviceToken;  // FCM 디바이스 토큰
