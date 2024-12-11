@@ -115,7 +115,7 @@ public class ReservationService {
 
 
     @Transactional
-    // 예약 상태를 confirm으로 변경
+    // 예약 상태를 confirm으로 변경 (관리자 전용)
     public void confirmReservation(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESERVATION));
@@ -125,7 +125,7 @@ public class ReservationService {
     }
 
     @Transactional
-    // 예약 상태를 cancel로 변경
+    // 예약 상태를 cancel로 변경 (관리자 전용)
     public void cancelReservation(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESERVATION));
@@ -163,7 +163,7 @@ public class ReservationService {
 
     }
 
-  
+
     /*
     * 알림 로직
     * memberId - 푸시 메시지 받아야 하는 멤버 아이디
@@ -187,29 +187,16 @@ public class ReservationService {
             throw new RuntimeException(e);
         }
     }
-  
-
-    // 매일 자정에 실행하여 오늘날짜 이후로 지난 예약들은 상태 complete 변경
-    @Scheduled(cron = "0 0 0 * * *") // 매일 자정에 실행
-    public void updateCompletedReservations() {
-        LocalDate today = LocalDate.now();
-
-        // 오늘 이전 예약 상태를 가져와 업데이트
-        List<Reservation> reservations = reservationRepository.findByReservationDateBeforeAndStatus(today, ReservationStatus.confirm);
-
-        reservations.forEach(Reservation::complete); // 상태 변경
-        reservationRepository.saveAll(reservations); // 변경된 상태 저장
-    }
 
 
-    // 예약 대기 상태 목록 조회 (페이징 처리)
+    // 예약 대기 상태 목록 조회 (관리자 전용)
     public Page<ReservationAdminList> getReservationsByStatus(ReservationStatus status, Pageable pageable) {
         Page<Reservation> reservations = reservationRepository.findByStatus(status, pageable);
         return reservations.map(ReservationAdminList::from);
     }
 
 
-    // 예약 전체 조회 API (페이징 처리)
+    // 예약 전체 조회 (관리자 전용)
     public Page<ReservationAdminList> getAllReservationsSortedByCreatedAt(Pageable pageable) {
         // 모든 예약을 createdAt 기준으로 내림차순 정렬하여 페이지 단위로 조회
         Page<Reservation> reservations = reservationRepository.findAllByOrderByCreatedAtDesc(pageable);
