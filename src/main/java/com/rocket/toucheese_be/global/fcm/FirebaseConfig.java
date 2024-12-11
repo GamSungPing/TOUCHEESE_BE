@@ -26,15 +26,16 @@ public class FirebaseConfig {
            throw new IOException("!!! Firebase service key file not found at path !!!");
        }
 
-       // Firebase 서비스 초기화
-       FileInputStream serviceAccount = new FileInputStream(resource.getFile());
-       FirebaseOptions options = FirebaseOptions.builder()
-               .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-               .build();
+        // 파일을 InputStream으로 직접 로드
+        try (InputStream serviceAccount = resource.getInputStream()) {
+            FirebaseOptions options = FirebaseOptions.builder()
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .build();
 
-       // Firebase 앱이 초기화 되지 않은 경우에 강제 초기화
-       if(FirebaseApp.getApps().isEmpty()) {
-           FirebaseApp.initializeApp(options);
-       }
+            // Firebase 앱이 초기화 되지 않은 경우에 강제 초기화
+            if (FirebaseApp.getApps().isEmpty()) {
+                FirebaseApp.initializeApp(options);
+            }
+        }
    }
 }
