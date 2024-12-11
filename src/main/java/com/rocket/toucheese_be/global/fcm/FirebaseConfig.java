@@ -39,7 +39,7 @@ public class FirebaseConfig {
                 FirebaseApp.initializeApp(options);
             }
 
-            System.out.println("-----잘 되었나요------");
+            System.out.println("-----잘 되었나요??------");
         }
     }
 }
