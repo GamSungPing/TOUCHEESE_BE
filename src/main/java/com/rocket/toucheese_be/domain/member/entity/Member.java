@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rocket.toucheese_be.domain.studio.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,4 +39,9 @@ public class Member {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "device_id")
     private Device device;
+
+    @Transactional
+    public void setDevice(Device device) {
+        this.device = device;
+    }
 }

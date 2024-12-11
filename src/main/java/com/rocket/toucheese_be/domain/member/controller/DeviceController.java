@@ -11,16 +11,16 @@ import com.rocket.toucheese_be.global.response.Response;
 import com.rocket.toucheese_be.global.response.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
 @RequestMapping("/api/v1/device")
 @RequiredArgsConstructor
-@Controller
+@RestController
 public class DeviceController {
     private final DeviceService deviceService;
     private final MemberService memberService;
@@ -30,7 +30,7 @@ public class DeviceController {
     // 1. 타임 스탬프 - 사용 시마다 타임 스탬프 갱신, 미사용 100일 경과 후 삭제
     // 2. 정기적으로 클라이언트에서 토큰 유효성 검사해서 서버에 결과 전송
     // 한 멤버가 하나의 디바이스만 가지는 것으로 가정
-    // 토큰 무효화 조건 1)앱 삭제 2)토큰 기간 만료(100일로 가정) 3)앱 데이터 초기화(캐시 및 저장 데이터 삭제)
+    // 아직) 토큰 무효화 조건 1)앱 삭제 2)토큰 기간 만료(100일로 가정) 3)앱 데이터 초기화(캐시 및 저장 데이터 삭제)
     @Operation(
             summary = "디바이스 토큰 등록",
             description = "푸시 알림에 대해 사용자가 승낙할 때 DeviceRegisterDto와 함께 호출되어야 합니다")
@@ -54,6 +54,8 @@ public class DeviceController {
                     .deviceToken(deviceRegisterDto.deviceToken())
                     .build();
             deviceService.save(device);
+            member.setDevice(device);
+            memberService.save(member);
             return Response.of(SuccessCode.GET_DEVICE_TOKEN_SUCCESS);
         }
     }
