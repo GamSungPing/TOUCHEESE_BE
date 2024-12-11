@@ -13,6 +13,7 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
+    @Transactional
     public Optional<Member> findById(Long id) {
         return memberRepository.findById(id);
     }
