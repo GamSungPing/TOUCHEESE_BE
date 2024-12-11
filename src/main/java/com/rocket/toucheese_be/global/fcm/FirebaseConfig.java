@@ -4,6 +4,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
@@ -11,6 +12,7 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.IOException;
 import java.io.InputStream;
 
+@Slf4j
 @Profile("!test")
 @Configuration
 public class FirebaseConfig {
@@ -39,7 +41,7 @@ public class FirebaseConfig {
                 FirebaseApp.initializeApp(options);
             }
 
-            System.out.println("-----잘 되었나요??------");
+            log.info("firebase config 설정 성공");
         }
     }
 }
