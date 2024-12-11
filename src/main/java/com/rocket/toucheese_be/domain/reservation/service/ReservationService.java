@@ -120,6 +120,8 @@ public class ReservationService {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESERVATION));
         reservation.confirm(); // 상태 변경 메서드 호출
+        Long memberId = reservation.getMember().getId();
+        sendPushMsg(memberId, reservation, PushMsg.RESERVATION_SUCCEED);
     }
 
     @Transactional
@@ -128,6 +130,8 @@ public class ReservationService {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESERVATION));
         reservation.cancel(); // 상태 변경 메서드 호출
+        Long memberId = reservation.getMember().getId();
+        sendPushMsg(memberId, reservation, PushMsg.RESERVATION_FAILED);
     }
 
     // 완료 및 취소 상태 예약 목록 조회
