@@ -4,7 +4,6 @@ import com.rocket.toucheese_be.domain.member.dto.DeviceRegisterDto;
 import com.rocket.toucheese_be.domain.member.entity.Device;
 import com.rocket.toucheese_be.domain.member.entity.Member;
 import com.rocket.toucheese_be.domain.member.repository.DeviceRepository;
-import com.rocket.toucheese_be.global.redis.RedisConfig;
 import com.rocket.toucheese_be.global.response.CustomException;
 import com.rocket.toucheese_be.global.response.ErrorCode;
 import com.rocket.toucheese_be.global.response.Response;

@@ -173,13 +173,12 @@ public class ReservationService {
     public void sendPushMsg(Long memberId, Reservation reservation, PushMsg pushMsg) {
 
         // 해당 사용자 디바이스 찾기 - 디바이스 토큰 찾기 용도
-        // 없으면 deviceService 단에서 예외 처리 됨
-        Device device = deviceService.getDeviceByMemberId(memberId);
+        String deviceToken = deviceService.getDeviceTokenFromRedis(memberId); // Redis에서 토큰 확인
 
         // 푸시 알림 전송
         try {
             fcmService.sendPushMsg(
-                    device.getDeviceToken(),
+                    deviceToken,
                     pushMsg,
                     reservation.getStudio().getName()
             );
