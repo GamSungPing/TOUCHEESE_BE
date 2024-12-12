@@ -60,8 +60,10 @@ public class ReservationService {
         // 스튜디오의 예약 가능한 시간 계산
         List<LocalTime> availableSlots = studio.getAvailableTimeSlots(date, reservations);
 
+        LocalTime lastSlot = availableSlots.get(availableSlots.size() - 1);
+
         // AvailableTimeListDto 반환
-        return new AvailableTimeListDto(studio.getName(), availableSlots);
+        return new AvailableTimeListDto(studio.getName(), availableSlots, studio.getOpeningTime(), lastSlot);
     }
 
     @Transactional
