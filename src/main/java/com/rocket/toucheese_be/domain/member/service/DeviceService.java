@@ -26,13 +26,8 @@ public class DeviceService {
     private final MemberService memberService;
     private final RedisTemplate<String, String> redisTemplate; // RedisTemplate 추가
 
-    private static final Duration TOKEN_EXPIRATION_TIME = Duration.ofMinutes(1);  // 1시간
+    private static final Duration TOKEN_EXPIRATION_TIME = Duration.ofDays(100L);
 
-
-    public Device getDeviceByMemberId(Long memberId) {
-        return deviceRepository.findByMemberId(memberId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_DEVICE));
-    }
 
     @Transactional
     public Response<Device> registerDevice(DeviceRegisterDto deviceRegisterDto) {

@@ -27,6 +27,7 @@ public class DeviceController {
         return deviceService.registerDevice(deviceRegisterDto);
     }
 
+    // Redis에서 memberId로 토큰값 조회
     @Operation(
             summary = "Redis에서 디바이스 토큰 조회",
             description = "회원 ID로 Redis에서 저장된 디바이스 토큰을 조회합니다.")
