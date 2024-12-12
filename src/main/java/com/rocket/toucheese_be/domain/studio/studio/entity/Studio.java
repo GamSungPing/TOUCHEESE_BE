@@ -113,15 +113,20 @@ public class Studio {
 
         LocalTime currentTime = this.openingTime;
 
-        // 루프 종료 조건을 명확히 설정
-        while (!currentTime.isAfter(this.closingTime)) {
+        while (currentTime.isBefore(this.closingTime)) { // closingTime 제외
             LocalTime nextSlot = currentTime.plusHours(1);
+
+            // nextSlot이 closingTime을 초과하면 루프 종료
+            if (nextSlot.isAfter(this.closingTime)) {
+                break;
+            }
 
             // 예약 여부 확인
             boolean isSlotBooked = false;
             for (Reservation reservation : reservations) {
                 if (reservation.getReservationDate().equals(date)) {
-                    if (!(reservation.getEndTime().isBefore(currentTime) || reservation.getStartTime().isAfter(nextSlot))) {
+                    // 예약 시간과 겹치는지 확인
+                    if (currentTime.isBefore(reservation.getEndTime()) && nextSlot.isAfter(reservation.getStartTime())) {
                         isSlotBooked = true;
                         break;
                     }
@@ -132,7 +137,6 @@ public class Studio {
                 availableSlots.add(currentTime);
             }
 
-            // 다음 시간 슬롯으로 이동
             currentTime = nextSlot;
 
             // 자정을 넘지 않도록 처리
@@ -148,6 +152,7 @@ public class Studio {
 
         return availableSlots;
     }
+
 
 
 

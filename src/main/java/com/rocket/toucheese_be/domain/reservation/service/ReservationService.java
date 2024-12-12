@@ -60,8 +60,10 @@ public class ReservationService {
         // 스튜디오의 예약 가능한 시간 계산
         List<LocalTime> availableSlots = studio.getAvailableTimeSlots(date, reservations);
 
+        LocalTime lastSlot = availableSlots.get(availableSlots.size() - 1);
+
         // AvailableTimeListDto 반환
-        return new AvailableTimeListDto(studio.getName(), availableSlots);
+        return new AvailableTimeListDto(studio.getName(), availableSlots, studio.getOpeningTime(), lastSlot);
     }
 
     @Transactional
@@ -147,7 +149,7 @@ public class ReservationService {
     }
 
     @Transactional
-    // 예약 취소
+    // 예약 취소 (사용자가)
     public void cancelReservation(Long reservationId, Long memberId) {
         // 해당 예약 조회
         Reservation reservation = reservationRepository.findById(reservationId)
@@ -170,20 +172,26 @@ public class ReservationService {
     * reservation - studio 이름을 얻기 위한 것이므로 Studio, studioName 등으로 수정 가능
     * pushMsg - 메시지 종류 PushMsg ENUM 참고 -> 예약 성공: PushMsg.RESERVATION_SUCCEED, 예약 실패: PushMsg.RESERVATION_FAILED
      */
+    // 푸시 알림을 보내는 메서드
     public void sendPushMsg(Long memberId, Reservation reservation, PushMsg pushMsg) {
-
-        // 해당 사용자 디바이스 찾기 - 디바이스 토큰 찾기 용도
+        // 해당 사용자 디바이스 토큰을 Redis에서 가져옵니다
         String deviceToken = deviceService.getDeviceTokenFromRedis(memberId); // Redis에서 토큰 확인
 
-        // 푸시 알림 전송
-        try {
-            fcmService.sendPushMsg(
-                    deviceToken,
-                    pushMsg,
-                    reservation.getStudio().getName()
-            );
-        } catch (IOException | FirebaseMessagingException e) {
-            throw new RuntimeException(e);
+        // 만약 토큰이 존재하면 푸시 메시지를 전송합니다
+        if (deviceToken != null) {
+            try {
+                fcmService.sendPushMsg(
+                        deviceToken,
+                        pushMsg,
+                        reservation.getStudio().getName()
+                );
+            } catch (IOException | FirebaseMessagingException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            // 토큰이 없으면 알림을 보내지 않음
+            // 필요한 경우 로깅 또는 다른 처리를 할 수 있습니다.
+            System.out.println("Device token not found, push notification not sent.");
         }
     }
 

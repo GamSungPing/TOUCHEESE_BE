@@ -26,7 +26,7 @@ public class DeviceService {
     private final MemberService memberService;
     private final RedisTemplate<String, String> redisTemplate; // RedisTemplate 추가
 
-    private static final Duration TOKEN_EXPIRATION_TIME = Duration.ofMinutes(1L);
+    private static final Duration TOKEN_EXPIRATION_TIME = Duration.ofMinutes(5L);
 
 
     @Transactional
@@ -67,14 +67,14 @@ public class DeviceService {
             return Response.of(SuccessCode.GET_DEVICE_TOKEN_SUCCESS);
         }
     }
-
-    // 토큰이 만료되었거나 Redis의 저장된 토큰이 없을 경우 예외
+    // 토큰이 만료되었거나 Redis의 저장된 토큰이 없을 경우 예외를 던지지 않고 null을 반환
+    @Transactional
     public String getDeviceTokenFromRedis(Long memberId) {
         String token = redisTemplate.opsForValue().get(getRedisKeyForMember(memberId));
 
-        // Redis에 저장된 토큰이 없을 경우
+        // Redis에 저장된 토큰이 없을 경우 null 반환
         if (token == null) {
-            throw new CustomException(ErrorCode.NOT_FOUND_DEVICE_TOKEN_IN_REDIS);  // 토큰이 없으면 예외 처리
+            return null;  // 예외 처리 대신 null 반환
         }
 
         // Redis에서 TTL을 확인하여, 토큰이 만료되었는지 확인
@@ -82,7 +82,7 @@ public class DeviceService {
 
         if (ttl != null && ttl <= 0) {
             // TTL이 0 이하이면 만료된 토큰으로 간주
-            throw new CustomException(ErrorCode.TOKEN_EXPIRED);  // 토큰 만료 예외 처리
+            return null;  // 만료된 토큰은 null 반환
         }
 
         return token;
