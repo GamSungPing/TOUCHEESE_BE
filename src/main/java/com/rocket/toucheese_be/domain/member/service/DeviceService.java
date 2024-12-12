@@ -26,7 +26,7 @@ public class DeviceService {
     private final MemberService memberService;
     private final RedisTemplate<String, String> redisTemplate; // RedisTemplate 추가
 
-    private static final Duration TOKEN_EXPIRATION_TIME = Duration.ofDays(100L);
+    private static final Duration TOKEN_EXPIRATION_TIME = Duration.ofMinutes(1L);
 
 
     @Transactional
