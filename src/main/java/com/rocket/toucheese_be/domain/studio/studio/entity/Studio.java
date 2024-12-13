@@ -1,6 +1,7 @@
 package com.rocket.toucheese_be.domain.studio.studio.entity;
 
 import com.rocket.toucheese_be.domain.reservation.entity.Reservation;
+import com.rocket.toucheese_be.domain.reservation.entity.ReservationStatus;
 import com.rocket.toucheese_be.domain.studio.product.entity.Product;
 import com.rocket.toucheese_be.domain.studio.review.entity.Review;
 import jakarta.persistence.*;
@@ -108,12 +109,16 @@ public class Studio {
             reservations = new ArrayList<>();
         }
 
-        // 예약 목록을 정렬
-        reservations.sort(Comparator.comparing(Reservation::getStartTime));
+        // 상태가 cancel이 아닌 예약만 필터링
+        List<Reservation> activeReservations = reservations.stream()
+                .filter(reservation -> reservation.getReservationDate().equals(date))
+                .filter(reservation -> reservation.getStatus() != ReservationStatus.cancel)
+                .sorted(Comparator.comparing(Reservation::getStartTime))
+                .toList();
 
         LocalTime currentTime = this.openingTime;
 
-        while (currentTime.isBefore(this.closingTime)) { // closingTime 제외
+        while (currentTime.isBefore(this.closingTime)) {
             LocalTime nextSlot = currentTime.plusHours(1);
 
             // nextSlot이 closingTime을 초과하면 루프 종료
@@ -122,30 +127,21 @@ public class Studio {
             }
 
             // 예약 여부 확인
-            boolean isSlotBooked = false;
-            for (Reservation reservation : reservations) {
-                if (reservation.getReservationDate().equals(date)) {
-                    // 예약 시간과 겹치는지 확인
-                    if (currentTime.isBefore(reservation.getEndTime()) && nextSlot.isAfter(reservation.getStartTime())) {
-                        isSlotBooked = true;
-                        break;
-                    }
-                }
-            }
+            LocalTime finalCurrentTime = currentTime;
+            boolean isSlotBooked = activeReservations.stream()
+                    .anyMatch(reservation ->
+                            finalCurrentTime.isBefore(reservation.getEndTime()) &&
+                                    nextSlot.isAfter(reservation.getStartTime())
+                    );
 
             if (!isSlotBooked) {
                 availableSlots.add(currentTime);
             }
 
             currentTime = nextSlot;
-
-            // 자정을 넘지 않도록 처리
-            if (currentTime.equals(LocalTime.MIDNIGHT)) {
-                break;
-            }
         }
 
-        // closingTime이 정확히 24:00:00으로 간주되도록 처리
+        // closingTime이 정확히 24:00:00으로 간주되면 자정을 추가
         if (this.closingTime.equals(LocalTime.MAX)) {
             availableSlots.add(LocalTime.MIDNIGHT);
         }
