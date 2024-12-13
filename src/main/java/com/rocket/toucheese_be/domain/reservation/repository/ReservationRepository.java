@@ -27,14 +27,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     Page<Reservation> findByStatus(ReservationStatus status, Pageable pageable);
 
 
-    // 스튜디오, 예약 날짜, 시작 시간과 종료 시간 범위에 중복된 예약이 있는지 체크
-    boolean existsByStudioAndReservationDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
+    // 예약 중복 확인(cancel 상태는 무시)
+    boolean existsByStudioAndReservationDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqualAndStatusNot(
             Studio studio,
             LocalDate reservationDate,
             LocalTime startTime,
-            LocalTime endTime
+            LocalTime endTime,
+            ReservationStatus status
     );
-
     // 예약 생성 날짜 정렬
     Page<Reservation> findAllByOrderByCreatedAtDesc(Pageable pageable);
 

@@ -1,7 +1,6 @@
 package com.rocket.toucheese_be.domain.reservation.service;
 
 import com.google.firebase.messaging.FirebaseMessagingException;
-import com.rocket.toucheese_be.domain.member.entity.Device;
 import com.rocket.toucheese_be.domain.member.entity.Member;
 import com.rocket.toucheese_be.domain.member.repository.MemberRepository;
 import com.rocket.toucheese_be.domain.member.service.DeviceService;
@@ -18,7 +17,6 @@ import com.rocket.toucheese_be.global.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,10 +55,15 @@ public class ReservationService {
         // 특정 날짜의 모든 예약 조회
         List<Reservation> reservations = reservationRepository.findByStudioAndReservationDate(studio, date);
 
-        // 스튜디오의 예약 가능한 시간 계산
-        List<LocalTime> availableSlots = studio.getAvailableTimeSlots(date, reservations);
+        // 상태가 cancel이 아닌 예약만 필터링
+        List<Reservation> activeReservations = reservations.stream()
+                .filter(reservation -> reservation.getStatus() != ReservationStatus.cancel)
+                .toList();
 
-        LocalTime lastSlot = availableSlots.get(availableSlots.size() - 1);
+        // 스튜디오의 예약 가능한 시간 계산
+        List<LocalTime> availableSlots = studio.getAvailableTimeSlots(date, activeReservations);
+
+        LocalTime lastSlot = availableSlots.isEmpty() ? null : availableSlots.get(availableSlots.size() - 1);
 
         // AvailableTimeListDto 반환
         return new AvailableTimeListDto(studio.getName(), availableSlots, studio.getOpeningTime(), lastSlot);
@@ -78,11 +81,12 @@ public class ReservationService {
                     .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_STUDIO));
 
             // 이미 예약이 있는지 확인 (중복 예약 방지)
-            boolean isOverlapping = reservationRepository.existsByStudioAndReservationDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
+            boolean isOverlapping = reservationRepository.existsByStudioAndReservationDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqualAndStatusNot(
                     studio,
                     reservationReqDto.reservationDate(),
                     reservationReqDto.reservationTime(),
-                    reservationReqDto.reservationTime().plusMinutes(59).plusSeconds(59) // endTime 계산
+                    reservationReqDto.reservationTime().plusMinutes(59).plusSeconds(59), // endTime 계산
+                    ReservationStatus.cancel // cancel 상태는 제외
             );
 
             if (isOverlapping) {

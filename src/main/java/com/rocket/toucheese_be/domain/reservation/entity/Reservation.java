@@ -57,13 +57,6 @@ public class Reservation {
     // 예약 상태 변경 (예약취소)
     public void cancel() {
         this.status = ReservationStatus.cancel;
-
-        // 예약 취소 시 필드 값들을 null로 설정
-        this.reservationDate = null;
-        this.startTime = null;
-        this.endTime = null;
-        this.createdAt = null;
-        this.totalPrice = null;
     }
 
     // 예약 상태 변경 (예약확정)
