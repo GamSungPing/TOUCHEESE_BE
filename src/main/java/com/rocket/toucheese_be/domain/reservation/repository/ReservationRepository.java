@@ -38,5 +38,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     // 예약 생성 날짜 정렬
     Page<Reservation> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
+    // 스케쥴러
+    List<Reservation> findByStatusAndEndTimeBefore(ReservationStatus status, LocalTime endTime);
+
 }
 

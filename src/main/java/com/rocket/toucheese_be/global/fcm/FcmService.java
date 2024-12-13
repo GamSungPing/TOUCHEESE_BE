@@ -2,10 +2,12 @@ package com.rocket.toucheese_be.global.fcm;
 
 import com.google.firebase.messaging.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class FcmService {
@@ -33,6 +35,6 @@ public class FcmService {
 
         // Firebase 서버에 해당 메시지 전송 요청 및 확인용 출력
         String response = FirebaseMessaging.getInstance().send(message);
-        System.out.println("Successfully sent message: " + response);
+        log.info("푸시 메시지 전송 성공: " + response);
     }
 }

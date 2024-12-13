@@ -15,6 +15,7 @@ import com.rocket.toucheese_be.global.fcm.PushMsg;
 import com.rocket.toucheese_be.global.response.CustomException;
 import com.rocket.toucheese_be.global.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -195,7 +197,7 @@ public class ReservationService {
         } else {
             // 토큰이 없으면 알림을 보내지 않음
             // 필요한 경우 로깅 또는 다른 처리를 할 수 있습니다.
-            System.out.println("Device token not found, push notification not sent.");
+            log.info("Device token not found, push notification not sent.");
         }
     }
 
