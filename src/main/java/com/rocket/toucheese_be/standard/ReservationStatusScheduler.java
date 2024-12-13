@@ -17,9 +17,10 @@ public class ReservationStatusScheduler {
 
     private final ReservationRepository reservationRepository;
 
-    @Scheduled(cron = "0 0 */12 * * *") // 12시간마다 실행
+    // 12시간마다 실행: 'waiting' 상태인 예약 취소
+    @Scheduled(cron = "0 0 */12 * * *")
     @Transactional
-    public void updateReservationStatuses() {
+    public void cancelPastReservations() {
         List<Reservation> reservations = reservationRepository.findAll();
 
         for (Reservation reservation : reservations) {
@@ -28,7 +29,16 @@ public class ReservationStatusScheduler {
                 reservation.cancel();
                 reservationRepository.save(reservation);  // 상태 변경 후 저장
             }
+        }
+    }
 
+    // 1시간마다 실행: 'confirm' 상태인 예약을 'complete'로 변경
+    @Scheduled(cron = "0 0 */1 * * *")
+    @Transactional
+    public void completePastReservations() {
+        List<Reservation> reservations = reservationRepository.findAll();
+
+        for (Reservation reservation : reservations) {
             // 예약 상태가 'confirm'이고, 예약 시간이 현재를 넘었으면 완료 처리
             if (reservation.getStatus() == ReservationStatus.confirm && isPastReservation(reservation)) {
                 reservation.complete();
@@ -43,5 +53,6 @@ public class ReservationStatusScheduler {
         return reservationDateTime.isBefore(LocalDateTime.now());
     }
 }
+
 
 
