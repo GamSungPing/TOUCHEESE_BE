@@ -8,6 +8,8 @@ import com.rocket.toucheese_be.domain.reservation.dto.*;
 import com.rocket.toucheese_be.domain.reservation.entity.Reservation;
 import com.rocket.toucheese_be.domain.reservation.entity.ReservationStatus;
 import com.rocket.toucheese_be.domain.reservation.repository.ReservationRepository;
+import com.rocket.toucheese_be.domain.studio.product.entity.Product;
+import com.rocket.toucheese_be.domain.studio.product.repository.ProductRepository;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import com.rocket.toucheese_be.domain.studio.studio.repository.StudioRepository;
 import com.rocket.toucheese_be.global.fcm.FcmService;
@@ -37,6 +39,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final StudioRepository studioRepository;
     private final MemberRepository memberRepository;
+    private final ProductRepository productRepository;
     private final Object lock = new Object(); // 동기화를 위한 락 객체
     private final FcmService fcmService;
     private final DeviceService deviceService;
@@ -82,6 +85,11 @@ public class ReservationService {
             Studio studio = studioRepository.findById(reservationReqDto.studioId())
                     .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_STUDIO));
 
+            // 상품 조회
+            Product product = productRepository.findById(reservationReqDto.productId())
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_STUDIO_PRODUCT));
+
+
             // 이미 예약이 있는지 확인 (중복 예약 방지)
             boolean isOverlapping = reservationRepository.existsByStudioAndReservationDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqualAndStatusNot(
                     studio,
@@ -96,7 +104,7 @@ public class ReservationService {
             }
 
             // 예약 생성
-            Reservation reservation = Reservation.create(member, studio, reservationReqDto);
+            Reservation reservation = Reservation.create(member, studio, product, reservationReqDto);
 
             // 예약 저장
             Reservation savedReservation = reservationRepository.save(reservation);

@@ -2,6 +2,7 @@ package com.rocket.toucheese_be.domain.reservation.entity;
 
 import com.rocket.toucheese_be.domain.member.entity.Member;
 import com.rocket.toucheese_be.domain.reservation.dto.ReservationReqDto;
+import com.rocket.toucheese_be.domain.studio.product.entity.Product;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,7 +40,9 @@ public class Reservation {
 
     private Integer totalPrice;
 
-    private String productName;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     private String productOption;
 
@@ -71,7 +74,7 @@ public class Reservation {
 
 
     // 예약 메서드
-    public static Reservation create(Member member, Studio studio, ReservationReqDto dto) {
+    public static Reservation create(Member member, Studio studio, Product product,ReservationReqDto dto) {
         return Reservation.builder()
                 .member(member)
                 .studio(studio)
@@ -81,7 +84,7 @@ public class Reservation {
                 .phoneNumber(dto.phoneNumber())
                 .endTime(dto.reservationTime().plusMinutes(59).plusSeconds(59))
                 .totalPrice(dto.totalPrice())
-                .productName(dto.productName())
+                .product(product)
                 .productOption(dto.productOption())
                 .status(ReservationStatus.waiting)
                 .createdAt(LocalDateTime.now())
