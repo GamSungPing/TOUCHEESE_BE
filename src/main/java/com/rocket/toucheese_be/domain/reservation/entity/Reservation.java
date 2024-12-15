@@ -40,7 +40,7 @@ public class Reservation {
 
     private Integer totalPrice;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
@@ -51,6 +51,8 @@ public class Reservation {
     private String phoneNumber;
 
     private String email;
+
+    private int addPeopleCnt = 0;
 
     // 예약 상태 (예: 예약확정, 예약대기, 예약취소)
     @Enumerated(EnumType.STRING)
@@ -88,6 +90,7 @@ public class Reservation {
                 .productOption(dto.productOption())
                 .status(ReservationStatus.waiting)
                 .createdAt(LocalDateTime.now())
+                .addPeopleCnt(dto.addPeopleCnt())
                 .build();
     }
 }

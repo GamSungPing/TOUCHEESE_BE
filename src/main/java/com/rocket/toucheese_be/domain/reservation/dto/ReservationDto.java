@@ -23,7 +23,7 @@ public record ReservationDto(
         ReservationStatus reservationStatus, // 예약 상태
         String productImage, // 상품 이미지URL
         int productPrice, // 상품 가격
-        int addPeoplePrice // 추가 인원
+        int addPeopleCnt
 
 ) {
     public static ReservationDto from(Reservation reservation) {
@@ -44,7 +44,7 @@ public record ReservationDto(
                 reservation.getStatus(),
                 reservation.getProduct().getProductImage(),
                 reservation.getProduct().getProductPrice(),
-                reservation.getProduct().getAddPeoplePrice()
+                reservation.getAddPeopleCnt()
         );
     }
 }
