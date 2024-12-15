@@ -2,6 +2,7 @@ package com.rocket.toucheese_be.domain.reservation.entity;
 
 import com.rocket.toucheese_be.domain.member.entity.Member;
 import com.rocket.toucheese_be.domain.reservation.dto.ReservationReqDto;
+import com.rocket.toucheese_be.domain.studio.product.entity.Product;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,7 +40,9 @@ public class Reservation {
 
     private Integer totalPrice;
 
-    private String productName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     private String productOption;
 
@@ -48,6 +51,8 @@ public class Reservation {
     private String phoneNumber;
 
     private String email;
+
+    private int addPeopleCnt = 0;
 
     // 예약 상태 (예: 예약확정, 예약대기, 예약취소)
     @Enumerated(EnumType.STRING)
@@ -71,7 +76,7 @@ public class Reservation {
 
 
     // 예약 메서드
-    public static Reservation create(Member member, Studio studio, ReservationReqDto dto) {
+    public static Reservation create(Member member, Studio studio, Product product,ReservationReqDto dto) {
         return Reservation.builder()
                 .member(member)
                 .studio(studio)
@@ -81,10 +86,11 @@ public class Reservation {
                 .phoneNumber(dto.phoneNumber())
                 .endTime(dto.reservationTime().plusMinutes(59).plusSeconds(59))
                 .totalPrice(dto.totalPrice())
-                .productName(dto.productName())
+                .product(product)
                 .productOption(dto.productOption())
                 .status(ReservationStatus.waiting)
                 .createdAt(LocalDateTime.now())
+                .addPeopleCnt(dto.addPeopleCnt())
                 .build();
     }
 }

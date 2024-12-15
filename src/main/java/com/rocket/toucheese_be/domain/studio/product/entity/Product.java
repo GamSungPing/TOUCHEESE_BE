@@ -1,5 +1,6 @@
 package com.rocket.toucheese_be.domain.studio.product.entity;
 
+import com.rocket.toucheese_be.domain.reservation.entity.Reservation;
 import com.rocket.toucheese_be.domain.studio.review.entity.Review;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 import jakarta.persistence.*;
@@ -19,6 +20,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,6 +33,9 @@ public class Product {
     private String description;
 
     private String productImage;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> reservations = new ArrayList<>();
 
     private int productPrice;
 
