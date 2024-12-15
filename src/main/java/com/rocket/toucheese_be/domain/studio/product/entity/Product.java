@@ -34,8 +34,8 @@ public class Product {
 
     private String productImage;
 
-    @OneToOne(mappedBy = "product")
-    private Reservation reservation;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> reservations = new ArrayList<>();
 
     private int productPrice;
 
