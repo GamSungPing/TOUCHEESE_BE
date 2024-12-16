@@ -49,7 +49,8 @@ public class SecurityConfig {
                     authorizeHttpRequests
                             // 인증 없이 접근 가능한 url
                             .requestMatchers("/swagger-ui/**").permitAll() // Swagger UI 외부 접속 허용
-                            .requestMatchers(new AntPathRequestMatcher("/api/v1/auth/**")).permitAll()
+                            .requestMatchers("/h2-console/**").permitAll() // h2 console 외부 접속 허용
+                            .requestMatchers("/api/v1/auth/**").permitAll()
                             .requestMatchers(new AntPathRequestMatcher("/api/v1/**")).permitAll() // TODO: 삭제 예정
                             .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
                             // 이외의 모든 요청은 인증 정보 필요
