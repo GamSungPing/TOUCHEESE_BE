@@ -11,7 +11,8 @@ public record StudioListDto(
         int profilePrice,
         Double rating,
         List<String> portfolioUrls,
-        String profileURL
+        String profileURL,
+        int reviewCount
 ) {
     public StudioListDto(Studio studio) {
         this(
@@ -22,7 +23,8 @@ public record StudioListDto(
                 studio.getPortfolios().stream()
                         .map(Portfolio::getPortfolioURL)
                         .toList(),
-                studio.getProfileImage().getProfileURL()
+                studio.getProfileImage().getProfileURL(),
+                studio.getReviewList().size()
         );
     }
 
