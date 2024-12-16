@@ -1,4 +1,4 @@
-package com.rocket.toucheese_be.global.app;
+package com.rocket.toucheese_be.global.config;
 
 import lombok.Getter;
 
