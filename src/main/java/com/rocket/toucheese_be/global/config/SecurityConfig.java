@@ -48,11 +48,15 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorizeHttpRequests ->
                     authorizeHttpRequests
                             // 인증 없이 접근 가능한 url
-                            .requestMatchers("/swagger-ui/**").permitAll() // Swagger UI 외부 접속 허용
+                            .requestMatchers("/swagger-ui/**",  "/v3/api-docs/**").permitAll() // Swagger UI 외부 접속 허용
                             .requestMatchers("/h2-console/**").permitAll() // h2 console 외부 접속 허용
-                            .requestMatchers("/api/v1/auth/**").permitAll()
-                            .requestMatchers(new AntPathRequestMatcher("/api/v1/**")).permitAll() // TODO: 삭제 예정
-                            .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
+                            .requestMatchers("/api/v1/auth/**").permitAll() // 인증 관련 (회원가입, 로그인)
+                            .requestMatchers("/api/v1/studio/**").permitAll() // studio 목록, 단건 조회
+                            .requestMatchers("/api/v1/concepts").permitAll() // concept 목록 조회
+                            .requestMatchers("/api/v1/concept/**").permitAll() // concept 단건 조회
+                            .requestMatchers("/api/v1/product/**").permitAll() // product 목록, 단건 조회
+                            .requestMatchers("/api/v1/review/**").permitAll() // review 목록, 단건 조회
+                            .requestMatchers(new AntPathRequestMatcher("/error")).permitAll() // 에러 페이지
                             // 이외의 모든 요청은 인증 정보 필요
                             .anyRequest().authenticated());
 
