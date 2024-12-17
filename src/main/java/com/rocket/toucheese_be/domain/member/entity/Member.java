@@ -31,7 +31,7 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Review> review;
 
-    @Column(length = 10)
+    @Column(length = 20)
     private String nickname;
 
     private String profileImageUrl;
