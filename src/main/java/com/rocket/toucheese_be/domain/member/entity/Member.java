@@ -23,7 +23,8 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    private String name;
+    @Column(unique = true, nullable = false)
+    private String username;
 
 
     @JsonIgnore
