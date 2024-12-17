@@ -40,8 +40,29 @@ public class Member {
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private Device device;
 
+    @Enumerated(value = EnumType.STRING)
+    private SocialType socialType;
+
+    private String socialId;
+
+    private String refreshToken;
+
+    @Builder
+    public Member(SocialType socialType, String socialId) {
+        this.socialType = socialType;
+        this.socialId = socialId;
+    }
+
     @Transactional
     public void setDevice(Device device) {
         this.device = device;
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public void resetRefreshToken() {
+        this.refreshToken = null;
     }
 }
