@@ -37,9 +37,9 @@ public class JwtTokenProvider {
 
     // 사용자 정보를 추출 (Claims = JWT Payload 부분에 있는 정보)
     private Claims generateClaims(Authentication authentication) {
-        Claims claims = (Claims) Jwts.claims();
-        claims.put("memberId", authentication.getPrincipal());
-        return claims;
+        return Jwts.claims()
+                .add("memberId", authentication.getPrincipal())
+                .build();
     }
 
     private SecretKey getSigningKey() {
