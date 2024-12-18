@@ -34,7 +34,7 @@ public record ReservationDto(
                 reservation.getStudio().getId(),
                 reservation.getStudio().getName(),
                 reservation.getPhoneNumber(),
-                reservation.getMember().getUsername(),
+                reservation.getMember().getName(),
                 reservation.getEmail(),
                 reservation.getReservationDate(),
                 reservation.getStartTime(),

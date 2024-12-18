@@ -24,8 +24,7 @@ public class Member {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String username;
-
+    private String name; // username으로 변경 염두
 
     @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
