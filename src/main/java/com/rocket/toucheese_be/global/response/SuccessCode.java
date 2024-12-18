@@ -44,7 +44,10 @@ public enum SuccessCode implements ResponseCode {
     // FCM 관련
     GET_DEVICE_TOKEN_SUCCESS(HttpStatus.OK, "디바이스 토큰 저장 성공"),
     UPDATE_DEVICE_TOKEN_SUCCESS(HttpStatus.OK, "디바이스 토큰 갱신 성공"),
-    NOT_UPDATE_DEVICE_TOKEN_SUCCESS(HttpStatus.OK, "기존 디바이스 토큰 유효함");
+    NOT_UPDATE_DEVICE_TOKEN_SUCCESS(HttpStatus.OK, "기존 디바이스 토큰 유효함"),
+
+    // Oauth
+    GET_SOCIAL_TOKEN_SUCCESS(HttpStatus.OK, "소셜 토큰 받아오기 성공"); // 차후 로그인, 로그아웃, 탈퇴 분리 필요
 
     private final HttpStatus httpStatus;
     private final String message;

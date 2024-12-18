@@ -20,20 +20,20 @@ public class AuthController {
     @PostMapping
     public Response<LoginDto> login(@RequestHeader("Authorization") String socialAccessToken, @RequestBody LoginReqDto loginReqDto) {
         LoginDto response = authService.login(socialAccessToken, loginReqDto);
-        return Response.of(SuccessCode.GET_STUDIO_LIST_SUCCESS, response);
+        return Response.of(SuccessCode.GET_SOCIAL_TOKEN_SUCCESS, response);
     }
 
     @PostMapping("/logout")
     public Response<LoginDto> logout(Principal principal) {
         long memberId = Long.parseLong(principal.getName());
         authService.logout(memberId);
-        return Response.of(SuccessCode.GET_STUDIO_LIST_SUCCESS, null);
+        return Response.of(SuccessCode.GET_SOCIAL_TOKEN_SUCCESS, null);
     }
 
     @DeleteMapping
     public Response<LoginDto> withdrawal(Principal principal) {
         long memberId = Long.parseLong(principal.getName());
         authService.withdraw(memberId);
-        return Response.of(SuccessCode.GET_STUDIO_LIST_SUCCESS, null);
+        return Response.of(SuccessCode.GET_SOCIAL_TOKEN_SUCCESS, null);
     }
 }
