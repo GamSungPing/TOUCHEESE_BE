@@ -44,7 +44,7 @@ public class Member {
 
     private String socialId;
 
-    private String refreshToken;
+    private String refreshToken; // TODO: 따로 테이블 만들어서 member와 OneToOne 관계로 설정
 
     @Builder
     public Member(SocialType socialType, String socialId) {
