@@ -23,14 +23,15 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    private String name;
+    @Column(unique = true, nullable = false)
+    private String username;
 
 
     @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Review> review;
 
-    @Column(length = 10)
+    @Column(length = 20)
     private String nickname;
 
     private String profileImageUrl;

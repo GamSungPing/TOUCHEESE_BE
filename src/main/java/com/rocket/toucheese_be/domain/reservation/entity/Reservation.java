@@ -52,6 +52,7 @@ public class Reservation {
 
     private String email;
 
+    @Builder.Default
     private int addPeopleCnt = 0;
 
     // 예약 상태 (예: 예약확정, 예약대기, 예약취소)

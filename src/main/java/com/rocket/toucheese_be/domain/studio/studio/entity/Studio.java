@@ -40,6 +40,7 @@ public class Studio {
     @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviewList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> productList = new ArrayList<>();
 
@@ -58,9 +59,11 @@ public class Studio {
 
     private String holidays;
 
+    @Builder.Default
     @Column
     private LocalTime openingTime = LocalTime.of(10, 0); // 영업 시작 시간
 
+    @Builder.Default
     @Column
     private LocalTime closingTime = LocalTime.of(20, 0); // 영업 종료 시간
 
@@ -71,6 +74,7 @@ public class Studio {
     @OneToOne(mappedBy = "studio", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Profile profileImage;
 
+    @Builder.Default
     @OneToMany(mappedBy = "studio", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();
 

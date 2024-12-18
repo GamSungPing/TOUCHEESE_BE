@@ -28,7 +28,7 @@ public record ReservationAdminList (
                 reservation.getStatus(),
                 reservation.getPhoneNumber(),
                 reservation.getEmail(),
-                reservation.getMember().getName()
+                reservation.getMember().getUsername()
         );
     }
 }

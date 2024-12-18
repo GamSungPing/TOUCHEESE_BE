@@ -34,18 +34,22 @@ public class Product {
 
     private String productImage;
 
+    @Builder.Default
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations = new ArrayList<>();
 
     private int productPrice;
 
+    @Builder.Default
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviewList = new ArrayList<>();
 
     private boolean groupFlag;
 
+    @Builder.Default
     private int basePeopleCnt = 1;
 
+    @Builder.Default
     private int addPeoplePrice = 0;
 
     private String productOptions;
