@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -38,9 +37,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 2. 이를 기반으로 한 UserAuthentication 객체 생성
         // 3. 이 객체를 현재 보안 컨텍스트에 설정하여 애플리케이션 내의 다른 부분에서 현재 인증된 사용자에 대한 정보를 사용할 수 있도록 함
         try {
-            val token = getAccessTokenFromRequest(request);
+            final String token = getAccessTokenFromRequest(request);
             if (hasText(token) && jwtTokenProvider.validateToken(token) == VALID_JWT) {
-                val authentication = new UserAuthentication(getMemberId(token), null, null);
+                UserAuthentication authentication = new UserAuthentication(getMemberId(token), null, null);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
