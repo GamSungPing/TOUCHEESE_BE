@@ -1,11 +1,13 @@
 package com.rocket.toucheese_be.domain.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rocket.toucheese_be.domain.like.entity.Like;
 import com.rocket.toucheese_be.domain.studio.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
@@ -30,6 +32,10 @@ public class Member {
     @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Review> review;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Like> favorites = new ArrayList<>();
 
     @Column(length = 20)
     private String nickname;

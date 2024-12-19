@@ -1,11 +1,11 @@
-package com.rocket.toucheese_be.domain.studio.studio.dto;
+package com.rocket.toucheese_be.domain.like.dto;
 
 import com.rocket.toucheese_be.domain.studio.studio.entity.Portfolio;
 import com.rocket.toucheese_be.domain.studio.studio.entity.Studio;
 
 import java.util.List;
 
-public record StudioListDto(
+public record LikeStudioListDto(
         Long id,
         String name,
         int profilePrice,
@@ -14,7 +14,7 @@ public record StudioListDto(
         String profileURL,
         int reviewCount
 ) {
-    public StudioListDto(Studio studio) {
+    public LikeStudioListDto(Studio studio) {
         this(
                 studio.getId(),
                 studio.getName(),
@@ -29,3 +29,4 @@ public record StudioListDto(
         );
     }
 }
+

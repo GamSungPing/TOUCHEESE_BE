@@ -44,7 +44,13 @@ public enum SuccessCode implements ResponseCode {
     // FCM 관련
     GET_DEVICE_TOKEN_SUCCESS(HttpStatus.OK, "디바이스 토큰 저장 성공"),
     UPDATE_DEVICE_TOKEN_SUCCESS(HttpStatus.OK, "디바이스 토큰 갱신 성공"),
-    NOT_UPDATE_DEVICE_TOKEN_SUCCESS(HttpStatus.OK, "기존 디바이스 토큰 유효함");
+    NOT_UPDATE_DEVICE_TOKEN_SUCCESS(HttpStatus.OK, "기존 디바이스 토큰 유효함"),
+
+
+    // 찜 목록
+    ADD_LIKE_SUCCESS(HttpStatus.OK, "찜목록에 해당 스튜디오 추가 성공"),
+    GET_LIKED_STUDIOS_SUCCESS(HttpStatus.OK, "해당 멤버가 찜한 스튜디오 목록 조회"),
+    REMOVE_LIKE_SUCCESS(HttpStatus.OK, "찜목록에 해당 스튜디오 제거 성공");
 
     private final HttpStatus httpStatus;
     private final String message;
