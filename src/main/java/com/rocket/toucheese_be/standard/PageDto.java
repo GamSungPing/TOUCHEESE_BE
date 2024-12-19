@@ -9,11 +9,9 @@ import java.util.List;
 
 @Getter
 public class PageDto<T> {
-    @JsonIgnore
     @NonNull
     private long totalElementsCount;
 
-    @JsonIgnore
     @NonNull
     private long pageElementsCount;
 

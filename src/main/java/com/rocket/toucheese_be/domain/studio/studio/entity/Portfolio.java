@@ -17,6 +17,7 @@ public class Portfolio {
     @Column(name = "portfolio_id")
     private Long id;
 
+    @Column(length = 2000)
     private String portfolioURL;
 
     @ManyToOne(fetch = FetchType.LAZY)

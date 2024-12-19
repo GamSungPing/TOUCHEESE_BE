@@ -144,6 +144,7 @@
         <th>스튜디오</th>
         <th>촬영 날짜</th>
         <th>촬영 시작 시간</th>
+        <th>총 가격</th>
         <th>예약자 성함</th>
         <th>예약자 번호</th>
         <th>예약자 이메일</th>
@@ -155,6 +156,7 @@
         <td th:text="${reservation.studioName}"></td>
         <td th:text="${reservation.reservationDate}"></td>
         <td th:text="${reservation.reservationTime}"></td>
+        <td th:text="${reservation.totalPrice()}"></td>
         <td th:text="${reservation.memberName}"></td>
         <td th:text="${reservation.phoneNumber}"></td>
         <td th:text="${reservation.email}"></td>
