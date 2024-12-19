@@ -22,10 +22,10 @@ public record StudioListDto(
                 studio.getRating(),
                 studio.getPortfolios().stream()
                         .map(Portfolio::getPortfolioURL)
+                        .limit(5) // 최대 5개로 제한
                         .toList(),
                 studio.getProfileImage().getProfileURL(),
                 studio.getReviewList().size()
         );
     }
-
 }
