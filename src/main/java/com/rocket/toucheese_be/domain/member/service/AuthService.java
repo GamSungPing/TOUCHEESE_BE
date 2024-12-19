@@ -1,7 +1,6 @@
 package com.rocket.toucheese_be.domain.member.service;
 
 import com.rocket.toucheese_be.domain.member.dto.LoginDto;
-import com.rocket.toucheese_be.domain.member.dto.LoginReqDto;
 import com.rocket.toucheese_be.domain.member.entity.Member;
 import com.rocket.toucheese_be.domain.member.entity.SocialType;
 import com.rocket.toucheese_be.domain.member.entity.Token;
@@ -23,14 +22,14 @@ public class AuthService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
-    private final AppleService appleService;
-    private final KakaoService kakaoService;
+//    private final AppleService appleService;
+//    private final KakaoService kakaoService;
 
     @Transactional
-    public LoginDto login(String socialAccessToken, LoginReqDto loginReqDto) {
-        Member member = getMember(socialAccessToken, loginReqDto);
+    public LoginDto login(SocialType socialType, String socialId) {
+        Member member = getMember(socialType, socialId);
         Token token = getToken(member);
-        return LoginDto.of(token);
+        return LoginDto.of(token, member.getId());
     }
 
     @Transactional
@@ -46,29 +45,30 @@ public class AuthService {
         deleteMember(member);
     }
 
-    private Member getMember(String socialAccessToken, LoginReqDto loginReqDto) {
-        SocialType socialType = loginReqDto.socialType();
-        String socialId = getSocialId(socialAccessToken, socialType);
-        return signUp(socialType, socialId);
+    private Member getMember(SocialType socialType, String socialId) {
+        return signupOrLogin(socialType, socialId);
     }
 
-    private String getSocialId(String socialAccessToken, SocialType socialType) {
-        return switch (socialType) {
-            case APPLE -> appleService.getAppleData(socialAccessToken);
-            case KAKAO -> kakaoService.getKakaoData(socialAccessToken);
-        };
-    }
+//    private String getSocialId(String socialAccessToken, LoginReqDto loginReqDto) {
+//        return switch (loginReqDto.socialType()) {
+//            case APPLE -> appleService.getAppleData(socialAccessToken);
+//            case KAKAO -> kakaoService.getKakaoData(socialAccessToken);
+//        };
+//    }
 
-    private Member signUp(SocialType socialType, String socialId) {
+    private Member signupOrLogin(SocialType socialType, String socialId) {
         return memberRepository.findBySocialTypeAndSocialId(socialType, socialId)
                 .orElseGet(() -> saveMember(socialType, socialId));
     }
 
     private Member saveMember(SocialType socialType, String socialId) {
+        long hashValue = socialId.hashCode();
+        String hashStr = String.valueOf(hashValue).substring(0, 6);
         Member member = Member.builder()
                 .socialType(socialType)
                 .socialId(socialId)
-                .build();
+                .name(socialType+"_"+hashStr)
+                .build(); // TODO: device 토큰 회원가입/로그인 때 받을지 고민할 것
         return memberRepository.save(member);
     }
 

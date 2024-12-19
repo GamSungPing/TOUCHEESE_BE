@@ -8,12 +8,14 @@ import lombok.NonNull;
 @Builder
 public record LoginDto(
         @NonNull String accessToken,
-        @NonNull String refreshToken
+        @NonNull String refreshToken,
+        @NonNull Long memberId
 ) {
-    public static LoginDto of(Token token) {
+    public static LoginDto of(Token token, Long memberId) {
         return LoginDto.builder()
                 .accessToken(token.getAccessToken())
                 .refreshToken(token.getRefreshToken())
+                .memberId(memberId)
                 .build();
     }
 }

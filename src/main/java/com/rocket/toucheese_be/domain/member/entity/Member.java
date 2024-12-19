@@ -23,17 +23,12 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String name; // username으로 변경 염두
+    @Column(length = 20, unique = true, nullable = false)
+    private String name;
 
     @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Review> review;
-
-    @Column(length = 20)
-    private String nickname;
-
-    private String profileImageUrl;
 
     // device와 1대1 맵핑, 멤버와 연결 끊기면 (갱신) device 삭제, 멤버 삭제시 device 삭제 (생명 주기)
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -44,13 +39,7 @@ public class Member {
 
     private String socialId;
 
-    private String refreshToken; // TODO: 따로 테이블 만들어서 member와 OneToOne 관계로 설정
-
-    @Builder
-    public Member(SocialType socialType, String socialId) {
-        this.socialType = socialType;
-        this.socialId = socialId;
-    }
+    private String refreshToken; // TODO: 따로 테이블 만들어서 member와 OneToOne 관계로 설정 고려
 
     @Transactional
     public void setDevice(Device device) {

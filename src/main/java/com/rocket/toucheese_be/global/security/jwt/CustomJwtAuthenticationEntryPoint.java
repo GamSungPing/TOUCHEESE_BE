@@ -26,7 +26,7 @@ public class CustomJwtAuthenticationEntryPoint implements AuthenticationEntryPoi
 
     private void setResponse(HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");
-        response.setContentType(APPLICATION_JSON_VALUE);
+        response.setContentType(APPLICATION_JSON_VALUE); // APPLICATION_FORM_URLENCODED_VALUE
         response.setStatus(SC_UNAUTHORIZED);
         response.getWriter().println(objectMapper.writeValueAsString("유효하지 않은 토큰입니다."));
     }
