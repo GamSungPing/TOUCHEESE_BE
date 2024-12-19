@@ -1,5 +1,6 @@
 package com.rocket.toucheese_be.domain.studio.studio.entity;
 
+import com.rocket.toucheese_be.domain.like.entity.Like;
 import com.rocket.toucheese_be.domain.reservation.entity.Reservation;
 import com.rocket.toucheese_be.domain.reservation.entity.ReservationStatus;
 import com.rocket.toucheese_be.domain.studio.product.entity.Product;
@@ -58,6 +59,10 @@ public class Studio {
     private String notice; // TODO : column 길이 길게 지정 필요 or TEXT
 
     private String holidays;
+
+    @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<
+            Like> favorites = new ArrayList<>();
 
     @Builder.Default
     @Column
