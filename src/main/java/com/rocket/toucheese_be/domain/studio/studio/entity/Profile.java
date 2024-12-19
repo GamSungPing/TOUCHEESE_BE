@@ -17,6 +17,7 @@ public class Profile {
     @Column(name = "profile_id")
     private Long id;
 
+    @Column(length = 2000)
     private String profileURL;
 
     @OneToOne(fetch = FetchType.LAZY)

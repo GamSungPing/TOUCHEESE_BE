@@ -15,7 +15,8 @@ public record ReservationAdminList (
         ReservationStatus reservationStatus,
         String phoneNumber, // 예약자 전화번호
         String email,     // 예약자 이메일
-        String memberName
+        String memberName, // 멤버 이름
+        int totalPrice
 ) {
 
     public static ReservationAdminList from(Reservation reservation) {
@@ -28,7 +29,8 @@ public record ReservationAdminList (
                 reservation.getStatus(),
                 reservation.getPhoneNumber(),
                 reservation.getEmail(),
-                reservation.getMember().getUsername()
+                reservation.getMember().getName(),
+                reservation.getTotalPrice()
         );
     }
 }

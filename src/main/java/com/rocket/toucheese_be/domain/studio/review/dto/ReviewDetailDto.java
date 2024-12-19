@@ -18,7 +18,7 @@ public record ReviewDetailDto(
     public static ReviewDetailDto from(Review review) {
         return new ReviewDetailDto(
                 review.getMember().getProfileImageUrl(),
-                review.getMember().getUsername(),
+                review.getMember().getName(),
                 review.getCreatedAt(),
                 review.getReviewPhotos() == null ? List.of() :
                         review.getReviewPhotos().stream()
