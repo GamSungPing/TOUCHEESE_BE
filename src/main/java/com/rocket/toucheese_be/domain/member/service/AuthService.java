@@ -14,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.rocket.toucheese_be.global.security.jwt.JwtValidationType.VALID_JWT;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -83,6 +85,32 @@ public class AuthService {
     private Member findMember(Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
+    }
+
+    @Transactional
+    public Token refreshAccessToken(String refreshToken) {
+        // Refresh Token 유효성 검증
+        if (jwtTokenProvider.validateToken(refreshToken) != VALID_JWT) {
+            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN, "리프레시 토큰이 유효하지 않습니다. 다시 로그인 하세요");
+        }
+
+        // Refresh Token으로 사용자 정보 추출
+        Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
+        Long memberId = Long.parseLong(authentication.getName()); // User ID 추출
+
+        // 사용자 조회 및 저장된 Refresh Token 확인
+        Member member = findMember(memberId);
+        if (!refreshToken.equals(member.getRefreshToken())) {
+            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
+        }
+
+        // 새로운 Access Token 생성
+        String newAccessToken = jwtTokenProvider.generateToken(authentication, ACCESS_TOKEN_EXPIRATION);
+
+        return Token.builder()
+                .accessToken(newAccessToken)
+                .refreshToken(refreshToken) // 기존 Refresh Token 그대로 반환
+                .build();
     }
 
     private void deleteMember(Member member) {

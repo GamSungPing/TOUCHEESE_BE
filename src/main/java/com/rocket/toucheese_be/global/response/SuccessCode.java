@@ -49,7 +49,8 @@ public enum SuccessCode implements ResponseCode {
     // Oauth
     LOGIN_SUCCESS(HttpStatus.OK, "로그인 성공"),
     LOGOUT_SUCCESS(HttpStatus.OK, "로그아웃 성공"),
-    GOOD_BYE_SUCCESS(HttpStatus.OK, "회원 탈퇴 성공");
+    GOOD_BYE_SUCCESS(HttpStatus.OK, "회원 탈퇴 성공"),
+    REFRESH_ACCESS_TOKEN_SUCCESS(HttpStatus.OK, "엑세스 토큰 갱신 성공");
 
     private final HttpStatus httpStatus;
     private final String message;

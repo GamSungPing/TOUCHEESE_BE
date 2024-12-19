@@ -2,6 +2,8 @@ package com.rocket.toucheese_be.domain.member.controller;
 
 import com.rocket.toucheese_be.domain.member.dto.LoginDto;
 import com.rocket.toucheese_be.domain.member.dto.LoginReqDto;
+import com.rocket.toucheese_be.domain.member.dto.TokenDto;
+import com.rocket.toucheese_be.domain.member.entity.Token;
 import com.rocket.toucheese_be.domain.member.service.AuthService;
 import com.rocket.toucheese_be.global.response.Response;
 import com.rocket.toucheese_be.global.response.SuccessCode;
@@ -41,5 +43,12 @@ public class MemberController {
         long memberId = Long.parseLong(principal.getName());
         authService.withdraw(memberId);
         return Response.of(SuccessCode.GOOD_BYE_SUCCESS);
+    }
+
+    @PostMapping("/refreshAccessToken")
+    public Response<TokenDto> refreshAccessToken(@RequestBody TokenDto tokenReq) {
+        Token token = authService.refreshAccessToken(tokenReq.refreshToken());
+        TokenDto tokenDto = TokenDto.of(token);
+        return Response.of(SuccessCode.REFRESH_ACCESS_TOKEN_SUCCESS, tokenDto);
     }
 }

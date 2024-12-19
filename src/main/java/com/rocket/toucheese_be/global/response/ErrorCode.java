@@ -36,7 +36,8 @@ public enum ErrorCode implements ResponseCode {
     NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "해당 회원이 존재하지 않습니다."),
     NOT_FOUND_DEVICE(HttpStatus.NOT_FOUND, "해당 회원의 디바이스가 존재하지 않습니다."),
     NOT_FOUND_DEVICE_TOKEN_IN_REDIS(HttpStatus.NOT_FOUND, "Redis에 해당 회원의 디바이스 토큰이 존재하지 않습니다."),
-    TOKEN_EXPIRED(HttpStatus.NOT_FOUND, "토큰이 만료되었습니다.");
+    TOKEN_EXPIRED(HttpStatus.NOT_FOUND, "토큰이 만료되었습니다."),
+    INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 리프레시 토큰");
 
     private final HttpStatus httpStatus;
     private final String message;

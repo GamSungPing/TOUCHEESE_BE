@@ -1,6 +1,8 @@
 package com.rocket.toucheese_be.global.security.jwt;
 
 import com.rocket.toucheese_be.global.config.ValueConfig;
+import com.rocket.toucheese_be.global.response.CustomException;
+import com.rocket.toucheese_be.global.response.ErrorCode;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -67,6 +69,20 @@ public class JwtTokenProvider {
         }
     }
 
+    public Authentication getAuthentication(String refreshToken) {
+        try {
+            Claims claims = getBody(refreshToken);
+
+            // 사용자 ID 추출
+            Long memberId = Long.parseLong(claims.get("memberId").toString());
+
+            // Authentication 객체 생성
+            return new UserAuthentication(memberId, null, null);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN, "리프레시 토큰이 아닌데?");
+        }
+    }
+
     // 토큰에서 Claims 정보 추출
     private Claims getBody(final String token) {
         return Jwts.parser()
@@ -81,4 +97,5 @@ public class JwtTokenProvider {
         Claims claims = getBody(token);
         return Long.parseLong(claims.get("memberId").toString());
     }
+
 }
