@@ -51,6 +51,7 @@ public class SecurityConfig {
                             // 인증 없이 접근 가능한 url
                             .requestMatchers("/swagger-ui/**",  "/v3/api-docs/**").permitAll() // Swagger UI 외부 접속 허용
                             .requestMatchers("/h2-console/**").permitAll() // h2 console 외부 접속 허용
+                            .requestMatchers("/auth/**").permitAll() // 카카오 token 발급 redirection url
                             .requestMatchers("/api/v1/auth/**").permitAll() // 인증 관련 (회원가입, 로그인)
                             .requestMatchers("/api/v1/studio/**").permitAll() // studio 목록, 단건 조회
                             .requestMatchers("/api/v1/concepts").permitAll() // concept 목록 조회
