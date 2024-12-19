@@ -5,6 +5,8 @@ import com.rocket.toucheese_be.domain.member.entity.Member;
 import com.rocket.toucheese_be.domain.member.entity.SocialType;
 import com.rocket.toucheese_be.domain.member.entity.Token;
 import com.rocket.toucheese_be.domain.member.repository.MemberRepository;
+import com.rocket.toucheese_be.global.response.CustomException;
+import com.rocket.toucheese_be.global.response.ErrorCode;
 import com.rocket.toucheese_be.global.security.jwt.JwtTokenProvider;
 import com.rocket.toucheese_be.global.security.jwt.UserAuthentication;
 import lombok.RequiredArgsConstructor;
@@ -22,16 +24,16 @@ public class AuthService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
-//    private final AppleService appleService;
-//    private final KakaoService kakaoService;
 
+    // 로그인
     @Transactional
     public LoginDto login(SocialType socialType, String socialId) {
         Member member = getMember(socialType, socialId);
         Token token = getToken(member);
-        return LoginDto.of(token, member.getId());
+        return LoginDto.of(token, member.getId(), member.getName());
     }
 
+    // 로그아웃
     @Transactional
     public void logout(long memberId) {
         Member member = findMember(memberId);
@@ -48,13 +50,6 @@ public class AuthService {
     private Member getMember(SocialType socialType, String socialId) {
         return signupOrLogin(socialType, socialId);
     }
-
-//    private String getSocialId(String socialAccessToken, LoginReqDto loginReqDto) {
-//        return switch (loginReqDto.socialType()) {
-//            case APPLE -> appleService.getAppleData(socialAccessToken);
-//            case KAKAO -> kakaoService.getKakaoData(socialAccessToken);
-//        };
-//    }
 
     private Member signupOrLogin(SocialType socialType, String socialId) {
         return memberRepository.findBySocialTypeAndSocialId(socialType, socialId)
@@ -85,9 +80,9 @@ public class AuthService {
                 .build();
     }
 
-    private Member findMember(long id) {
+    private Member findMember(Long id) {
         return memberRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
     }
 
     private void deleteMember(Member member) {

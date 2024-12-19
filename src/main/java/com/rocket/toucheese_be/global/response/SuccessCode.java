@@ -47,7 +47,9 @@ public enum SuccessCode implements ResponseCode {
     NOT_UPDATE_DEVICE_TOKEN_SUCCESS(HttpStatus.OK, "기존 디바이스 토큰 유효함"),
 
     // Oauth
-    GET_SOCIAL_TOKEN_SUCCESS(HttpStatus.OK, "소셜 토큰 받아오기 성공"); // 차후 로그인, 로그아웃, 탈퇴 분리 필요
+    LOGIN_SUCCESS(HttpStatus.OK, "로그인 성공"),
+    LOGOUT_SUCCESS(HttpStatus.OK, "로그아웃 성공"),
+    GOOD_BYE_SUCCESS(HttpStatus.OK, "회원 탈퇴 성공");
 
     private final HttpStatus httpStatus;
     private final String message;
