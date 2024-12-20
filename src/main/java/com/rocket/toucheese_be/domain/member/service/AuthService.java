@@ -2,17 +2,22 @@ package com.rocket.toucheese_be.domain.member.service;
 
 import com.rocket.toucheese_be.domain.member.dto.LoginDto;
 import com.rocket.toucheese_be.domain.member.entity.Member;
+import com.rocket.toucheese_be.domain.member.entity.Role;
 import com.rocket.toucheese_be.domain.member.entity.SocialType;
 import com.rocket.toucheese_be.domain.member.entity.Token;
 import com.rocket.toucheese_be.domain.member.repository.MemberRepository;
 import com.rocket.toucheese_be.global.response.CustomException;
 import com.rocket.toucheese_be.global.response.ErrorCode;
 import com.rocket.toucheese_be.global.security.jwt.JwtTokenProvider;
+import com.rocket.toucheese_be.global.security.jwt.RoleConverter;
 import com.rocket.toucheese_be.global.security.jwt.UserAuthentication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.rocket.toucheese_be.global.security.jwt.JwtValidationType.VALID_JWT;
 
@@ -32,6 +37,7 @@ public class AuthService {
     public LoginDto login(SocialType socialType, String socialId) {
         Member member = getMember(socialType, socialId);
         Token token = getToken(member);
+        System.out.println("역할 여 있네~~~ "+member.getRole());
         return LoginDto.of(token, member.getId(), member.getName());
     }
 
@@ -65,12 +71,14 @@ public class AuthService {
                 .socialType(socialType)
                 .socialId(socialId)
                 .name(socialType+"_"+hashStr)
+                .role(Role.USER) // ADMIN은 DB에서 직접 추가
                 .build(); // TODO: device 토큰 회원가입/로그인 때 받을지 고민할 것
         return memberRepository.save(member);
     }
 
     private Token getToken(Member member) {
-        Token token = generateToken(new UserAuthentication(member.getId(), null, null));
+        List<GrantedAuthority> authorities = RoleConverter.toAuthorities(member.getRole());
+        Token token = generateToken(new UserAuthentication(member.getId(), null, authorities));
         member.updateRefreshToken(token.getRefreshToken());
         return token;
     }

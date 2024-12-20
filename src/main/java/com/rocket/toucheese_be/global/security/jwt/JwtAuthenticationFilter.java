@@ -1,5 +1,6 @@
 package com.rocket.toucheese_be.global.security.jwt;
 
+import com.rocket.toucheese_be.domain.member.entity.Role;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -7,12 +8,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 import static com.rocket.toucheese_be.global.security.jwt.JwtValidationType.VALID_JWT;
 import static io.jsonwebtoken.lang.Strings.hasText;
@@ -39,7 +42,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             String token = getAccessTokenFromRequest(request);
             if (hasText(token) && jwtTokenProvider.validateToken(token) == VALID_JWT) {
-                UserAuthentication authentication = new UserAuthentication(getMemberId(token), null, null);
+
+                List<String> roles = jwtTokenProvider.getRolesFromJwt(token); // JWT에서 역할을 추출하는 메서드 호출
+
+                List<GrantedAuthority> authorities = roles.stream()
+                        .map(Role::fromKey)  // 역할을 Role 객체로 변환
+                        .flatMap(role -> RoleConverter.toAuthorities(role).stream())
+                        .toList();
+
+                UserAuthentication authentication = new UserAuthentication(getMemberId(token), null, authorities);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

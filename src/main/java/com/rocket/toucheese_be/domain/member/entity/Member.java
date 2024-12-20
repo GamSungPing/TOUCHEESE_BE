@@ -40,11 +40,16 @@ public class Member {
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private Device device;
 
+    @JsonIgnore
+    private Role role;
+
     @Enumerated(value = EnumType.STRING)
     private SocialType socialType;
 
+    @JsonIgnore
     private String socialId;
 
+    @JsonIgnore
     private String refreshToken; // TODO: 테이블 분리해 member와 OneToOne 관계 설정 고려?
 
     @Transactional

@@ -1,5 +1,6 @@
 package com.rocket.toucheese_be.global.security.jwt;
 
+import com.rocket.toucheese_be.domain.member.entity.Role;
 import com.rocket.toucheese_be.global.config.ValueConfig;
 import com.rocket.toucheese_be.global.response.CustomException;
 import com.rocket.toucheese_be.global.response.ErrorCode;
@@ -7,11 +8,15 @@ import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.rocket.toucheese_be.global.security.jwt.JwtValidationType.*;
 import static io.jsonwebtoken.security.Keys.hmacShaKeyFor;
@@ -23,6 +28,7 @@ import static java.util.Base64.getEncoder;
 public class JwtTokenProvider {
 
     private final ValueConfig valueConfig;
+    private final SecurityService securityService;
 
     // Authentication에서 사용자 정보 추출, 토큰 만료 시간을 설정한 다음 jwt 생성
     public String generateToken(Authentication authentication, long expiration) {
@@ -41,6 +47,9 @@ public class JwtTokenProvider {
     private Claims generateClaims(Authentication authentication) {
         return Jwts.claims()
                 .add("memberId", authentication.getPrincipal())
+                .add("roles", authentication.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.joining(",")))
                 .build();
     }
 
@@ -76,8 +85,14 @@ public class JwtTokenProvider {
             // 사용자 ID 추출
             Long memberId = Long.parseLong(claims.get("memberId").toString());
 
+            String rolesString = claims.get("roles").toString();
+            List<GrantedAuthority> authorities = Arrays.stream(rolesString.split(","))
+                    .map(Role::fromKey)  // 각 role의 key 값을 통해 Role 객체로 변환
+                    .flatMap(role -> RoleConverter.toAuthorities(role).stream())  // Role을 GrantedAuthority로 변환하고 하나의 List로 합침
+                    .toList();
+
             // Authentication 객체 생성
-            return new UserAuthentication(memberId, null, null);
+            return new UserAuthentication(memberId, null, authorities);
         } catch (Exception e) {
             throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN, "리프레시 토큰이 아닌데?");
         }
@@ -96,6 +111,12 @@ public class JwtTokenProvider {
     public Long getUserFromJwt(String token) {
         Claims claims = getBody(token);
         return Long.parseLong(claims.get("memberId").toString());
+    }
+
+    // JWT에서 roles 추출하는 메서드
+    public List<String> getRolesFromJwt(String token) {
+        Claims claims = getBody(token);
+        return Arrays.asList(claims.get("roles").toString().split(","));  // roles를 콤마로 분리하여 List로 반환
     }
 
 }
