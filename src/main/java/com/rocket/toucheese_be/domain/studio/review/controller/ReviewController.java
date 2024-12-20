@@ -3,7 +3,7 @@ package com.rocket.toucheese_be.domain.studio.review.controller;
 import com.rocket.toucheese_be.domain.studio.review.dto.ReviewDetailDto;
 import com.rocket.toucheese_be.domain.studio.review.dto.ReviewDto;
 import com.rocket.toucheese_be.domain.studio.review.service.ReviewService;
-import com.rocket.toucheese_be.global.app.AppConfig;
+import com.rocket.toucheese_be.global.config.AppConfig;
 import com.rocket.toucheese_be.global.response.Response;
 import com.rocket.toucheese_be.global.response.SuccessCode;
 import com.rocket.toucheese_be.standard.PageDto;

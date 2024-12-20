@@ -7,11 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -20,12 +19,14 @@ public class HomeController {
 
     private final ReservationService reservationService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public String home() {
         return "admin/home";
     }
 
     // 예약 전체 조회 API (페이징 처리)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/all-reservations")
     public String getAllReservations(@RequestParam(defaultValue = "0") int page, Model model) {
         // Pageable 객체에서 page와 size를 설정하여 페이징 처리된 예약 목록 조회
@@ -36,6 +37,7 @@ public class HomeController {
     }
 
     // 예약 대기 상태 목록 조회 (페이징 처리)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/waiting-reservations")
     public String getWaitingReservations(@RequestParam(defaultValue = "0") int page, Model model) {
         Pageable pageable = PageRequest.of(page, 10);
@@ -46,6 +48,7 @@ public class HomeController {
     }
 
     // 예약 승인
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/reservations/{reservationId}/confirm")
     public String confirmReservation(@PathVariable Long reservationId) {
         reservationService.confirmReservation(reservationId);
@@ -53,6 +56,7 @@ public class HomeController {
     }
 
     // 예약 거절
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/reservations/{reservationId}/cancel")
     public String cancelReservation(@PathVariable Long reservationId) {
         reservationService.cancelReservation(reservationId);
