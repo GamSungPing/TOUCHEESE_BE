@@ -64,4 +64,9 @@ public class Member {
     public void resetRefreshToken() {
         this.refreshToken = null;
     }
+
+    @Transactional
+    public void setName(String name) {
+        this.name = name;
+    }
 }

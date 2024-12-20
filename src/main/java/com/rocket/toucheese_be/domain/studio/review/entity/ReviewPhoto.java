@@ -22,5 +22,6 @@ public class ReviewPhoto {
     @JoinColumn(name = "review_id")
     private Review review;
 
+    @Column(length = 2000)
     private String photoUrl;
 }

@@ -5,6 +5,7 @@ import com.rocket.toucheese_be.domain.member.dto.LoginReqDto;
 import com.rocket.toucheese_be.domain.member.dto.TokenDto;
 import com.rocket.toucheese_be.domain.member.entity.Token;
 import com.rocket.toucheese_be.domain.member.service.AuthService;
+import com.rocket.toucheese_be.domain.member.service.MemberService;
 import com.rocket.toucheese_be.global.response.Response;
 import com.rocket.toucheese_be.global.response.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,11 +16,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-@RequestMapping("/api/v1/auth")
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+@RequestMapping(name = "/api/v1/auth", produces = APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @RestController
 public class MemberController {
     private final AuthService authService;
+    private final MemberService memberService;
 
     @Operation(summary = "로그인", description = "로그인")
     @PostMapping("/login")
@@ -55,5 +59,18 @@ public class MemberController {
         Token token = authService.refreshAccessToken(tokenReq.refreshToken());
         TokenDto tokenDto = TokenDto.of(token);
         return Response.of(SuccessCode.REFRESH_ACCESS_TOKEN_SUCCESS, tokenDto);
+    }
+
+    /**
+     * 멤버 이름 변경
+     */
+    @Operation(
+            summary = "멤버 이름 변경",
+            description = "멤버 ID를 사용하여 이름을 변경합니다. 새로운 이름은 중복될 수 없습니다."
+    )
+    @PutMapping("/{memberId}/name")
+    public Response<Void> updateMemberName(@PathVariable Long memberId, @RequestParam String newName) {
+        memberService.updateMemberName(memberId, newName);
+        return Response.of(SuccessCode.UPDATE_MEMBER_NAME_SUCCESS);
     }
 }
