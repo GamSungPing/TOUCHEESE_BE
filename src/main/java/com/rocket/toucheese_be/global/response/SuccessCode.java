@@ -46,11 +46,19 @@ public enum SuccessCode implements ResponseCode {
     UPDATE_DEVICE_TOKEN_SUCCESS(HttpStatus.OK, "디바이스 토큰 갱신 성공"),
     NOT_UPDATE_DEVICE_TOKEN_SUCCESS(HttpStatus.OK, "기존 디바이스 토큰 유효함"),
 
+
     // Oauth
     LOGIN_SUCCESS(HttpStatus.OK, "로그인 성공"),
     LOGOUT_SUCCESS(HttpStatus.OK, "로그아웃 성공"),
     GOOD_BYE_SUCCESS(HttpStatus.OK, "회원 탈퇴 성공"),
-    REFRESH_ACCESS_TOKEN_SUCCESS(HttpStatus.OK, "엑세스 토큰 갱신 성공");
+    REFRESH_ACCESS_TOKEN_SUCCESS(HttpStatus.OK, "엑세스 토큰 갱신 성공"),
+
+
+    // 찜 목록
+    ADD_LIKE_SUCCESS(HttpStatus.OK, "찜목록에 해당 스튜디오 추가 성공"),
+    GET_LIKED_STUDIOS_SUCCESS(HttpStatus.OK, "해당 멤버가 찜한 스튜디오 목록 조회"),
+    REMOVE_LIKE_SUCCESS(HttpStatus.OK, "찜목록에 해당 스튜디오 제거 성공");
+
 
     private final HttpStatus httpStatus;
     private final String message;
