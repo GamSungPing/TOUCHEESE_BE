@@ -51,8 +51,9 @@ public class SecurityConfig {
                             // 인증 없이 접근 가능한 url
                             .requestMatchers("/swagger-ui/**",  "/v3/api-docs/**").permitAll() // Swagger UI 외부 접속 허용
                             .requestMatchers("/h2-console/**").permitAll() // h2 console 외부 접속 허용
-                            .requestMatchers("/admin/**").hasRole("ADMIN")
+                            .requestMatchers("/admin/**").permitAll() // .hasRole("ADMIN")
                             .requestMatchers("/api/v1/auth/login").permitAll() // 인증 관련 (회원가입, 로그인) // TODO: 로그아웃도 허용 필요..?
+                            .requestMatchers("/api/v1/auth/refreshAccessToken").permitAll() // access token 갱신
                             .requestMatchers("/api/v1/studio/**").permitAll() // studio 목록, 단건 조회
                             .requestMatchers("/api/v1/concepts").permitAll() // concept 목록 조회
                             .requestMatchers("/api/v1/concept/**").permitAll() // concept 단건 조회
