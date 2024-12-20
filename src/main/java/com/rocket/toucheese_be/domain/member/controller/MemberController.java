@@ -7,6 +7,7 @@ import com.rocket.toucheese_be.domain.member.entity.Token;
 import com.rocket.toucheese_be.domain.member.service.AuthService;
 import com.rocket.toucheese_be.global.response.Response;
 import com.rocket.toucheese_be.global.response.SuccessCode;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,12 +21,14 @@ import java.security.Principal;
 public class MemberController {
     private final AuthService authService;
 
+    @Operation(summary = "로그인", description = "로그인")
     @PostMapping("/login")
     public Response<LoginDto> login(@RequestHeader("socialId") String socialId, @RequestBody LoginReqDto loginReqDto) {
         LoginDto loginDto = authService.login(loginReqDto.socialType(), socialId);
         return Response.of(SuccessCode.LOGIN_SUCCESS, loginDto);
     }
 
+    @Operation(summary = "로그아웃", description = "로그아웃")
     @PostMapping("/logout")
     public Response<LoginDto> logout(Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -38,6 +41,7 @@ public class MemberController {
         return Response.of(SuccessCode.LOGOUT_SUCCESS);
     }
 
+    @Operation(summary = "탈퇴", description = "탈퇴")
     @DeleteMapping("/withdrawal")
     public Response<LoginDto> withdrawal(Principal principal) {
         long memberId = Long.parseLong(principal.getName());
@@ -45,6 +49,7 @@ public class MemberController {
         return Response.of(SuccessCode.GOOD_BYE_SUCCESS);
     }
 
+    @Operation(summary = "엑세스 토큰 갱신", description = "엑세스 토큰 갱신")
     @PostMapping("/refreshAccessToken")
     public Response<TokenDto> refreshAccessToken(@RequestBody TokenDto tokenReq) {
         Token token = authService.refreshAccessToken(tokenReq.refreshToken());
