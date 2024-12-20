@@ -5,16 +5,21 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import static com.rocket.toucheese_be.global.security.jwt.JwtValidationType.VALID_JWT;
@@ -30,6 +35,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String BLANK = "";
 
     private final JwtTokenProvider jwtTokenProvider;
+
+    @Value("${admin.name}")
+    private String adminName;
 
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request,
@@ -53,7 +61,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UserAuthentication authentication = new UserAuthentication(getMemberId(token), null, authorities);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else {
+                HttpSession session = request.getSession(false);
+
+                if (session != null && Boolean.TRUE.equals(session.getAttribute("isAdmin"))) {
+                    // 세션에서 `isAdmin`을 확인하여 Security Context에 권한 추가
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(
+                                    adminName, // 사용자의 이름 또는 식별자
+                                    null,
+                                    Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                            );
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             }
+
         } catch (Exception exception) {
             log.error(exception.getMessage());
         }
