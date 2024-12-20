@@ -18,7 +18,7 @@ import java.security.Principal;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@RequestMapping(name = "/api/v1/auth", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/auth", produces = APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @RestController
 public class MemberController {
