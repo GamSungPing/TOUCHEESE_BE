@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record ReviewDetailDto(
-        String userProfileImageString,
         String userName,
         LocalDateTime dateString, // 리뷰가 작성된 날짜
         List<String> imageStrings, // 리뷰 이미지
@@ -17,7 +16,6 @@ public record ReviewDetailDto(
 ) {
     public static ReviewDetailDto from(Review review) {
         return new ReviewDetailDto(
-                review.getMember().getProfileImageUrl(),
                 review.getMember().getName(),
                 review.getCreatedAt(),
                 review.getReviewPhotos() == null ? List.of() :

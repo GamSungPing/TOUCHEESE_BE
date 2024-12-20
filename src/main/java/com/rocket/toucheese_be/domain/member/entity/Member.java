@@ -25,9 +25,8 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(length = 20, unique = true, nullable = false)
     private String name;
-
 
     @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -37,18 +36,33 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> favorites = new ArrayList<>();
 
-    @Column(length = 20)
-    private String nickname;
-
-    private String profileImageUrl;
-
     // device와 1대1 맵핑, 멤버와 연결 끊기면 (갱신) device 삭제, 멤버 삭제시 device 삭제 (생명 주기)
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private Device device;
 
+    @JsonIgnore
+    private Role role;
+
+    @Enumerated(value = EnumType.STRING)
+    private SocialType socialType;
+
+    @JsonIgnore
+    private String socialId;
+
+    @JsonIgnore
+    private String refreshToken; // TODO: 테이블 분리해 member와 OneToOne 관계 설정 고려?
+
     @Transactional
     public void setDevice(Device device) {
         this.device = device;
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public void resetRefreshToken() {
+        this.refreshToken = null;
     }
 
     @Transactional
