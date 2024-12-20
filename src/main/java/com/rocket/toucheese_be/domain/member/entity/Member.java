@@ -50,4 +50,9 @@ public class Member {
     public void setDevice(Device device) {
         this.device = device;
     }
+
+    @Transactional
+    public void setName(String name) {
+        this.name = name;
+    }
 }

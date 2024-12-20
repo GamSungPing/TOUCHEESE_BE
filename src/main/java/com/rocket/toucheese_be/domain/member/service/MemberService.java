@@ -6,21 +6,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    @Transactional
-    public Optional<Member> findById(Long id) {
-        return memberRepository.findById(id);
-    }
 
     @Transactional
-    public void save(Member member) {
-        memberRepository.save(member);
-    }
+    public void updateMemberName(Long memberId, String newName) {
+        if (memberRepository.existsByName(newName)) {
+            throw new IllegalArgumentException("이미 존재하는 이름입니다.");
+        }
 
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다."));
+        member.setName(newName);
+    }
 }

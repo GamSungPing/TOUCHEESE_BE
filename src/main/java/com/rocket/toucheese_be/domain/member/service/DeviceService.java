@@ -4,6 +4,7 @@ import com.rocket.toucheese_be.domain.member.dto.DeviceRegisterDto;
 import com.rocket.toucheese_be.domain.member.entity.Device;
 import com.rocket.toucheese_be.domain.member.entity.Member;
 import com.rocket.toucheese_be.domain.member.repository.DeviceRepository;
+import com.rocket.toucheese_be.domain.member.repository.MemberRepository;
 import com.rocket.toucheese_be.global.response.CustomException;
 import com.rocket.toucheese_be.global.response.ErrorCode;
 import com.rocket.toucheese_be.global.response.Response;
@@ -23,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 public class DeviceService {
 
     private final DeviceRepository deviceRepository;
-    private final MemberService memberService;
+    private final MemberRepository memberRepository;
     private final RedisTemplate<String, String> redisTemplate; // RedisTemplate 추가
 
     private static final Duration TOKEN_EXPIRATION_TIME = Duration.ofDays(200);
@@ -31,7 +32,7 @@ public class DeviceService {
 
     @Transactional
     public Response<Device> registerDevice(DeviceRegisterDto deviceRegisterDto) {
-        Member member = memberService.findById(deviceRegisterDto.memberId())
+        Member member = memberRepository.findById(deviceRegisterDto.memberId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
 
         Optional<Device> existingDevice = Optional.ofNullable(member.getDevice());
@@ -57,7 +58,7 @@ public class DeviceService {
                     .build();
             deviceRepository.save(device);
             member.setDevice(device);
-            memberService.save(member);
+            memberRepository.save(member);
 
             // Redis에 디바이스 토큰 저장
             String redisKey = getRedisKeyForMember(member.getId());

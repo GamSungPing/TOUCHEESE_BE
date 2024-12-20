@@ -20,6 +20,8 @@ public enum SuccessCode implements ResponseCode {
     GET_STUDIO_RATING_PRICING_SUCCESS(HttpStatus.OK, "컨셉, 인기순, 가격순 정렬 조회 성공"),
     GET_STUDIO_REGION_RATING_PRICING_SUCCESS(HttpStatus.OK, "컨셉, 지역, 인기순, 가격순 정렬 조회 성공"),
 
+    UPDATE_MEMBER_NAME_SUCCESS(HttpStatus.OK, "닉네임 변경 성공"),
+
     GET_CONCEPT_LIST_SUCCESS(HttpStatus.OK, "컨셉 전체 조회 성공"),
     GET_CONCEPT_ONE_SUCCESS(HttpStatus.OK, "컨셉 단일 조회 성공"),
 
