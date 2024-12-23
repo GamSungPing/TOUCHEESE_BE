@@ -94,7 +94,7 @@ public class JwtTokenProvider {
             // Authentication 객체 생성
             return new UserAuthentication(memberId, null, authorities);
         } catch (Exception e) {
-            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN, "리프레시 토큰이 아닌데?");
+            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
     }
 
