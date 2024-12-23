@@ -34,7 +34,8 @@ public enum ErrorCode implements ResponseCode {
     NOT_FOUND_DEVICE(HttpStatus.NOT_FOUND, "해당 회원의 디바이스가 존재하지 않습니다."),
     NOT_FOUND_DEVICE_TOKEN_IN_REDIS(HttpStatus.NOT_FOUND, "Redis에 해당 회원의 디바이스 토큰이 존재하지 않습니다."),
     INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 리프레시 토큰"),
-    INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 엑세스 토큰");
+    // 유효하지 않은 엑세스 토큰은 CustomJwtAuthenticationEntryPoint에서 따로 관리
+    NOT_LOGIN_YET(HttpStatus.UNAUTHORIZED, "로그인 상태가 아닙니다."); // 400 하려다 jwt 토큰 관련은 통일
 
     private final HttpStatus httpStatus;
     private final String message;
