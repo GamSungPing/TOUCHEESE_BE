@@ -2,6 +2,8 @@ package com.rocket.toucheese_be.domain.member.service;
 
 import com.rocket.toucheese_be.domain.member.entity.Member;
 import com.rocket.toucheese_be.domain.member.repository.MemberRepository;
+import com.rocket.toucheese_be.global.response.CustomException;
+import com.rocket.toucheese_be.global.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
+    @Transactional(readOnly = true)
+    public Member findByMemberId(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
+    }
 
     @Transactional
     public void updateMemberName(Long memberId, String newName) {

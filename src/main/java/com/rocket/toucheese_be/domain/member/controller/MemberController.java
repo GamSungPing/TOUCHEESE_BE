@@ -2,10 +2,14 @@ package com.rocket.toucheese_be.domain.member.controller;
 
 import com.rocket.toucheese_be.domain.member.dto.LoginDto;
 import com.rocket.toucheese_be.domain.member.dto.LoginReqDto;
+import com.rocket.toucheese_be.domain.member.dto.OpenDto;
 import com.rocket.toucheese_be.domain.member.dto.TokenDto;
+import com.rocket.toucheese_be.domain.member.entity.Member;
 import com.rocket.toucheese_be.domain.member.entity.Token;
 import com.rocket.toucheese_be.domain.member.service.AuthService;
 import com.rocket.toucheese_be.domain.member.service.MemberService;
+import com.rocket.toucheese_be.global.response.CustomException;
+import com.rocket.toucheese_be.global.response.ErrorCode;
 import com.rocket.toucheese_be.global.response.Response;
 import com.rocket.toucheese_be.global.response.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -59,6 +63,19 @@ public class MemberController {
         Token token = authService.refreshAccessToken(tokenReq.refreshToken());
         TokenDto tokenDto = TokenDto.of(token);
         return Response.of(SuccessCode.REFRESH_ACCESS_TOKEN_SUCCESS, tokenDto);
+    }
+
+    @Operation(summary = "앱 오픈 용 엑세스 토큰 갱신 및 멤버 정보 전달", description = "엑세스 토큰 갱신 및 사용자의 이름과 id 전달")
+    @PostMapping("/appOpen")
+    public Response<OpenDto> appOpen(@RequestBody TokenDto tokenReq, Principal principal) {
+        if (principal == null) {
+            throw new CustomException(ErrorCode.NOT_LOGIN_YET);
+        }
+        Token token = authService.refreshAccessToken(tokenReq.refreshToken());
+        Long memberId = Long.parseLong(principal.getName());
+        Member member = memberService.findByMemberId(memberId);
+        OpenDto openDto = OpenDto.of(token, member.getName(), member.getId());
+        return Response.of(SuccessCode.REFRESH_ACCESS_TOKEN_SUCCESS, openDto);
     }
 
     /**
