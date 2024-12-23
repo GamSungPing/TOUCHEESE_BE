@@ -21,9 +21,9 @@ public class MemberService {
 
     @Transactional
     public void updateMemberName(Long memberId, String newName) {
-        if (memberRepository.existsByName(newName)) {
-            throw new IllegalArgumentException("이미 존재하는 이름입니다.");
-        }
+//        if (memberRepository.existsByName(newName)) {
+//            throw new IllegalArgumentException("이미 존재하는 이름입니다.");
+//        }
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다."));
