@@ -36,7 +36,7 @@ public class MemberController {
         return Response.of(SuccessCode.LOGIN_SUCCESS, loginDto);
     }
 
-    @Operation(summary = "로그아웃", description = "로그아웃")
+    @Operation(summary = "로그아웃 [헤더 토큰 필요]", description = "로그아웃")
     @PostMapping("/logout")
     public Response<LoginDto> logout(Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -49,7 +49,7 @@ public class MemberController {
         return Response.of(SuccessCode.LOGOUT_SUCCESS);
     }
 
-    @Operation(summary = "탈퇴", description = "탈퇴")
+    @Operation(summary = "탈퇴 [헤더 토큰 필요]", description = "탈퇴")
     @DeleteMapping("/withdrawal")
     public Response<LoginDto> withdrawal(Principal principal) {
         long memberId = Long.parseLong(principal.getName());
@@ -65,7 +65,7 @@ public class MemberController {
         return Response.of(SuccessCode.REFRESH_ACCESS_TOKEN_SUCCESS, tokenDto);
     }
 
-    @Operation(summary = "앱 오픈 용 엑세스 토큰 갱신 및 멤버 정보 전달", description = "엑세스 토큰 갱신 및 사용자의 이름과 id 전달")
+    @Operation(summary = "앱 오픈 용 엑세스 토큰 갱신 및 멤버 정보 전달 [헤더 토큰 필요]", description = "엑세스 토큰 갱신 및 사용자의 이름과 id 전달")
     @PostMapping("/appOpen")
     public Response<OpenDto> appOpen(@RequestBody TokenDto tokenReq, Principal principal) {
         if (principal == null) {
@@ -82,7 +82,7 @@ public class MemberController {
      * 멤버 이름 변경
      */
     @Operation(
-            summary = "멤버 이름 변경",
+            summary = "멤버 이름 변경 [헤더 토큰 필요]",
             description = "멤버 ID를 사용하여 이름을 변경합니다. 새로운 이름은 중복될 수 없습니다."
     )
     @PutMapping("/{memberId}/name")

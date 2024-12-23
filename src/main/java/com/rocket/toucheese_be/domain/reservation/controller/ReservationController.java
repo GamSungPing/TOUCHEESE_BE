@@ -29,7 +29,7 @@ public class ReservationController {
      * 특정 예약 정보 조회
      */
     @Operation(
-            summary = "특정 예약 정보 조회",
+            summary = "특정 예약 정보 조회 [헤더 토큰 필요]",
             description = "예약 ID를 사용하여 특정 예약의 상세 정보를 조회합니다. ")
     @GetMapping("/{reservationId}")
     public Response<ReservationDto> getReservationById(@PathVariable Long reservationId) {
@@ -41,7 +41,7 @@ public class ReservationController {
      * 스튜디오 예약 가능 시간 확인
      */
     @Operation(
-            summary = "스튜디오 예약 가능 시간 확인",
+            summary = "스튜디오 예약 가능 시간 확인 [헤더 토큰 필요]",
             description = "특정 스튜디오의 예약 가능한 시간대를 조회합니다. " +
                     "date 파라미터는 필수입니다. 예: /{studioId}/available-slots?date=2024-12-01")
     @GetMapping("/{studioId}/available-slots")
@@ -56,7 +56,7 @@ public class ReservationController {
      * 특정 멤버가 예약한 모든 예약 목록 조회
      */
     @Operation(
-            summary = "특정 멤버 예약 목록 조회",
+            summary = "특정 멤버 예약 목록 조회 [헤더 토큰 필요]",
             description = "특정 멤버가 예약한 모든 예약 목록을 조회합니다."
     )
     @GetMapping("/member/{memberId}")
@@ -68,7 +68,7 @@ public class ReservationController {
     }
 
     @Operation(
-            summary = "특정 멤버 완료된 또는 취소된 예약 목록 조회",
+            summary = "특정 멤버 완료된 또는 취소된 예약 목록 조회 [헤더 토큰 필요]",
             description = "특정 멤버가 완료하거나 취소한 모든 예약 목록을 촬영 날짜 최신순으로 조회합니다.")
     @GetMapping("/member/{memberId}/completed-cancelled")
     public Response<List<ReservationListDto>> getCompletedAndCancelledReservationsByMember(@PathVariable Long memberId) {
@@ -80,7 +80,7 @@ public class ReservationController {
      * 스튜디오 예약 생성
      */
     @Operation(
-            summary = "새로운 예약 생성",
+            summary = "새로운 예약 생성 [헤더 토큰 필요]",
             description = "회원 ID와 스튜디오 ID, 예약 정보를 입력하여 새로운 예약을 생성합니다.")
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public Response<ReservationDto> createReservation(@RequestBody @Valid ReservationReqDto reservationReqDto) {
@@ -92,7 +92,7 @@ public class ReservationController {
      * 예약 취소
      */
     @Operation(
-            summary = "예약 취소",
+            summary = "예약 취소 [헤더 토큰 필요]",
             description = "예약 ID와 멤버 ID를 사용하여 특정 예약을 취소합니다. " +
                     "memberId 파라미터는 필수입니다. 예: /{reservationId}/cancel?memberId=1")
     @DeleteMapping("/{reservationId}/cancel")
