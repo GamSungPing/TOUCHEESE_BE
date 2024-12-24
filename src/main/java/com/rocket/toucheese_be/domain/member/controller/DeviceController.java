@@ -20,7 +20,7 @@ public class DeviceController {
     // 푸시 알림에 대해 사용자가 승낙할 때 호출되어야 함 (디바이스 토큰 등록)
     // 한 멤버가 하나의 디바이스만 가지는 것으로 가정
     @Operation(
-            summary = "디바이스 토큰 등록",
+            summary = "디바이스 토큰 등록 [헤더 토큰 필요]",
             description = "푸시 알림에 대해 사용자가 승낙할 때 DeviceRegisterDto와 함께 호출되어야 합니다")
     @PostMapping("/register")
     public Response<Device> registerDevice(@RequestBody DeviceRegisterDto deviceRegisterDto) {
@@ -29,7 +29,7 @@ public class DeviceController {
 
     // Redis에서 memberId로 토큰값 조회
     @Operation(
-            summary = "Redis에서 디바이스 토큰 조회",
+            summary = "Redis에서 디바이스 토큰 조회 [헤더 토큰 필요]",
             description = "회원 ID로 Redis에서 저장된 디바이스 토큰을 조회합니다.")
     @GetMapping("/token/{memberId}")
     public Response<String> getDeviceTokenFromRedis(@PathVariable Long memberId) {

@@ -25,7 +25,7 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(length = 20, unique = true, nullable = false)
+    @Column(length = 20, nullable = false)
     private String name;
 
     @JsonIgnore

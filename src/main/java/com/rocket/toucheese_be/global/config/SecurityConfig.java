@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 @RequiredArgsConstructor
 @Configuration
@@ -59,6 +60,9 @@ public class SecurityConfig {
                             .requestMatchers("/api/v1/concept/**").permitAll() // concept 단건 조회
                             .requestMatchers("/api/v1/product/**").permitAll() // product 목록, 단건 조회
                             .requestMatchers("/api/v1/review/**").permitAll() // review 목록, 단건 조회
+                            // 예약 관련 (예약 가능 시간 조회, 예약 가능 시간 확인) - 클라이언트 요청 반영
+                            .requestMatchers(new RegexRequestMatcher("^/api/v1/reservation/\\d+/available-slots(\\?.*)?$", null)).permitAll()
+                            .requestMatchers(new RegexRequestMatcher("^/api/v1/reservation/\\d+$", null)).permitAll()
                             .requestMatchers(new AntPathRequestMatcher("/error")).permitAll() // 에러 페이지
                             // 이외의 모든 요청은 인증 정보 필요
                             .anyRequest().authenticated());

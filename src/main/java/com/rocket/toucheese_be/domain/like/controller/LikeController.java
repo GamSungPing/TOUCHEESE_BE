@@ -24,7 +24,7 @@ public class LikeController {
      * 스튜디오 찜하기
      */
     @Operation(
-            summary = "스튜디오 찜하기",
+            summary = "스튜디오 찜하기 [헤더 토큰 필요]",
             description = "멤버 ID와 스튜디오 ID를 사용하여 특정 스튜디오를 찜 목록에 추가합니다."
     )
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
@@ -38,7 +38,7 @@ public class LikeController {
      * 찜한 스튜디오 목록 조회
      */
     @Operation(
-            summary = "찜한 스튜디오 목록 조회",
+            summary = "찜한 스튜디오 목록 조회 [헤더 토큰 필요]",
             description = "멤버 ID를 사용하여 찜한 스튜디오 목록을 조회합니다."
     )
     @GetMapping
@@ -51,7 +51,7 @@ public class LikeController {
      * 스튜디오 찜 삭제
      */
     @Operation(
-            summary = "스튜디오 찜 삭제",
+            summary = "스튜디오 찜 삭제 [헤더 토큰 필요]",
             description = "멤버 ID와 스튜디오 ID를 사용하여 찜 목록에서 특정 스튜디오를 삭제합니다."
     )
     @DeleteMapping(value = "/delete/{studioId}")
