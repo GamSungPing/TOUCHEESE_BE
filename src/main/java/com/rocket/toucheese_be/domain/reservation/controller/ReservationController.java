@@ -29,7 +29,7 @@ public class ReservationController {
      * 특정 예약 정보 조회
      */
     @Operation(
-            summary = "특정 예약 정보 조회 [헤더 토큰 필요]",
+            summary = "특정 예약 정보 조회",
             description = "예약 ID를 사용하여 특정 예약의 상세 정보를 조회합니다. ")
     @GetMapping("/{reservationId}")
     public Response<ReservationDto> getReservationById(@PathVariable Long reservationId) {
@@ -41,7 +41,7 @@ public class ReservationController {
      * 스튜디오 예약 가능 시간 확인
      */
     @Operation(
-            summary = "스튜디오 예약 가능 시간 확인 [헤더 토큰 필요]",
+            summary = "스튜디오 예약 가능 시간 확인",
             description = "특정 스튜디오의 예약 가능한 시간대를 조회합니다. " +
                     "date 파라미터는 필수입니다. 예: /{studioId}/available-slots?date=2024-12-01")
     @GetMapping("/{studioId}/available-slots")
