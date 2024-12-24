@@ -19,7 +19,7 @@ public record LikeStudioListDto(
                 studio.getId(),
                 studio.getName(),
                 studio.getProfilePrice(),
-                studio.getRating(),
+                studio.calculateAverageRating(),
                 studio.getPortfolios().stream()
                         .map(Portfolio::getPortfolioURL)
                         .limit(5) // 최대 5개로 제한
