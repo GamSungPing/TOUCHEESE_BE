@@ -224,4 +224,11 @@ public class ReservationService {
         // DTO로 변환 후 반환
         return reservations.map(ReservationAdminList::from);
     }
+
+    @Transactional
+    public void deleteByMember(Long memberId) {
+        List<Reservation> reservationList = reservationRepository.findAllByMemberId(memberId);
+        reservationRepository.deleteAll(reservationList);
+    }
+
 }

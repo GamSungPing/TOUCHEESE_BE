@@ -41,5 +41,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     // 스케쥴러
     List<Reservation> findByStatusAndEndTimeBefore(ReservationStatus status, LocalTime endTime);
 
+    List<Reservation> findAllByMemberId(Long memberId);
+
 }
 
