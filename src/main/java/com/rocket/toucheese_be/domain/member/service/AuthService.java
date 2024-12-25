@@ -6,6 +6,7 @@ import com.rocket.toucheese_be.domain.member.entity.Role;
 import com.rocket.toucheese_be.domain.member.entity.SocialType;
 import com.rocket.toucheese_be.domain.member.entity.Token;
 import com.rocket.toucheese_be.domain.member.repository.MemberRepository;
+import com.rocket.toucheese_be.domain.reservation.service.ReservationService;
 import com.rocket.toucheese_be.global.response.CustomException;
 import com.rocket.toucheese_be.global.response.ErrorCode;
 import com.rocket.toucheese_be.global.security.jwt.JwtTokenProvider;
@@ -32,6 +33,7 @@ public class AuthService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
+    private final ReservationService reservationService;
 
     // 로그인
     @Transactional
@@ -52,6 +54,7 @@ public class AuthService {
     @Transactional
     public void withdraw(long memberId) {
         Member member = findMember(memberId);
+        reservationService.deleteByMember(memberId);
         deleteMember(member);
     }
 
@@ -98,7 +101,8 @@ public class AuthService {
                 .build();
     }
 
-    private Member findMember(Long id) {
+    @Transactional
+    public Member findMember(Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
     }
