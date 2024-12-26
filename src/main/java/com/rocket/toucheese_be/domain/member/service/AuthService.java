@@ -28,8 +28,8 @@ import static com.rocket.toucheese_be.global.security.jwt.JwtValidationType.VALI
 @Transactional(readOnly = true)
 public class AuthService {
 
-    private static final int ACCESS_TOKEN_EXPIRATION = 7200000; // 2시간
-    private static final int REFRESH_TOKEN_EXPIRATION = 1209600000; // 14일
+    private static final int ACCESS_TOKEN_EXPIRATION = 60000; // 1분 < 7200000; // 2시간
+    private static final int REFRESH_TOKEN_EXPIRATION = 120000; // 2분 < 1209600000; // 14일
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
