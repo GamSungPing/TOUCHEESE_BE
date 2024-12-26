@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예약 대기 관리</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+
+        .top-bar {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            display: flex;
+            gap: 10px; /* 버튼 간격 */
+        }
+
+        .top-bar a {
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: bold;
+            color: #333; /* 검은색 글씨 */
+            background-color: #fff; /* 흰색 배경 */
+            padding: 10px 20px;
+            border: 1px solid #ccc; /* 테두리 */
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .top-bar a:hover {
+            color: #007BFF; /* 파란색으로 변경 */
+            text-decoration: underline; /* 밑줄 추가 */
+            background-color: #f1f1f1; /* 살짝 회색 */
+            border-color: #007BFF; /* 테두리 파란색 */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+        }
+
+        th {
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #e9e9e9;
+        }
+
+        tbody tr:hover {
+            background-color: #d7ecff;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px; /* 버튼 간격 조정 */
+        }
+
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-confirm {
+            background-color: #28a745; /* 초록색: 예약확정 */
+            color: #fff;
+        }
+
+        .btn-confirm:hover {
+            opacity: 0.9;
+        }
+
+        .btn-cancel {
+            background-color: #dc3545; /* 빨간색: 예약거절 */
+            color: #fff;
+        }
+
+        .btn-cancel:hover {
+            opacity: 0.9;
+        }
+
+        /* 페이지네이션 스타일 */
+        .pagination {
+            display: flex;
+            justify-content: center; /* 페이지 네비게이션을 중앙에 배치 */
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .pagination-link {
+            padding: 8px 15px;
+            font-size: 1em;
+            text-decoration: none;
+            color: #007BFF;
+            border: 1px solid #007BFF;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .pagination-link:hover {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        .page-number {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            padding: 8px 15px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+
+        .total-pages {
+            font-size: 1em;
+            font-weight: normal;
+            color: #555;
+            margin-left: 15px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="top-bar">
+    <a href="/admin">홈 이동</a>
+    <a href="/admin/all-reservations">전체 예약 보기</a>
+</div>
+
+<h1>예약 대기 관리</h1>
+<table>
+    <thead>
+    <tr>
+        <th>스튜디오</th>
+        <th>촬영 날짜</th>
+        <th>촬영 시작 시간</th>
+        <th>상품명</th>
+        <th>상품 옵션</th>
+        <th>총 가격</th>
+        <th>상태</th>
+        <th>예약자 성함</th>
+        <th>예약자 번호</th>
+        <th>예약자 이메일</th>
+        <th>수락 및 거절</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="reservation : ${reservations}">
+        <td th:text="${reservation.studioName}"></td>
+        <td th:text="${reservation.reservationDate}"></td>
+        <td th:text="${reservation.reservationTime}"></td>
+        <td th:text="${reservation.productName()}"></td>
+        <td th:text="${reservation.productOption()}"></td>
+        <td th:text="${reservation.totalPrice()}"></td>
+        <td th:text="${reservation.reservationStatus}"></td>
+        <td th:text="${reservation.memberName}"></td>
+        <td th:text="${reservation.phoneNumber}"></td>
+        <td th:text="${reservation.email}"></td>
+        <td>
+            <div class="button-group">
+                <form th:action="@{/admin/reservations/{id}/confirm(id=${reservation.id})}" method="post">
+                    <button type="submit" class="btn-confirm">예약확정</button>
+                </form>
+                <form th:action="@{/admin/reservations/{id}/cancel(id=${reservation.id})}" method="post">
+                    <button type="submit" class="btn-cancel">예약거절</button>
+                </form>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- 페이지 네비게이션 -->
+<div class="pagination">
+    <!-- 이전 페이지 링크 -->
+    <span th:if="${reservations.hasPrevious()}">
+        <a th:href="@{/admin/waiting-reservations(page=${reservations.number - 1}, size=${reservations.size})}" class="pagination-link">이전</a>
+    </span>
+
+    <!-- 페이지 번호 -->
+    <span class="page-number" th:text="${reservations.number + 1}"></span>
+
+    <!-- 총 페이지 수 -->
+    <span class="total-pages" th:text="'/ ' + ${reservations.totalPages}"></span>
+
+    <!-- 다음 페이지 링크 -->
+    <span th:if="${reservations.hasNext()}">
+        <a th:href="@{/admin/waiting-reservations(page=${reservations.number + 1}, size=${reservations.size})}" class="pagination-link">다음</a>
+    </span>
+</div>
+
+</body>
+</html>

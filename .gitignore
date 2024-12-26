@@ -43,3 +43,6 @@ src/main/resources/application.yml
 db_dev.mv.db
 db_dev.trace.db
 settings.gradle
+src/main/resources/*.sql
+src/main/generated
+src/main/resources/firebase

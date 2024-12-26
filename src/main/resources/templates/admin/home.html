@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOUCHEESE Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .button {
+            text-decoration: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #fff;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-align: center;
+        }
+
+        .button-waiting {
+            background-color: #007BFF; /* 파란색: 예약 대기 목록 */
+        }
+
+        .button-all {
+            background-color: #28a745; /* 초록색: 예약 전체 조회 */
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .logout {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: white;
+            color: black;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<a href="/admin/logout" class="logout">Logout</a>
+<h1>TOUCHEESE Admin</h1>
+<div class="button-container">
+    <a href="/admin/waiting-reservations" class="button button-waiting">예약 대기 목록</a>
+    <a href="/admin/all-reservations" class="button button-all">예약 전체 조회</a>
+</div>
+</body>
+</html>

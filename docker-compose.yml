@@ -1,9 +1,11 @@
 services:
   toucheese-api:
     container_name: toucheese-api
-    image: "toucheese-api:latest"
+    image: "juyoon990423/toucheese-api:latest"
     ports:
       - "8080:8080"
+    depends_on:
+      - redis
     logging:
       driver: json-file
       options:
@@ -20,6 +22,17 @@ services:
       - "80:80"
     depends_on:
       - toucheese-api
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "3"
+
+  redis:
+    container_name: toucheese-redis
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
     logging:
       driver: json-file
       options:

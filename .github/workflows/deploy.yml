@@ -24,6 +24,12 @@ jobs:
           echo "${{ secrets.APPLICATION_YML }}" > ./src/main/resources/application.yml
         shell: bash
 
+      - name: Firebase Service Key 생성
+        run: |
+          mkdir -p ./src/main/resources/firebase
+          printf "%s" "${{ secrets.FIREBASE_KEY }}" > ./src/main/resources/firebase/firebase_service_key.json
+        shell: bash
+
       - name: gradlew 실행 권한 부여
         run: chmod +x ./gradlew
 
@@ -36,14 +42,14 @@ jobs:
           host: ${{ secrets.AWS_SECRET_HOST }}
           username: ubuntu
           key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          source: "docker-compose.yml, ./nginx/default.conf, ./nginx/nginx.conf"
+          source: "docker-compose.yml, ./nginx/default.conf, ./nginx/nginx.conf, ./src/main/resources/firebase_service_key.json"
           target: "/home/ubuntu/docker/"
 
       - name: 도커 이미지 빌드 및 푸시
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -f Dockerfile -t toucheese-api:latest .
-          docker push toucheese-api:latest
+          docker build -f Dockerfile -t juyoon990423/toucheese-api:latest .
+          docker push juyoon990423/toucheese-api:latest
 
       - name: 서버 배포
         uses: appleboy/ssh-action@master
