@@ -62,13 +62,22 @@ public class CustomStudioRepositoryImpl implements CustomStudioRepository {
             query.orderBy(studio.profilePrice.asc());
         }
 
-        // 페이징 처리
-        query.offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
+        // Count Query 별도 생성
+        JPAQuery<Long> countQuery = new JPAQuery<>(entityManager);
+        Long total = countQuery.select(studio.countDistinct())
+                .from(studio)
+                .join(studio.studioConceptList, concept)
+                .leftJoin(studio.region, region)
+                .leftJoin(studio.reviewList, review)
+                .where(builder)
+                .fetchOne();
+        if(total == null) total = 0L; // null 일리가 없겠지만...
 
-        // 결과 페칭
-        List<Studio> result = query.fetch();
-        long total = query.fetchCount();
+        // 페이징 처리
+        List<Studio> result = query
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
 
         // Page 반환
         return new PageImpl<>(result, pageable, total);
