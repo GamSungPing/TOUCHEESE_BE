@@ -16,7 +16,9 @@ public record ReservationAdminList (
         String phoneNumber, // 예약자 전화번호
         String email,     // 예약자 이메일
         String memberName, // 멤버 이름
-        int totalPrice
+        int totalPrice,
+        String productName,
+        String productOption
 ) {
 
     public static ReservationAdminList from(Reservation reservation) {
@@ -30,7 +32,9 @@ public record ReservationAdminList (
                 reservation.getPhoneNumber(),
                 reservation.getEmail(),
                 reservation.getMember().getName(),
-                reservation.getTotalPrice()
+                reservation.getTotalPrice(),
+                reservation.getProduct().getProductName(),
+                reservation.getProductOption().replaceAll("@", ", ")
         );
     }
 }
