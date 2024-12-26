@@ -127,6 +127,18 @@ public class Studio {
 
         LocalTime currentTime = this.openingTime;
 
+        // 오늘 날짜인지 확인
+        if (date.equals(LocalDate.now())) {
+            // 현재 시간 이후의 가장 가까운 슬롯으로 조정
+            LocalTime now = LocalTime.now();
+            if (now.isAfter(this.openingTime)) {
+                currentTime = now.plusMinutes(60 - now.getMinute()).withSecond(0).withNano(0);
+                if (currentTime.isAfter(this.closingTime)) {
+                    return availableSlots; // 모든 슬롯이 지나갔으면 빈 리스트 반환
+                }
+            }
+        }
+
         while (currentTime.isBefore(this.closingTime)) {
             LocalTime nextSlot = currentTime.plusHours(1);
 

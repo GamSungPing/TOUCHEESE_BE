@@ -27,6 +27,6 @@ public class MemberService {
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다."));
-        member.setName(newName);
+        memberRepository.updateName(memberId, newName);
     }
 }
