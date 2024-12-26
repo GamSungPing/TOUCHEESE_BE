@@ -1,4 +1,4 @@
-### Commit convention
+### Commit Convention
 
 | 커밋 구분     | 설명                    |
 |-----------|-----------------------|
