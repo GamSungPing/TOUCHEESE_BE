@@ -1,4 +1,4 @@
-### BE Commit Convention
+### Commit Convention
 
 | 커밋 구분     | 설명                    |
 |-----------|-----------------------|
