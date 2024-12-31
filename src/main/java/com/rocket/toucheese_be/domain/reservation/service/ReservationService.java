@@ -77,11 +77,15 @@ public class ReservationService {
                 .toList();
 
         // 휴무일 정보
-        String holidays = studio.getHolidays().replaceAll("&", "");
-        holidays  = holidays.chars()
-                .mapToObj(c -> String.valueOf((char) c)) // 문자 하나씩 처리
-                .map(c -> String.valueOf((Integer.parseInt(c) + 5) % 7 + 1)) // 변환 로직
-                .collect(Collectors.joining());
+        String holidays = studio.getHolidays();
+        if(holidays == null) holidays = "";
+        else {
+            holidays = holidays.replaceAll("&", "");
+            holidays  = holidays.chars()
+                    .mapToObj(c -> String.valueOf((char) c)) // 문자 하나씩 처리
+                    .map(c -> String.valueOf((Integer.parseInt(c) + 5) % 7 + 1)) // 변환 로직
+                    .collect(Collectors.joining());
+        }
 
         // 스튜디오의 예약 가능한 시간 계산
         List<LocalTime> availableSlots = studio.getAvailableTimeSlots(date, activeReservations, holidays);
