@@ -78,7 +78,7 @@ public class ReservationService {
 
         // 휴무일 정보
         String holidays = studio.getHolidays().replaceAll("&", "");
-        holidays.chars()
+        holidays  = holidays.chars()
                 .mapToObj(c -> String.valueOf((char) c)) // 문자 하나씩 처리
                 .map(c -> String.valueOf((Integer.parseInt(c) + 5) % 7 + 1)) // 변환 로직
                 .collect(Collectors.joining());
