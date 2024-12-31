@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -43,6 +44,16 @@ public class ReservationService {
     private final Object lock = new Object(); // 동기화를 위한 락 객체
     private final FcmService fcmService;
     private final DeviceService deviceService;
+
+    private static final Map<String, String> DAY_MAPPING = Map.of(
+            "1", "일",
+            "2", "월",
+            "3", "화",
+            "4", "수",
+            "5", "목",
+            "6", "금",
+            "7", "토"
+    );
 
     // 스튜디오 예약 단일 조회
     public ReservationDto getReservationById(Long reservationId) {
@@ -65,8 +76,19 @@ public class ReservationService {
                 .filter(reservation -> reservation.getStatus() != ReservationStatus.cancel)
                 .toList();
 
+        // 휴무일 정보
+        String holidays = studio.getHolidays();
+        if(holidays == null) holidays = "";
+        else {
+            holidays = holidays.replaceAll("&", "");
+            holidays  = holidays.chars()
+                    .mapToObj(c -> String.valueOf((char) c)) // 문자 하나씩 처리
+                    .map(c -> String.valueOf((Integer.parseInt(c) + 5) % 7 + 1)) // 변환 로직
+                    .collect(Collectors.joining());
+        }
+
         // 스튜디오의 예약 가능한 시간 계산
-        List<LocalTime> availableSlots = studio.getAvailableTimeSlots(date, activeReservations);
+        List<LocalTime> availableSlots = studio.getAvailableTimeSlots(date, activeReservations, holidays);
 
         LocalTime lastSlot = availableSlots.isEmpty() ? null : availableSlots.get(availableSlots.size() - 1);
 

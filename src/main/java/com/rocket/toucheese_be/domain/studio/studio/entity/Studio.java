@@ -111,8 +111,12 @@ public class Studio {
     }
 
     // 예약 가능한 시간 조회 메서드
-    public List<LocalTime> getAvailableTimeSlots(LocalDate date, List<Reservation> reservations) {
+    public List<LocalTime> getAvailableTimeSlots(LocalDate date, List<Reservation> reservations, String holidays) {
         List<LocalTime> availableSlots = new ArrayList<>();
+
+        if (holidays.contains(date.getDayOfWeek().getValue()+"")) {
+            return availableSlots; // 휴무일이면 빈 리스트 반환
+        }
 
         if (reservations == null) {
             reservations = new ArrayList<>();
