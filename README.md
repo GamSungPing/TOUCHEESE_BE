@@ -76,6 +76,18 @@ Toucheese는 스튜디오를 고객과 더 쉽게 연결해주는 플랫폼 입�
 
 <br>
 
+## 애플리케이션 화면
+
+![1](https://github.com/user-attachments/assets/43e66a53-0349-4014-aea6-820e620b9f96)
+![2](https://github.com/user-attachments/assets/cba761a5-c69e-486c-ad78-ea06e6319ddc)
+<br>
+
+![3](https://github.com/user-attachments/assets/87ee9004-cf38-4b93-b6dd-95d3707b75b7)
+![4](https://github.com/user-attachments/assets/01dfc4fd-5b36-410d-9ebe-8003d13d6c45)
+
+
+<br>
+
 ## 🍀 프로젝트 실행 방법 (IntelliJ IDEA 권장)
 
 resources 폴더에 아래 application.yml 파일 추가 후, localhost:8080 실행
