@@ -36,8 +36,8 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> favorites = new ArrayList<>();
 
-    // device와 1대1 맵핑, 멤버와 연결 끊기면 (갱신) device 삭제, 멤버 삭제시 device 삭제 (생명 주기)
-    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    // device와 1대1 맵핑, 멤버와 연결 끊기면 device 삭제
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Device device;
 
     @JsonIgnore
@@ -55,6 +55,9 @@ public class Member {
     @Transactional
     public void setDevice(Device device) {
         this.device = device;
+        if (device != null) {
+            device.setMember(this);
+        }
     }
 
     public void updateRefreshToken(String refreshToken) {
