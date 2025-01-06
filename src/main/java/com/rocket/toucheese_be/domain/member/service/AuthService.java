@@ -34,6 +34,7 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
     private final ReservationService reservationService;
+    private final DeviceService deviceService;
 
     // 로그인
     @Transactional
@@ -56,6 +57,7 @@ public class AuthService {
         Member member = findMember(memberId);
         reservationService.deleteByMember(memberId);
         deleteMember(member);
+        deviceService.deleteDevice(memberId);
     }
 
     private Member getMember(SocialType socialType, String socialId) {

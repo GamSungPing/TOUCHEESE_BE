@@ -95,6 +95,13 @@ public class DeviceService {
     }
 
 
-
+    public void deleteDevice(Long memberId) {
+        Optional<Device> deviceOptional = deviceRepository.findByMemberId(memberId);
+        if (deviceOptional.isPresent()) {
+            Device device = deviceOptional.get();
+            redisTemplate.delete(device.getDeviceToken());
+            deviceRepository.delete(device);
+        }
+    }
 }
 
